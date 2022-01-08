@@ -9,6 +9,7 @@ use App\Http\Controllers\ProvidersController;
 use App\Http\Controllers\ContainersController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\RolesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +38,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('routes', RoutesController::class);
     Route::resource('equipment', EquipmentController::class);
 
+    Route::prefix('roles')->group(function () {
+        
+        Route::get('/', [RolesController::class, 'index'])->name('roles.index');
+        Route::get('/roles/permissions', [RolesController::class, 'permissionsList'])->name('roles.permissionsList');
+        Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
+        Route::get('/roles/create-user', [RolesController::class, 'createUser'])->name('roles.createUser');
+    });
 });
-
-
 
 
 //Update User Details

@@ -26,7 +26,7 @@ class CreateContainersTable extends Migration
             $table->text('riel_logistico');
             $table->text('canastilla');
             $table->text('tipo_placa');
-            $table->integer('activo_status');
+            $table->integer('activo_status'); // 1 es que esta activo (ocupado), 0 esta inactivo (disponible para las rutas).
             $table->text('propietario');
             $table->float('ancho');
             $table->float('largo');

@@ -120,16 +120,17 @@
         @enderror
     </div>
 
-    <div class="mb-3">
+    {{-- TODO: Cambiar por un select entre 1 y 0 --}}
+    {{-- <div class="mb-3">
         <label for="activo_status" class="form-label">Activo:</label>
-        <input type="text" name="activo_status"
+        <input type="number" name="activo_status"
             value="{{ old('activo_status', optional($contenedor ?? null)->activo_status) }}" class="form-control">
         @error('activo_status')
         <div class="text-danger">
             {{ $message }}
         </div>
         @enderror
-    </div>
+    </div> --}}
 
     <div class="mb-3">
         <label for="propietario" class="form-label">Propietario:</label>

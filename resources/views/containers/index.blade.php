@@ -33,7 +33,7 @@
                     <td>{{ $container->serie }}</td>
                     <td>{{ $container->marca }}</td>
                     <td>{{ $container->placa }}</td>
-                    <td>{{ $container->activo_status }}</td>
+                    <td>{{ $container->activo_status === 1 ? 'Activo' : 'Disponible' }}</td>
                     <td>{{ $container->tipo_caja }}</td>
                     <td>
                         <a href="{{ route('containers.edit', ['container' => $container->id]) }}" class="btn btn-warning">Modificar</a>

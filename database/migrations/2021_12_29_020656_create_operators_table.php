@@ -25,6 +25,7 @@ class CreateOperatorsTable extends Migration
             $table->integer('antiguedad');
             $table->text('iave');
             $table->integer('folio');
+            $table->text('status');  // 1 es que esta activo (ocupado), 0 esta inactivo (disponible para las rutas).
             $table->date('ex_medico');
             $table->timestamps();
         });

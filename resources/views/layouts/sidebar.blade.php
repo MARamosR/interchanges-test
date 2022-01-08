@@ -90,13 +90,13 @@
                 <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class='bx bxs-shield-alt-2'></i>
-                        <span key="t-dashboards">Roles y permisos</span>
+                        <span key="t-dashboards">Roles y usuarios</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#" key="t-default">Ver roles</a></li>
-                        <li><a href="#" key="t-default">Ver permisos</a></li>
-                        <li><a href="#" key="t-default">Agregar rol</a></li>
-                        <li><a href="#" key="t-default">Agregar usuario</a></li>
+                        <li><a href="{{ route('roles.index') }}" key="t-default">Ver roles</a></li>
+                        <li><a href="{{ route('roles.permissionsList') }}" key="t-default">Ver permisos</a></li>
+                        <li><a href="{{ route('roles.create') }}" key="t-default">Agregar rol</a></li>
+                        <li><a href="{{ route('roles.createUser') }}" key="t-default">Agregar usuario</a></li>
                     </ul>
                 </li>
                 {{-- <li>
