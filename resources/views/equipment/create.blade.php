@@ -7,10 +7,10 @@
 @endcomponent
 
 <div>
-    <form method="POST" action={{ route('equipment.store') }}>
+    <form method="POST" action={{ route('equipment.store') }} id="equipmentForm">
         @csrf
         @include('equipment.partials.form')
-        <input type="submit" class="btn btn-success" value="Agregar Equipo">
+        <input type="submit" class="btn btn-success" value="Agregar Equipo" id="equipmentSubmitBtn">
     </form>
 </div>
 @endsection

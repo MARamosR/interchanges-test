@@ -16,7 +16,7 @@ class AddForeignKeysToContainersTable extends Migration
         Schema::table('containers', function (Blueprint $table) {
             
             //Llave foranea para relacion N a 1 con el modelo "ruta".
-            $table->unsignedBigInteger('id_ruta')->unique()->nullable();
+            $table->unsignedBigInteger('id_ruta')->nullable();
             $table->foreign('id_ruta')->references('id')->on('routes')->onDelete('set null');
         });
     }

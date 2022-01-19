@@ -1,5 +1,5 @@
 @extends('layouts.master')
-@section('title') Unidades @endsection
+@section('title') Proveedores @endsection
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot

@@ -8,97 +8,161 @@
             <!-- Left Menu Start -->
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" key="t-menu">@lang('translation.Menu')</li>
+
+                {{-- Submenu de rutas --}}
+                @canany(['routes.index', 'routes.create'])
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
-                        <i class='bx bxs-map-alt' ></i>
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
+                        <i class='bx bxs-map-alt'></i>
                         <span key="t-dashboards">Rutas</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href={{ route('routes.index') }} key="t-default">Ver rutas</a></li>
-                        <li><a href={{ route('routes.create') }} key="t-default">Agregar ruta</a></li>
+                        @can('routes.index')
+                        <li><a href={{ route('routes.index') }} key="t-default">Ver rutas</a></li>    
+                        @endcan
+                        @can('routes.create')
+                        <li><a href={{ route('routes.create') }} key="t-default">Agregar ruta</a></li>    
+                        @endcan
                         {{-- <li><a href="dashboard-saas" key="t-saas">@lang('translation.Saas')</a></li>
                         <li><a href="dashboard-crypto" key="t-crypto">@lang('translation.Crypto')</a></li>
                         <li><a href="dashboard-blog" key="t-blog">@lang('translation.Blog')</a></li> --}}
                     </ul>
                 </li>
+                @endcanany
+
+
+
+                {{-- Submenu de operadores --}}
+                @canany(['operators.index', 'operators.create'])
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
                         <i class="bx bxs-group"></i>
                         <span key="t-dashboards">Operadores</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('operators.index') }}" key="t-default">Ver operadores</a></li>
+                        @can('operators.index')
+                        <li><a href="{{ route('operators.index') }}" key="t-default">Ver operadores</a></li>    
+                        @endcan
+                        @can('operators.create')
                         <li><a href="{{ route('operators.create') }}" key="t-default">Agregar operadores</a></li>
+                        @endcan
                         {{-- <li><a href="dashboard-saas" key="t-saas">@lang('translation.Saas')</a></li>
                         <li><a href="dashboard-crypto" key="t-crypto">@lang('translation.Crypto')</a></li>
                         <li><a href="dashboard-blog" key="t-blog">@lang('translation.Blog')</a></li> --}}
                     </ul>
                 </li>
+                @endcanany
+
+
+                {{-- Submenu de unidades --}}
+                @canany(['units.index', 'units.create'])
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
-                        <i class='bx bxs-truck' ></i>
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
+                        <i class='bx bxs-truck'></i>
                         <span key="t-dashboards">Unidades</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('units.index') }}" key="t-default">Ver unidades</a></li>
-                        <li><a href="{{ route('units.create') }}" key="t-default">Agregar unidad</a></li>
+                        @can('units.index')
+                        <li><a href="{{ route('units.index') }}" key="t-default">Ver unidades</a></li>    
+                        @endcan
+                        @can('units.create')
+                        <li><a href="{{ route('units.create') }}" key="t-default">Agregar unidad</a></li>    
+                        @endcan
+                        
                         {{-- <li><a href="dashboard-saas" key="t-saas">@lang('translation.Saas')</a></li>
                         <li><a href="dashboard-crypto" key="t-crypto">@lang('translation.Crypto')</a></li>
                         <li><a href="dashboard-blog" key="t-blog">@lang('translation.Blog')</a></li> --}}
                     </ul>
                 </li>
-                
+                @endcanany
+
+
+                {{-- Submenu de contenedores --}}
+                @canany(['containers.index', 'containers.create'])
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
                         <i class='bx bxs-package'></i>
                         <span key="t-dashboards">Contenedores</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('containers.index') }}" key="t-default">Ver contenedores</a></li>
-                        <li><a href="{{ route('containers.create') }}" key="t-default">Agregar contenedor</a></li>
+                        @can('containers.index')
+                        <li><a href="{{ route('containers.index') }}" key="t-default">Ver contenedores</a></li>    
+                        @endcan
+                        @can('containers.create')
+                        <li><a href="{{ route('containers.create') }}" key="t-default">Agregar contenedor</a></li>    
+                        @endcan
                         {{-- <li><a href="dashboard-saas" key="t-saas">@lang('translation.Saas')</a></li>
                         <li><a href="dashboard-crypto" key="t-crypto">@lang('translation.Crypto')</a></li>
                         <li><a href="dashboard-blog" key="t-blog">@lang('translation.Blog')</a></li> --}}
                     </ul>
                 </li>
-                
+                @endcanany
+
+
+                {{-- Submenu de equipo de sujeción --}}
+                @canany(['equipment.index', 'equipment.create'])
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
                         <i class='bx bx-link'></i>
                         <span key="t-dashboards">Equipo de sujeción</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('equipment.index') }}" key="t-default">Ver equipo</a></li>
-                        <li><a href="{{ route('equipment.create') }}" key="t-default">Agregar equipo</a></li>
-                        {{-- <li><a href="dashboard-saas" key="t-saas">@lang('translation.Saas')</a></li>
-                        <li><a href="dashboard-crypto" key="t-crypto">@lang('translation.Crypto')</a></li>
-                        <li><a href="dashboard-blog" key="t-blog">@lang('translation.Blog')</a></li> --}}
+                        @can('equipment.index')
+                        <li><a href="{{ route('equipment.index') }}" key="t-default">Ver equipo</a></li>    
+                        @endcan
+                        @can('equipment.create')
+                        <li><a href="{{ route('equipment.create') }}" key="t-default">Agregar equipo</a></li>    
+                        @endcan
                     </ul>
                 </li>
+                @endcanany
 
+
+                {{-- Submenu de proveedores --}}
+                @canany(['providers.index', 'providers.create'])
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
-                        <i class='bx bxs-user-rectangle' ></i>
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
+                        <i class='bx bxs-user-rectangle'></i>
                         <span key="t-dashboards">Proveedores</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('providers.index') }}" key="t-default">Ver proveedores</a></li>
-                        <li><a href="{{ route('providers.create') }}" key="t-default">Agregar proveedor</a></li>
+                        @can('providers.index')
+                        <li><a href="{{ route('providers.index') }}" key="t-default">Ver proveedores</a></li>    
+                        @endcan
+                        @can('providers.create')
+                        <li><a href="{{ route('providers.create') }}" key="t-default">Agregar proveedor</a></li>    
+                        @endcan
                     </ul>
                 </li>
-                
+                @endcanany
+
+
+                {{-- Submenu de roles y usuarios --}}
+                @canany(['roles.index', 'roles.permissionList', 'user.index', 'user.create'])
                 <li>
-                    <a href="javascript: void(0);" class="waves-effect">
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
                         <i class='bx bxs-shield-alt-2'></i>
                         <span key="t-dashboards">Roles y usuarios</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="{{ route('roles.index') }}" key="t-default">Ver roles</a></li>
-                        <li><a href="{{ route('roles.permissionsList') }}" key="t-default">Ver permisos</a></li>
-                        <li><a href="{{ route('roles.create') }}" key="t-default">Agregar rol</a></li>
-                        <li><a href="{{ route('roles.createUser') }}" key="t-default">Agregar usuario</a></li>
+                        @can('roles.index')
+                        <li><a href="{{ route('roles.index') }}" key="t-default">Ver roles</a></li>    
+                        @endcan
+                        @can('roles.permissionsList')
+                        <li><a href="{{ route('roles.permissionsList') }}" key="t-default">Ver permisos</a></li>    
+                        @endcan
+                        @can('roles.create')
+                        <li><a href="{{ route('roles.create') }}" key="t-default">Agregar rol</a></li>    
+                        @endcan
+                        @can('users.index')
+                        <li><a href="{{ route('users.index') }}" key="t-default">Ver usuarios</a></li>    
+                        @endcan
+                        @can('users.create')
+                        <li><a href="{{ route('users.create') }}" key="t-default">Agregar usuario</a></li>    
+                        @endcan                      
                     </ul>
                 </li>
+                @endcanany
                 {{-- <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class="bx bx-home-circle"></i><span class="badge rounded-pill bg-info float-end">04</span>
@@ -385,11 +449,13 @@
                         <li><a href="ui-modals" key="t-modals">@lang('translation.Modals')</a></li>
                         <li><a href="ui-offcanvas" key="t-offcanvas">@lang('translation.Offcanvas')</a></li>
                         <li><a href="ui-rangeslider" key="t-range-slider">@lang('translation.Range_Slider')</a></li>
-                        <li><a href="ui-session-timeout" key="t-session-timeout">@lang('translation.Session_Timeout')</a></li>
+                        <li><a href="ui-session-timeout"
+                                key="t-session-timeout">@lang('translation.Session_Timeout')</a></li>
                         <li><a href="ui-progressbars" key="t-progress-bars">@lang('translation.Progress_Bars')</a></li>
                         <li><a href="ui-placeholders" key="t-placeholders">@lang('translation.Placeholders')</a></li>
                         <li><a href="ui-sweet-alert" key="t-sweet-alert">@lang('translation.Sweet_Alert')</a></li>
-                        <li><a href="ui-tabs-accordions" key="t-tabs-accordions">@lang('translation.Tabs_&_Accordions')</a></li>
+                        <li><a href="ui-tabs-accordions"
+                                key="t-tabs-accordions">@lang('translation.Tabs_&_Accordions')</a></li>
                         <li><a href="ui-typography" key="t-typography">@lang('translation.Typography')</a></li>
                         <li><a href="ui-toasts" key="t-toasts">@lang('translation.Toasts')</a></li>
                         <li><a href="ui-video" key="t-video">@lang('translation.Video')</a></li>

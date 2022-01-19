@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Provider;
 use App\Models\Container;
+use App\Models\Photo;
+use App\Models\Route;
 
 
 class Equipment extends Model
@@ -18,10 +20,16 @@ class Equipment extends Model
         $this->hasOne(Provider::class);
     }
 
-    public function container()
+    public function route()
     {
-        $this->belongsTo(Container::class);
+        $this->belongsTo(Route::class);
     }
+
+    public function photo() 
+    {
+        $this->hasMany(Photo::class);
+    }
+    
 
     public function getPreviousId () 
     {

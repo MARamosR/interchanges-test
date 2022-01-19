@@ -73,7 +73,7 @@ class ContainersController extends Controller
             Cuando recien se crea por defecto sera 0, cuando se use en una ruta pasara a ser 1
             cuando la ruta sea eliminada o se termine volvera a ser 0 (otravez disponible).
         */
-        $container->activo_status  = 0;
+        $container->status  = 0;
         $container->propietario    = $validated['propietario'];
         $container->ancho          = $validated['ancho'];
         $container->largo          = $validated['largo'];
@@ -161,7 +161,7 @@ class ContainersController extends Controller
         $container->llanta_status  = $validated['llanta_status'];
         $container->tipo_caja      = $validated['tipo_caja'];
         $container->save();
-
+        
         return redirect()->route('containers.index');
     }
 

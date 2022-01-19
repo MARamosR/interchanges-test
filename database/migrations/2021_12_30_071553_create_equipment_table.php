@@ -17,9 +17,9 @@ class CreateEquipmentTable extends Migration
             $table->id();
             $table->text('nombre');
             $table->text('descripcion');
-            $table->text('foto_path')->nullable();
+            $table->text('ubicacion'); //Esto se cambiara en cada escala por la ubicacion de la escala 
             $table->float('precio_unitario');
-            $table->integer('activo'); // 1 = Activo, 2 = Baja
+            $table->integer('activo'); // 1 = Activo (ocupado), 0 disponible para rutas.
             $table->text('folio');
             $table->timestamps();
         });

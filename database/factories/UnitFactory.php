@@ -17,6 +17,7 @@ class UnitFactory extends Factory
             'placa' => $this->faker->randomNumber(5, true),
             'marca' => $this->faker->word(),
             'modelo' => $this->faker->word(),
+            'status' => 0,
             'anio' => $this->faker->year(),
         ];
     }

@@ -4,6 +4,18 @@
 <script src="{{ URL::asset('assets/libs/metismenu/metismenu.min.js')}}"></script>
 <script src="{{ URL::asset('assets/libs/simplebar/simplebar.min.js')}}"></script>
 <script src="{{ URL::asset('assets/libs/node-waves/node-waves.min.js')}}"></script>
+
+{{-- Script inicial de Data-tables --}}
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+
+{{-- FIXME: cdn de vue --}}
+{{-- <script src="https://unpkg.com/vue@next"></script> --}}
+
+
+{{-- TODO: Ver si funciona --}}
+{{-- Vue.js CDN de producción --}}
+<script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script>
+
 <script>
     $('#change-password').on('submit',function(event){
         event.preventDefault();

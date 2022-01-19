@@ -15,6 +15,7 @@ class CreateRoutesTable extends Migration
     {
         Schema::create('routes', function (Blueprint $table) {
             $table->id();
+            $table->string('folio');
             $table->text('salida');
             $table->date('fecha_salida');
             $table->text('destino');

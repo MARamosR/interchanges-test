@@ -49,6 +49,7 @@ class UnitsController extends Controller
         $newUnit->placa = $validated['placa'];
         $newUnit->marca = $validated['marca'];
         $newUnit->modelo = $validated['modelo'];
+        $newUnit->status = 0;
         $newUnit->anio = $validated['anio'];
         $newUnit->save();
         

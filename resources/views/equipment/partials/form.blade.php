@@ -20,7 +20,18 @@
     @enderror
 </div>
 
-{{-- TODO: AGREGAR LA FOTO/S DEL EQUIPO --}}
+<div class="mb-3">
+    <label for="ubicacion" class="form-label">Ubicación del equipo:</label>
+    <input type="text" name="ubicacion" value="{{ old('ubicacion', optional($equipment ?? null)->ubicacion) }}"
+        class="form-control">
+    @error('ubicacion')
+    <div class="text-danger">
+        {{ $message }}
+    </div>
+    @enderror
+</div>
+
+
 <div class="mb-3">
     <label for="precio_unitario" class="form-label">Precio unitario del equipo:</label>
     <input type="number" name="precio_unitario" step="0.01"
@@ -32,20 +43,6 @@
     @enderror
 </div>
 
-{{-- <div class="mb-3">
-    <label for="activo" class="form-label">Estado del equipo:</label>
-    <select name="activo" value="{{ old('activo', optional($equipment ?? null)->activo) }}" class="form-control">
-        <option value="" selected disabled>Seleccione el estado del equipo</option>
-        <option value="1" {{ old('activo', optional($equipment ?? null)->activo) == 1 ? 'selected' : '' }} >En Uso</option>
-        <option value="2" {{ old('activo', optional($equipment ?? null)->activo) == 2 ? 'selected' : '' }} >Disponible</option>
-    </select>
-
-    @error('activo')
-    <div class="text-danger">
-        {{ $message }}
-    </div>
-    @enderror
-</div> --}}
 
 <div class="mb-3">
     <label for="id_proveedor" class="form-label">Proveedor del equipo:</label>
@@ -69,16 +66,66 @@
     @enderror
 </div>
 
+<div class="card p-2">
+    <div class="mb-3">
+        <label class="form-label">Imagenes del equipo de sujecion:</label>
+        <div id='equipment-photo-fields'>
 
-
-{{-- TODO: AGREGAR FOLIO --}}
-{{-- <div class="mb-3">
-    <label for="precio_unitario" class="form-label">Descripción del equipo:</label>
-    <input type="number" name="precio_unitario"
-        value="{{ old('precio_unitario', optional($equipment ?? null)->precio_unitario) }}" class="form-control">
-    @error('precio_unitario')
+        </div>
+        <button class="btn btn-primary" id="addEquipmentPhotoBtn">Agregar imagen</button>
+        <button class="btn btn-danger" id="removeEquipmentPhotoBtn">Remover imagen</button>
+    </div>
+    @error('equipment')
     <div class="text-danger">
         {{ $message }}
     </div>
     @enderror
-</div> --}}
+</div>
+
+<style>
+    .invisible {
+        display: none;
+    }
+</style>
+
+@section('script')
+    <script>
+        const addPhotoBtn = document.getElementById('addEquipmentPhotoBtn');
+        const removePhotoBtn = document.getElementById('removeEquipmentPhotoBtn');
+        const photosContainer = document.getElementById('equipment-photo-fields');
+
+        if (photosContainer.childElementCount < 1) {
+            removePhotoBtn.classList.add('invisible');
+        }
+
+        const addImageField = e => {
+            e.preventDefault();
+            
+
+            const imageField = document.createElement('input');
+            imageField.classList = 'form-control mb-3';
+            imageField.setAttribute('name', 'images[]');
+            imageField.setAttribute('type', 'file');
+            photosContainer.appendChild(imageField);
+
+            if (photosContainer.childElementCount > 0) {
+                removePhotoBtn.classList.remove('invisible');
+            }
+        }
+
+        const removeImageField = e => {
+            e.preventDefault();
+
+            const lastField = photosContainer.querySelector('input:last-child');
+            lastField.remove();
+
+            if (photosContainer.childElementCount < 1) {
+                removePhotoBtn.classList.add('invisible');
+            }
+        }
+
+        addPhotoBtn.addEventListener('click', addImageField);
+        removePhotoBtn.addEventListener('click', removeImageField);
+    </script>
+@endsection
+

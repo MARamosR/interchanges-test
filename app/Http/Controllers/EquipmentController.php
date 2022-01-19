@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Equipment;
 
+// TODO: Agregar imagenes
 class EquipmentController extends Controller
 {
     /**
@@ -43,6 +44,7 @@ class EquipmentController extends Controller
         $validated = $request->validate([
             'nombre'          => 'required',
             'descripcion'     => 'required',
+            'ubicacion'       => 'required',
             'precio_unitario' => 'required',
             'id_proveedor'    => 'required'
         ]);
@@ -50,16 +52,15 @@ class EquipmentController extends Controller
         $equipment = new Equipment();
         $equipment->nombre          = $validated['nombre'];
         $equipment->descripcion     = $validated['descripcion'];
+        $equipment->ubicacion     = $validated['ubicacion'];
         $equipment->precio_unitario = $validated['precio_unitario'];
         $equipment->id_proveedor    = $validated['id_proveedor'];
         
         /*
-            Por defecto esta disponible, este estado cambiara durante la asignación 
-            de la ruta, si se crea una ruta que involucre a este equipo su estado
-            cambiara a 1 => "En uso", cuando se termine la ruta su estado deberia de 
-            cambiar a 2 => "Disponible" , en caso de que el operador no lo haya extraviado.
+            cuando se crea es 0 (disponible), cuando se ocupa en una ruta pasa
+            a ser 1 (activo o "en uso").
         */
-        $equipment->activo = 2;
+        $equipment->activo = 0;
 
         // Obtenemos el id previo
         $previousId = $equipment->getPreviousId();
@@ -111,6 +112,7 @@ class EquipmentController extends Controller
         $validated = $request->validate([
             'nombre'          => 'required',
             'descripcion'     => 'required',
+            'ubicacion'       => 'required',
             'precio_unitario' => 'required',
             'id_proveedor'    => 'required'
         ]);
@@ -119,6 +121,7 @@ class EquipmentController extends Controller
         $equipment = Equipment::findOrFail($id);
         $equipment->nombre          = $validated['nombre'];
         $equipment->descripcion     = $validated['descripcion'];
+        $equipment->ubicacion     = $validated['ubicacion'];
         $equipment->precio_unitario = $validated['precio_unitario'];
         $equipment->id_proveedor    = $validated['id_proveedor'];
         $equipment->save();

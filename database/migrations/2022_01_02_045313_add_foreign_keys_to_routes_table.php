@@ -15,12 +15,16 @@ class AddForeignKeysToRoutesTable extends Migration
     {
         Schema::table('routes', function (Blueprint $table) {
             // relación una ruta tiene un operador.
-            $table->unsignedBigInteger('id_operador')->unique()->nullable();
+            $table->unsignedBigInteger('id_operador')->nullable();
             $table->foreign('id_operador')->references('id')->on('operators')->onDelete('set null');
 
             // relación una ruta tiene una unidad.
-            $table->unsignedBigInteger('id_unidad')->unique()->nullable();
+            $table->unsignedBigInteger('id_unidad')->nullable();
             $table->foreign('id_unidad')->references('id')->on('units')->onDelete('set null');
+
+            // relación una ruta con un encargado
+            $table->unsignedBigInteger('id_encargado')->nullable();
+            $table->foreign('id_encargado')->references('id')->on('users')->onDelete('set null');
         });
     }
 

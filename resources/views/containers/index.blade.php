@@ -7,14 +7,16 @@
 @endcomponent
 
 <div>
+    @can('containers.create')
     <div class="mb-4 d-flex flex-row-reverse">
         <a href="{{ route('containers.create') }}" class="btn btn-success">
             <i class='bx bx-plus'></i>
             Agregar contenedor
         </a>
     </div>
+    @endcan
 
-    <table class="table">
+    <table class="table" id="containers">
         <thead>
             <tr>
                 <th scope="row">ID</th>
@@ -33,7 +35,7 @@
                     <td>{{ $container->serie }}</td>
                     <td>{{ $container->marca }}</td>
                     <td>{{ $container->placa }}</td>
-                    <td>{{ $container->activo_status === 1 ? 'Activo' : 'Disponible' }}</td>
+                    <td>{{ $container->status === 1 ? 'En uso' : 'Disponible' }}</td>
                     <td>{{ $container->tipo_caja }}</td>
                     <td>
                         <a href="{{ route('containers.edit', ['container' => $container->id]) }}" class="btn btn-warning">Modificar</a>
@@ -48,4 +50,12 @@
         </tbody>
     </table>
 </div>
+@endsection
+
+@section('script') //Metemos el script de los data-tables
+<script>
+    $(document).ready(function () {
+            $('#containers').DataTable();
+        });
+</script>
 @endsection

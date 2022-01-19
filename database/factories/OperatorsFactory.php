@@ -24,6 +24,7 @@ class OperatorsFactory extends Factory
             'antiguedad' => $this->faker->randomDigitNotNull(),
             'iave' => $this->faker->isbn10(),
             'folio' => $this->faker->randomDigitNotNull(),
+            'status' => 0,
             'ex_medico' => $this->faker->date()
         ];
     }

@@ -59,6 +59,7 @@ class OperatorsController extends Controller
         $operator->fecha_venc    = $validated['fecha_venc'];
         $operator->lugar_exp     = $validated['lugar_exp'];
         $operator->antiguedad    = $validated['antiguedad'];
+        $operator->status = 0; // 1 = Activo (ocupado), 0 disponible para rutas.
         $operator->iave          = $validated['iave'];
         $operator->folio         = $validated['folio'];
         $operator->ex_medico     = $validated['ex_medico'];

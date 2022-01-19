@@ -6,14 +6,17 @@
 @slot('title') Operadores @endslot
 @endcomponent
 <div>
+
+    @can('operators.create')
     <div class="mb-4 d-flex flex-row-reverse">
         <a href="{{ route('operators.create') }}" class="btn btn-success">
             <i class='bx bx-plus'></i>
             Agregar operadores
         </a>
     </div>
+    @endcan
 
-    <table class="table table-striped">
+    <table class="table" id="operators">
         <thead>
             <tr>
                 <th scope="row">ID</th>
@@ -24,10 +27,9 @@
                 <th>Otorgada en</th>
                 <th>Caduda en</th>
                 <th>Lugar de otorgamiento</th>
-                <th>Antiguedad</th>
                 <th>IAVE</th>
                 <th>Folio</th>
-                <th>Ultimo examen medico</th>
+                <th>Status</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -42,10 +44,10 @@
                 <td>{{ $operator->fecha_exp }}</td>
                 <td>{{ $operator->fecha_venc }}</td>
                 <td>{{ $operator->lugar_exp }}</td>
-                <td>{{ $operator->antiguedad }}</td>
                 <td>{{ $operator->iave }}</td>
                 <td>{{ $operator->folio }}</td>
-                <td>{{ $operator->ex_medico }}</td>
+                <td>{{ $operator->status == 1 ? 'Activo' : 'Disponible'}}</td>
+                
                 <td>
                     <a href="{{ route('operators.edit', ['operator' => $operator->id]) }}" class="btn btn-warning" >Modificar</a>
                     
@@ -60,4 +62,12 @@
         </tbody>
     </table>
 </div>
+@endsection
+
+@section('script') //Metemos el script de los data-tables
+<script>
+    $(document).ready(function () {
+            $('#operators').DataTable();
+        });
+</script>
 @endsection

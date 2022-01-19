@@ -10,8 +10,6 @@ use App\Models\Container;
 use App\Models\Equipment;
 use Illuminate\Support\Facades\DB;
 
-use function PHPUnit\Framework\isEmpty;
-
 class RoutesController extends Controller
 {
     /**
@@ -32,11 +30,14 @@ class RoutesController extends Controller
      */
     public function create()
     {
-        //Tenemos que llamar a otros modelos para rellenar selects en las vistas.
-        $units = Unit::all();
-        $operators = Operators::all();
-        $containers = Container::where('activo_status', 0)->get();
-        $equipment = Equipment::all();
+        /*
+            Tenemos que llamar a otros modelos para rellenar selects en las vistas, 
+            solo los elementos disponibles (status 0).
+        */
+        $units = Unit::where('status', 0)->get();
+        $operators = Operators::where('status', 0)->get();
+        $containers = Container::where('status', 0)->get();
+        $equipment = Equipment::where('activo', 0)->get();
         
         return view('routes.create', compact('units', 'operators', 'containers', 'equipment'));
     }
@@ -57,8 +58,20 @@ class RoutesController extends Controller
             'fecha_destino' => 'nullable',
             'descripcion'   => 'nullable', 
             'unidad'        => 'required',
-            'operador'      => 'required'
+            'operador'      => 'required',
+            'contenedores'  => 'required',
+            'equipment'     => 'required'
         ]);
+
+        //Cambiamos el estado del operador
+        DB::table('operators')
+                ->where('id', $validated['operador'])
+                ->update(['status' => 1]);
+
+        //Cambiamos el estado de la unidad
+        DB::table('units')
+                ->where('id', $validated['unidad'])
+                ->update(['status' => 1]);
 
         // Rellenamos un hashmap para hallar valores duplicados.
         $containerIds = [];
@@ -78,34 +91,65 @@ class RoutesController extends Controller
                 return redirect()
                     ->back()
                     ->withInput()
-                    ->with('containersMessage', 'No puedes agregar el mismo contenedor dos veces en una misma ruta...');
+                    ->with('message', 'No puedes agregar el mismo contenedor dos veces en una misma ruta...');
             }
         }
 
-        // Actualizamos el status_activo de los contenedores.
-        foreach ($request->input('contenedores') as $key => $value) {
-            DB::table('containers')
-                ->where('id', $value)
-                ->update(['activo_status' => 1]);
+        $equipmentIds = [];
+        foreach ($request->input('equipment') as $key => $value) {
+            if (isset($equipmentIds[$value])) {
+                $equipmentIds[$value] += 1;
+            } else {
+                $equipmentIds[$value] = 1;
+            }
         }
 
-        //TODO: Actualizar el status de los equipos de sujeción para ver si estan ocupadas (en ruta) o disponibles.
-        //TODO: Actualizar el status de los operadores para ver si este esta ocupado (en ruta) o disponible.
-        // TODO: Actualizar el status de las unidades para ver si estan ocupadas (en ruta) o disponibles.
+        foreach ($equipmentIds as $key => $value) {
+            if ($value > 1) {
+                //Si hay un duplicado, volvemos a la url anterior con un mensaje de sesión que nos indique el error.
+                return redirect()
+                    ->back()
+                    ->withInput()
+                    ->with('message', 'No puedes agregar el mismo equipo de sujeción dos veces en una misma ruta...');
+            }
+        }
 
+        // Creamos la ruta
         $route = new Route();
+
+        $previousId = $route->getPreviousId();
+        if ($previousId == 0) {
+            $route->folio = 'RT_' . 0;
+        }
+        $route->folio = 'RT_' . $previousId;
+        
         $route->salida        = $validated['salida'];
         $route->fecha_salida  = $validated['fecha_salida'];
         $route->destino       = $validated['destino'];
         $route->fecha_destino = $validated['fecha_destino'];
         $route->descripcion   = $validated['descripcion'];
-
-        //TODO: CAMBIAR, CUANDO SE CREAR UNA RUTA POR DEFECTO SERA ACTIVO, CUANDO SE TERMINE LA RUTA PASARA A SER INACTIVA
-        $route->status        = 2;
+        $route->status        = 1;
         $route->id_unidad     = $validated['unidad'];
         $route->id_operador   = $validated['operador'];
+        $route->id_encargado  = auth()->user()->id; //El encargado es la persona logeada.
         $route->save();
         
+        // Actualizamos el status y el id de la ruta de los contenedores para indicar que estan en uso.
+        foreach ($request->input('contenedores') as $key => $value) {
+            DB::table('containers')
+                ->where('id', $value)
+                ->update(['status' => 1, 'id_ruta' => $route->id]);
+        }
+
+        //Actualizamos el status y el id de la ruta de los equipo de sujeción para indicar que estan en uso.        
+        foreach ($request->input('equipment') as $key => $value) {
+            DB::table('equipment')
+                ->where('id', $value)
+                ->update(['activo' => 1, 'id_ruta' => $route->id]);
+        }
+
+        //TODO: Almanenar las imagenes y asignarles el id de la ruta recien creada $route->id
+
         return redirect()->route('routes.index');
     }
 
