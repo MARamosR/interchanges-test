@@ -3,9 +3,10 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Route;
-use App\Models\Photo;
+use App\Models\UnitImage;
 
 class Unit extends Model
 {
@@ -16,8 +17,13 @@ class Unit extends Model
         $this->belongsTo(Route::class);
     }
 
-    public function photo() 
+    public function images() 
     {
-        $this->hasMany(Photo::class);
+        return $this->hasMany(UnitImage::class);
+    }
+
+    public function getPreviousId()
+    {
+        return DB::table('units')->max('id');
     }
 }

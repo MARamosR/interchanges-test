@@ -133,8 +133,9 @@
 
     <div class="mb-3">
         <label for="ancho" class="form-label">Ancho:</label>
-        <input type="text" name="ancho" value="{{ old('ancho', optional($contenedor ?? null)->ancho) }}"
+        <input type="number" step="0.01" name="ancho" value="{{ old('ancho', optional($contenedor ?? null)->ancho) }}"
             class="form-control">
+        <p class="form-text">Medida en metros</p>
         @error('ancho')
         <div class="text-danger">
             {{ $message }}
@@ -144,8 +145,9 @@
 
     <div class="mb-3">
         <label for="largo" class="form-label">Largo:</label>
-        <input type="text" name="largo" value="{{ old('largo', optional($contenedor ?? null)->largo) }}"
+        <input type="number" step="0.01" name="largo" value="{{ old('largo', optional($contenedor ?? null)->largo) }}"
             class="form-control">
+        <p class="form-text">Medida en metros</p>
         @error('largo')
         <div class="text-danger">
             {{ $message }}
@@ -155,8 +157,9 @@
 
     <div class="mb-3">
         <label for="alto" class="form-label">Alto:</label>
-        <input type="text" name="alto" value="{{ old('alto', optional($contenedor ?? null)->alto) }}"
+        <input type="number" step="0.01" name="alto" value="{{ old('alto', optional($contenedor ?? null)->alto) }}"
             class="form-control">
+        <p class="form-text">Medida en metros</p>
         @error('alto')
         <div class="text-danger">
             {{ $message }}

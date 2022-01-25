@@ -60,4 +60,47 @@
             $('#users').DataTable();
         });
 </script>
+
+<script>
+    const usersList = document.getElementById('users');
+
+    window.onload = function() {
+        if (sessionStorage.getItem('users-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('users-message'),
+                showConfirmButton: false,
+                timer: 2500,
+            });
+        }
+
+        sessionStorage.removeItem('users-message');
+    }
+
+    const deleteHandler = (e) => {
+        
+        if (e.target.classList.contains('btn-danger')) {
+
+            // e.target.parentNode es el nodo del formulario
+            e.preventDefault();            
+            
+            TemplateSwal.fire({
+                title: '¿Esta seguro de esto?',
+                text: "Una vez borrado un registro este no se podra recuperar",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        sessionStorage.setItem('users-message', 'Registro eliminado');
+                        usersList.removeEventListener('click', deleteHandler);
+                        e.target.parentNode.submit();
+                    }
+                });
+        }
+    }
+
+    usersList.addEventListener('click', deleteHandler);
+</script>
 @endsection

@@ -6,12 +6,6 @@
 @slot('title') Ver Roles @endslot
 @endcomponent
 <div>
-    @if (session('message'))
-    <div class="alert alert-success p-2 mb-3 d-flex justify-content-between">
-        {{ session('message') }}        
-    </div>
-    @endif
-
     @can('roles.create')
     <div class="mb-4 d-flex flex-row-reverse">
         <a href="{{ route('roles.create') }}" class="btn btn-success">
@@ -21,7 +15,7 @@
     </div>    
     @endcan
 
-    <ul class="list-group">
+    <ul class="list-group" id="roles">
         @foreach ($roles as $role)
             <li class="list-group-item d-flex justify-content-between">
                 <p class="fs-5 ">{{ $role->name }}</p>
@@ -38,4 +32,49 @@
         @endforeach
     </ul>
 </div>
+@endsection
+
+@section('script')
+<script>
+    const rolesList = document.getElementById('roles');
+
+    window.onload = function() {
+        if (sessionStorage.getItem('roles-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('roles-message'),
+                showConfirmButton: false,
+                timer: 2500,
+            });
+        }
+
+        sessionStorage.removeItem('roles-message');
+    }
+
+    const deleteHandler = (e) => {
+        
+        if (e.target.classList.contains('btn-danger')) {
+
+            // e.target.parentNode es el nodo del formulario
+            e.preventDefault();            
+            
+            TemplateSwal.fire({
+                title: '¿Esta seguro de esto?',
+                text: "Una vez borrado un registro este no se podra recuperar",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        sessionStorage.setItem('roles-message', 'Registro eliminado');
+                        rolesList.removeEventListener('click', deleteHandler);
+                        e.target.parentNode.submit();
+                    }
+                });
+        }
+    }
+
+    rolesList.addEventListener('click', deleteHandler);
+</script>
 @endsection

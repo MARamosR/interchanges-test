@@ -46,9 +46,6 @@
                                 @method('DELETE')
                                 <input type="submit" class="btn btn-danger mt-2" value="Eliminar">
                             </form>
-
-                            {{-- <a href="{{ route('units.destroy', ['unit' => $unit->id]) }}"
-                                class="btn btn-danger">Borrar</a> --}}
                         </td>
                     </tr>
 
@@ -66,5 +63,63 @@
     $(document).ready(function () {
             $('#units').DataTable();
         });
+</script>
+
+<script>
+    const unitsList = document.getElementById('units');
+
+    window.onload = function() {
+        
+        //TODO: REVISAR PORQUE USAMOS containers-message en una vista de units.
+        if (sessionStorage.getItem('units-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('units-message'),
+                showConfirmButton: false,
+                timer: 2500,
+            });
+
+            sessionStorage.removeItem('units-message');
+        }
+        if (sessionStorage.getItem('unit-store-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('unit-store-message'),
+                showConfirmButton: false,
+                timer: 2500,
+            });
+
+            sessionStorage.removeItem('unit-store-message');
+        }
+
+        
+    }
+
+    const deleteHandler = (e) => {
+        
+        if (e.target.classList.contains('btn-danger')) {
+            // e.target.parentNode es el nodo del formulario
+            e.preventDefault();            
+            
+            TemplateSwal.fire({
+                title: '¿Esta seguro de esto?',
+                text: "Una vez borrado un registro este no se podra recuperar",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.setItem('units-message', 'Registro eliminado');
+                    unitsList.removeEventListener('click', deleteHandler);
+                    e.target.parentNode.submit();
+                }
+            });
+        }
+    }
+
+    unitsList.addEventListener('click', deleteHandler);
+
+
 </script>
 @endsection

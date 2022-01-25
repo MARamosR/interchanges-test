@@ -12,6 +12,6 @@ class Provider extends Model
 
     public function equipment() 
     {
-        $this->belongsTo(Equipment::class);
+        return $this->hasMany(Equipment::class);
     }
 }

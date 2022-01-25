@@ -117,7 +117,6 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::prefix('scales')->group(function() {
-        
         // Crearemos una escala en base a una ruta y a todo lo que este enlazado a esta ruta.
         Route::get('/{route}/create', [ScaleController::class, 'create'])->name('scales.create');
     });

@@ -26,6 +26,7 @@
                 <th>Destino</th>
                 <th>Fecha de llegada</th>
                 <th>Descripcion</th>
+                <th>Encargado</th>
                 <th>Folio</th>
                 <th>status</th>
             </tr>
@@ -39,12 +40,13 @@
                 <td>{{ $route->destino }}</td>
                 <td>{{ $route->fecha_destino }}</td>
                 <td>{{ $route->descripcion }}</td>
+                <td>{{ $route->user->name }}</td>
                 <td>{{ $route->folio }}</td>
                 <td>{{ $route->status === 1 ? 'Activa' : 'Finalizada' }}</td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            Acciones
+                            Acciones <i class="fas fa-chevron-down"></i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="">TODO: Ver ruta</a></li>

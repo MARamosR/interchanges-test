@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\Route;
+use App\Models\Scale;
 
 class User extends Authenticatable
 {
@@ -47,8 +48,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function Routes()
+    public function route()
     {
-        $this->belongsTo(Route::class);
+        return $this->hasOne(Route::class);
+    }
+
+    public function scale()
+    {
+        return $this->hasOne(Scale::class);
     }
 }

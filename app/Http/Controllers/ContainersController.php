@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use App\Http\Requests\PostContainer;
 use App\Models\Container;
+use App\Models\ContainerImage;
 
 class ContainersController extends Controller
 {
@@ -34,28 +38,9 @@ class ContainersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PostContainer $request)
     {
-        $validated = $request->validate([
-            'serie'          => 'required',
-            'marca'          => 'required',
-            'modelo'         => 'required',
-            'placa'          => 'required',
-            'comentario'     => 'required',
-            'placa_mx'       => 'required',
-            'placa_ant'      => 'required',
-            'estado'         => 'required',
-            'riel_logistico' => 'required',
-            'canastilla'     => 'required',
-            'tipo_placa'     => 'required',
-            'propietario'    => 'required',
-            'ancho'          => 'required',
-            'largo'          => 'required',
-            'alto'           => 'required',
-            'llanta'         => 'required',
-            'llanta_status'  => 'required',
-            'tipo_caja'      => 'required',
-        ]);        
+        $validated = $request->validated();
 
         $container =  new Container();
         $container->serie          = $validated['serie'];
@@ -63,7 +48,7 @@ class ContainersController extends Controller
         $container->modelo         = $validated['modelo'];
         $container->placa          = $validated['placa'];
         $container->comentario     = $validated['comentario'];
-        $container->placa_mx       = $validated['placa_mx'];        
+        $container->placa_mx       = $validated['placa_mx'];
         $container->placa_ant      = $validated['placa_ant'];
         $container->estado         = $validated['estado'];
         $container->riel_logistico = $validated['riel_logistico'];
@@ -81,9 +66,29 @@ class ContainersController extends Controller
         $container->llanta         = $validated['llanta'];
         $container->llanta_status  = $validated['llanta_status'];
         $container->tipo_caja      = $validated['tipo_caja'];
+
+        $previousId = $container->getPreviousId();
+        if ($previousId === null) {
+            $previousId = 0;
+        }
+        $container->folio = 'CNTR_' . $previousId;
         $container->save();
 
-        // El id de la ruta se asignara cuando se cree una ruta
+        // TODO: Ver si funciona
+        DB::transaction(function () use ($container, $request) {
+
+            foreach ($request->file('images') as $imageFile) {
+
+                $newImageName = floor((rand(1,100) * time()) / rand(1,10)) . '-' . $container->folio . '.' . $imageFile->extension();
+                $imagePath = public_path('/containerImages/');
+                $imageFile->move($imagePath, $newImageName);
+
+                ContainerImage::create([
+                    'image_path' => '/containerImages/' . $newImageName,
+                    'container_id' => $container->id
+                ]);
+            }
+        });
 
         return redirect()->route('containers.index');
     }
@@ -108,7 +113,8 @@ class ContainersController extends Controller
     public function edit($id)
     {
         $contenedor = Container::findOrFail($id);
-        return view('containers.edit', compact('contenedor'));
+        $contanerImages = DB::table('container_images')->where('container_id', $id)->get();
+        return view('containers.edit', compact('contenedor', 'contanerImages'));
     }
 
     /**
@@ -118,28 +124,21 @@ class ContainersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(PostContainer $request, $id)
     {
-        $validated = $request->validate([
-            'serie'          => 'required',
-            'marca'          => 'required',
-            'modelo'         => 'required',
-            'placa'          => 'required',
-            'comentario'     => 'required',
-            'placa_mx'       => 'required',
-            'placa_ant'      => 'required',
-            'estado'         => 'required',
-            'riel_logistico' => 'required',
-            'canastilla'     => 'required',
-            'tipo_placa'     => 'required',
-            'propietario'    => 'required',
-            'ancho'          => 'required',
-            'largo'          => 'required',
-            'alto'           => 'required',
-            'llanta'         => 'required',
-            'llanta_status'  => 'required',
-            'tipo_caja'      => 'required',
-        ]);        
+        $validated = $request->validated();
+
+        if ($request->input('deleteImageIds') !== null) {
+
+            DB::transaction(function () use ($request) {
+                foreach ($request->input('deleteImageIds') as $imageId) {
+
+                    $image = ContainerImage::findOrFail($imageId);
+                    File::delete(public_path($image->image_path));
+                    $image->delete();
+                }
+            });
+        }
 
         $container = Container::findOrFail($id);
         $container->serie          = $validated['serie'];
@@ -147,7 +146,7 @@ class ContainersController extends Controller
         $container->modelo         = $validated['modelo'];
         $container->placa          = $validated['placa'];
         $container->comentario     = $validated['comentario'];
-        $container->placa_mx       = $validated['placa_mx'];        
+        $container->placa_mx       = $validated['placa_mx'];
         $container->placa_ant      = $validated['placa_ant'];
         $container->estado         = $validated['estado'];
         $container->riel_logistico = $validated['riel_logistico'];
@@ -156,12 +155,29 @@ class ContainersController extends Controller
         $container->propietario    = $validated['propietario'];
         $container->ancho          = $validated['ancho'];
         $container->largo          = $validated['largo'];
-        $container->alto          = $validated['alto'];
+        $container->alto           = $validated['alto'];
         $container->llanta         = $validated['llanta'];
         $container->llanta_status  = $validated['llanta_status'];
         $container->tipo_caja      = $validated['tipo_caja'];
+
+        if ($request->file('images') !== null) {
+            DB::transaction(function () use ($container, $request) {
+
+                foreach ($request->file('images') as $imageFile) {
+
+                    $newImageName = floor((rand(1,100) * time()) / rand(1,10)) . '-' . $container->folio . '.' . $imageFile->extension();
+                    $imagePath = public_path('/containerImages/');
+                    $imageFile->move($imagePath, $newImageName);
+
+                    ContainerImage::create([
+                        'image_path' => '/containerImages/' . $newImageName,
+                        'container_id' => $container->id
+                    ]);
+                }
+            });
+        }
+
         $container->save();
-        
         return redirect()->route('containers.index');
     }
 
@@ -174,8 +190,17 @@ class ContainersController extends Controller
     public function destroy($id)
     {
         $container = Container::findOrFail($id);
-        $container->delete();
 
+        DB::transaction(function () use ($id) {
+            $containerImages = DB::table('container_images')->where('container_id', $id)->get();
+
+            foreach ($containerImages as $image) {
+                ContainerImage::destroy($image->id);
+                File::delete(public_path($image->image_path));
+            }
+        });
+
+        $container->delete();
         return redirect()->route('containers.index');
     }
 }

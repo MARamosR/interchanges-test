@@ -7,14 +7,33 @@
 
 {{-- Script inicial de Data-tables --}}
 <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+{{-- <script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script> --}}
+
 
 {{-- FIXME: cdn de vue --}}
 {{-- <script src="https://unpkg.com/vue@next"></script> --}}
 
-
-{{-- TODO: Ver si funciona --}}
 {{-- Vue.js CDN de producción --}}
 <script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script>
+
+{{-- Sweet Alert js --}}
+<script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
+{{-- Sweet alert init js --}}
+<script src="{{ URL::asset('/assets/js/pages/sweet-alerts.init.js') }}"></script>
+
+{{-- Creamos los custom buttons de SweetAlert --}}
+<script>
+    const TemplateSwal = Swal.mixin({
+    customClass: {
+        confirmButton: 'btn btn-success mx-2',
+        cancelButton: 'btn btn-secondary mx-2'
+    },
+        buttonsStyling: false
+    });
+
+</script>
+
 
 <script>
     $('#change-password').on('submit',function(event){

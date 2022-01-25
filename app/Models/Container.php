@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use App\Models\Route;
-use App\Models\Photo;
+use App\Models\ContainerImage;
 
 
 class Container extends Model
@@ -17,8 +18,13 @@ class Container extends Model
         return $this->belongsTo(Route::class);
     }
 
-    public function photo() 
+    public function containerImage()
     {
-        $this->hasMany(Photo::class);
+        return $this->hasMany(ContainerImage::class);
+    }
+
+    public function getPreviousId () 
+    {
+        return DB::table('containers')->max('id');
     }
 }

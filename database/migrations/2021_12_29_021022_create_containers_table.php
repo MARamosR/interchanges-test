@@ -28,6 +28,7 @@ class CreateContainersTable extends Migration
             $table->text('tipo_placa');
             $table->integer('status'); // 1 es que esta activo (ocupado), 0 esta inactivo (disponible para las rutas).
             $table->text('propietario');
+            $table->text('folio');
             $table->float('ancho');
             $table->float('largo');
             $table->float('alto');

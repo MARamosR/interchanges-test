@@ -19,7 +19,8 @@ class RoutesController extends Controller
      */
     public function index()
     {
-        $routes = Route::all();
+        // Eager loading para traer a las rutas junto con los encargados de las mismas 
+        $routes = Route::with('user')->get();
         return view('routes.index', compact('routes'));
     }
 
@@ -116,13 +117,12 @@ class RoutesController extends Controller
 
         // Creamos la ruta
         $route = new Route();
-
+        
         $previousId = $route->getPreviousId();
-        if ($previousId == 0) {
-            $route->folio = 'RT_' . 0;
+        if ($previousId == null) {
+            $previousId =  0;
         }
         $route->folio = 'RT_' . $previousId;
-        
         $route->salida        = $validated['salida'];
         $route->fecha_salida  = $validated['fecha_salida'];
         $route->destino       = $validated['destino'];
@@ -134,7 +134,12 @@ class RoutesController extends Controller
         $route->id_encargado  = auth()->user()->id; //El encargado es la persona logeada.
         $route->save();
         
-        // Actualizamos el status y el id de la ruta de los contenedores para indicar que estan en uso.
+        /*
+            Actualizamos el status y el id de la ruta de
+            los contenedores para indicar que estan en uso.
+            
+            //TODO: Cambiar por operacion bulk...
+        */
         foreach ($request->input('contenedores') as $key => $value) {
             DB::table('containers')
                 ->where('id', $value)

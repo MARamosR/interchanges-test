@@ -113,6 +113,6 @@ class ProvidersController extends Controller
         $provider = Provider::findOrFail($id);
         $provider->delete();
 
-        return redirect()->route('providers.index');
+        return redirect()->route('providers.index')->with("message", "Registro Eliminado");
     }
 }

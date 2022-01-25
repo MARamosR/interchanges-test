@@ -6,30 +6,28 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use App\Models\Provider;
-use App\Models\Container;
-use App\Models\Photo;
 use App\Models\Route;
+use App\Models\EquipmentImage;
 
 
 class Equipment extends Model
 {
     use HasFactory;
 
+    public function equipmentImage()
+    {
+        return $this->hasMany(EquipmentImage::class);
+    }
+
     public function provider() 
     {
-        $this->hasOne(Provider::class);
+        return $this->belongsTo(Provider::class, 'id_proveedor');
     }
 
     public function route()
     {
         $this->belongsTo(Route::class);
     }
-
-    public function photo() 
-    {
-        $this->hasMany(Photo::class);
-    }
-    
 
     public function getPreviousId () 
     {
