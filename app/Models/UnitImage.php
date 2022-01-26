@@ -12,7 +12,7 @@ class UnitImage extends Model
 
     protected $fillable = ['image_path', 'unit_id'];
 
-    public function units() 
+    public function units()
     {
         return $this->belongsTo(Unit::class, 'unit_id');
     }
