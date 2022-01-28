@@ -29,6 +29,7 @@
                         <th>Placa</th>
                         <th>Status</th>
                         <th>Tipo de caja</th>
+                        <th>Ubicación</th>
                         <th>Folio</th>
                         <th>Acciones</th>
                     </tr>
@@ -42,6 +43,7 @@
                         <td>{{ $container->placa }}</td>
                         <td>{{ $container->status === 1 ? 'En uso' : 'Disponible' }}</td>
                         <td>{{ $container->tipo_caja }}</td>
+                        <td>{{ $container->ubicacion }}</td>
                         <td>{{ $container->folio }}</td>
                         <td>
                             <a href="{{ route('containers.edit', ['container' => $container->id]) }}"

@@ -10,6 +10,7 @@ use App\Models\Operators;
 use App\Models\Scale;
 use App\Models\Equipment;
 use App\Models\User;
+use App\Models\RouteInvoice;
 use Illuminate\Support\Facades\DB;
 
 class Route extends Model
@@ -44,6 +45,11 @@ class Route extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'id_encargado');
+    }
+
+    public function invoice() 
+    {
+        return $this->hasMany(RouteInvoice::class);
     }
 
     public function getPreviousId() 

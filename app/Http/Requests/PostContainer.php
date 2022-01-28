@@ -32,7 +32,7 @@ class PostContainer extends FormRequest
             'comentario'     => 'required',
             'placa_mx'       => 'required',
             'placa_ant'      => 'required',
-            'estado'         => 'required',
+            'ubicacion'      => 'required',
             'riel_logistico' => 'required',
             'canastilla'     => 'required',
             'tipo_placa'     => 'required',

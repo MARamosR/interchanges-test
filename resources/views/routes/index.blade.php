@@ -49,7 +49,7 @@
                             Acciones <i class="fas fa-chevron-down"></i>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="">TODO: Ver ruta</a></li>
+                            <li><a class="dropdown-item" href="{{ route('routes.show', ['route' => $route->id]) }}"> Ver ruta</a></li>
                             <li><a class="dropdown-item" href="{{ route('scales.create', ['route' => $route->id]) }}">Registrar escala</a></li>
                         </ul>
                     </div>

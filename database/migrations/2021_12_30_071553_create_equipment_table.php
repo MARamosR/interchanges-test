@@ -13,7 +13,7 @@ class CreateEquipmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('equipment', function (Blueprint $table) {
+        Schema::create('equipment', function (Blueprint $table) {   
             $table->id();
             $table->text('nombre');
             $table->text('descripcion');

@@ -19,10 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        Container::factory()->count(50)->create();
         Operators::factory()->count(50)->create();
-        Provider::factory()->count(50)->create();      
-        Unit::factory()->count(50)->create();
-        
+        Provider::factory()->count(50)->create();
     }
 }

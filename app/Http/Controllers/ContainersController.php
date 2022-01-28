@@ -50,7 +50,7 @@ class ContainersController extends Controller
         $container->comentario     = $validated['comentario'];
         $container->placa_mx       = $validated['placa_mx'];
         $container->placa_ant      = $validated['placa_ant'];
-        $container->estado         = $validated['estado'];
+        $container->ubicacion         = $validated['ubicacion'];
         $container->riel_logistico = $validated['riel_logistico'];
         $container->canastilla     = $validated['canastilla'];
         $container->tipo_placa     = $validated['tipo_placa'];
@@ -74,21 +74,22 @@ class ContainersController extends Controller
         $container->folio = 'CNTR_' . $previousId;
         $container->save();
 
-        // TODO: Ver si funciona
-        DB::transaction(function () use ($container, $request) {
+        if ($request->file('images') !== null) {
+            DB::transaction(function () use ($container, $request) {
 
-            foreach ($request->file('images') as $imageFile) {
+                foreach ($request->file('images') as $imageFile) {
 
-                $newImageName = floor((rand(1,100) * time()) / rand(1,10)) . '-' . $container->folio . '.' . $imageFile->extension();
-                $imagePath = public_path('/containerImages/');
-                $imageFile->move($imagePath, $newImageName);
+                    $newImageName = floor((rand(1, 100) * time()) / rand(1, 10)) . '-' . $container->folio . '.' . $imageFile->extension();
+                    $imagePath = public_path('/containerImages/');
+                    $imageFile->move($imagePath, $newImageName);
 
-                ContainerImage::create([
-                    'image_path' => '/containerImages/' . $newImageName,
-                    'container_id' => $container->id
-                ]);
-            }
-        });
+                    ContainerImage::create([
+                        'image_path' => '/containerImages/' . $newImageName,
+                        'container_id' => $container->id
+                    ]);
+                }
+            });
+        }
 
         return redirect()->route('containers.index');
     }
@@ -148,7 +149,7 @@ class ContainersController extends Controller
         $container->comentario     = $validated['comentario'];
         $container->placa_mx       = $validated['placa_mx'];
         $container->placa_ant      = $validated['placa_ant'];
-        $container->estado         = $validated['estado'];
+        $container->ubicacion         = $validated['ubicacion'];
         $container->riel_logistico = $validated['riel_logistico'];
         $container->canastilla     = $validated['canastilla'];
         $container->tipo_placa     = $validated['tipo_placa'];
@@ -165,7 +166,7 @@ class ContainersController extends Controller
 
                 foreach ($request->file('images') as $imageFile) {
 
-                    $newImageName = floor((rand(1,100) * time()) / rand(1,10)) . '-' . $container->folio . '.' . $imageFile->extension();
+                    $newImageName = floor((rand(1, 100) * time()) / rand(1, 10)) . '-' . $container->folio . '.' . $imageFile->extension();
                     $imagePath = public_path('/containerImages/');
                     $imageFile->move($imagePath, $newImageName);
 

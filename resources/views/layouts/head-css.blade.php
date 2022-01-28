@@ -14,3 +14,5 @@
 
 <!-- Sweet Alert-->
 <link href="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
+{{--  
+<link href="{{ URL::asset('/assets/css/pdfs.css') }}" rel="stylesheet" type="text/css" /> --}}

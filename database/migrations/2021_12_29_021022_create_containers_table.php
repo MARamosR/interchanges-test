@@ -22,7 +22,7 @@ class CreateContainersTable extends Migration
             $table->text('comentario');
             $table->text('placa_mx')->nullable();
             $table->text('placa_ant')->nullable();
-            $table->text('estado');
+            $table->text('ubicacion');
             $table->text('riel_logistico');
             $table->text('canastilla');
             $table->text('tipo_placa');

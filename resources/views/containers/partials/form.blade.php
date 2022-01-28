@@ -77,10 +77,10 @@
     </div>
 
     <div class="mb-3">
-        <label for="estado" class="form-label">Estado:</label>
-        <input type="text" name="estado" value="{{ old('estado', optional($contenedor ?? null)->estado) }}"
+        <label for="ubicacion" class="form-label">Ubicación:</label>
+        <input type="text" name="ubicacion" value="{{ old('ubicacion', optional($contenedor ?? null)->ubicacion) }}"
             class="form-control">
-        @error('estado')
+        @error('ubicacion')
         <div class="text-danger">
             {{ $message }}
         </div>

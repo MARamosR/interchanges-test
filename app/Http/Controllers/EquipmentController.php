@@ -72,20 +72,24 @@ class EquipmentController extends Controller
         $equipment->folio = $folio;
         $equipment->save();
 
-        DB::transaction(function () use ($request, $equipment) {
+        if ($request->file('images') !== null) {
+            DB::transaction(function () use ($request, $equipment) {
 
-            foreach ($request->file('images') as $imageFile) {
+                foreach ($request->file('images') as $imageFile) {
 
-                $newImageName = floor((rand(1,100) * time()) / rand(1,10)) . '-' . $equipment->folio . '.' . $imageFile->extension();
-                $imagePath = public_path('/equipmentImages/');
-                $imageFile->move($imagePath, $newImageName);
+                    $newImageName = floor((rand(1, 100) * time()) / rand(1, 10)) . '-' . $equipment->folio . '.' . $imageFile->extension();
+                    $imagePath = public_path('/equipmentImages/');
+                    $imageFile->move($imagePath, $newImageName);
 
-                EquipmentImage::create([
-                    'image_path' => '/equipmentImages/' . $newImageName,
-                    'equipment_id' => $equipment->id
-                ]);
-            }
-        });
+                    EquipmentImage::create([
+                        'image_path' => '/equipmentImages/' . $newImageName,
+                        'equipment_id' => $equipment->id
+                    ]);
+                }
+            });
+        }
+
+
 
         return redirect()->route('equipment.index');
     }
@@ -114,9 +118,9 @@ class EquipmentController extends Controller
         $equipmentImages = DB::table('equipment_images')->where('equipment_id', $id)->get();
 
         return view('equipment.edit', compact(
-            'equipment', 
-            'providers', 
-            'provider', 
+            'equipment',
+            'providers',
+            'provider',
             'equipmentImages'
         ));
     }
@@ -137,19 +141,19 @@ class EquipmentController extends Controller
             'precio_unitario' => 'required',
             'id_proveedor'    => 'required'
         ]);
-        
+
         if ($request->input('deleteImageIds') !== null) {
-            DB::transaction(function() use($request) {
+            DB::transaction(function () use ($request) {
 
                 foreach ($request->input('deleteImageIds') as $imageId) {
-                    
+
                     $image = EquipmentImage::findOrFail($imageId);
                     File::delete(public_path($image->image_path));
                     $image->delete();
                 }
             });
         }
-        
+
 
         $equipment = Equipment::findOrFail($id);
         $equipment->nombre          = $validated['nombre'];
@@ -157,16 +161,16 @@ class EquipmentController extends Controller
         $equipment->ubicacion       = $validated['ubicacion'];
         $equipment->precio_unitario = $validated['precio_unitario'];
         $equipment->id_proveedor    = $validated['id_proveedor'];
-        
+
         if ($request->file('images') !== null) {
-            DB::transaction(function() use($request, $equipment) {
-            
+            DB::transaction(function () use ($request, $equipment) {
+
                 foreach ($request->file('images') as $imageFile) {
-                    $newImageName = floor((rand(1,100) * time()) / rand(1,10)) . '-' . $equipment->folio . '.' . $imageFile->extension();
+                    $newImageName = floor((rand(1, 100) * time()) / rand(1, 10)) . '-' . $equipment->folio . '.' . $imageFile->extension();
                     $imagePath = public_path('/equipmentImages/');
                     // Almacenamos el archivo en la carpeta de nuestra elección y le asignamos al propio un nuevo nombre.
                     $imageFile->move($imagePath, $newImageName);
-    
+
                     EquipmentImage::create([
                         'image_path' => '/equipmentImages/' . $newImageName,
                         'equipment_id' => $equipment->id
@@ -189,7 +193,7 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::findOrFail($id);
 
-        DB::transaction(function() use($id) {
+        DB::transaction(function () use ($id) {
             $equipmentImages = DB::table('equipment_images')->where(['equipment_id' => $id])->get();
             foreach ($equipmentImages as $image) {
                 EquipmentImage::destroy($image->id);

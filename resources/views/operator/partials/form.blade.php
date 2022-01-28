@@ -34,8 +34,15 @@
 
     <div class="mb-3">
         <label for="tipo_licencia" class="form-label">Tipo de licencia:</label>
-        <input type="text" name="tipo_licencia" class="form-control"
-            value="{{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) }}">
+        {{-- <input type="text" name="tipo_licencia" class="form-control" value="{{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) }}"> --}}
+        <select name="tipo_licencia" class="form-control">
+            <option value="" selected disabled>Seleccione el tipo de licencia de este operador</option>
+            <option value="A" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'A' ? 'selected' : '' }}>A</option>
+            <option value="B" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'B' ? 'selected' : '' }}>B</option>
+            <option value="C" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'C' ? 'selected' : '' }}>C</option>
+            <option value="D" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'D' ? 'selected' : '' }}>D</option>
+            <option value="E" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'E' ? 'selected' : '' }}>E</option>
+        </select>
         @error('tipo_licencia')
         <div class="text-danger">
             {{ $message }}
@@ -77,6 +84,7 @@
     <div class="mb-3">
         <label for="antiguedad" class="form-label">Antiguedad del operador:</label>
         <input type="number" name="antiguedad" class="form-control" value="{{ old('antiguedad', optional($operator ?? null)->antiguedad) }}">
+        <div class="form-text">Antiguedad en años.</div>
         @error('antiguedad')
         <div class="text-danger">
             {{ $message }}
@@ -88,18 +96,6 @@
         <label for="iave" class="form-label">IAVE:</label>
         <input type="text" name="iave" class="form-control" value="{{ old('iave', optional($operator ?? null)->iave) }}">
         @error('iave')
-        <div class="text-danger">
-            {{ $message }}
-        </div>
-        @enderror
-    </div>
-
-
-    {{-- TODO: Cambiar text por number que se asociara a la ID --}}
-    <div class="mb-3">
-        <label for="folio" class="form-label">Folio:</label>
-        <input type="text" name="folio" class="form-control" value="{{ old('folio', optional($operator ?? null)->folio) }}" >
-        @error('folio')
         <div class="text-danger">
             {{ $message }}
         </div>

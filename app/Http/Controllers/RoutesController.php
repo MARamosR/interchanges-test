@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
-use App\Models\Route;
-use App\Models\Unit;
 use App\Models\Operators;
 use App\Models\Container;
 use App\Models\Equipment;
-use Illuminate\Support\Facades\DB;
+use App\Models\Route;
+use App\Models\Unit;
+use App\Models\RouteInvoice;
+use Barryvdh\DomPDF\PDF as DomPDF;
+use Illuminate\Support\Facades\File;
+
+use PDF;
+
 
 class RoutesController extends Controller
 {
@@ -39,7 +45,7 @@ class RoutesController extends Controller
         $operators = Operators::where('status', 0)->get();
         $containers = Container::where('status', 0)->get();
         $equipment = Equipment::where('activo', 0)->get();
-        
+
         return view('routes.create', compact('units', 'operators', 'containers', 'equipment'));
     }
 
@@ -51,13 +57,12 @@ class RoutesController extends Controller
      */
     public function store(Request $request)
     {
-        //TODO: Validar los arreglos dinamicos que vienen del request
         $validated = $request->validate([
             'salida'        => 'required|min:3',
             'fecha_salida'  => 'required',
             'destino'       => 'required|min:3',
             'fecha_destino' => 'nullable',
-            'descripcion'   => 'nullable', 
+            'descripcion'   => 'nullable',
             'unidad'        => 'required',
             'operador'      => 'required',
             'contenedores'  => 'required',
@@ -66,13 +71,13 @@ class RoutesController extends Controller
 
         //Cambiamos el estado del operador
         DB::table('operators')
-                ->where('id', $validated['operador'])
-                ->update(['status' => 1]);
+            ->where('id', $validated['operador'])
+            ->update(['status' => 1]);
 
         //Cambiamos el estado de la unidad
         DB::table('units')
-                ->where('id', $validated['unidad'])
-                ->update(['status' => 1]);
+            ->where('id', $validated['unidad'])
+            ->update(['status' => 1]);
 
         // Rellenamos un hashmap para hallar valores duplicados.
         $containerIds = [];
@@ -83,7 +88,7 @@ class RoutesController extends Controller
                 $containerIds[$value] = 1;
             }
         }
-        
+
         // Recorremos el hashmap para encontrar valores duplicados.
         foreach ($containerIds as $key => $value) {
             if ($value > 1) {
@@ -115,9 +120,7 @@ class RoutesController extends Controller
             }
         }
 
-        // Creamos la ruta
         $route = new Route();
-        
         $previousId = $route->getPreviousId();
         if ($previousId == null) {
             $previousId =  0;
@@ -133,12 +136,10 @@ class RoutesController extends Controller
         $route->id_operador   = $validated['operador'];
         $route->id_encargado  = auth()->user()->id; //El encargado es la persona logeada.
         $route->save();
-        
+
         /*
             Actualizamos el status y el id de la ruta de
             los contenedores para indicar que estan en uso.
-            
-            //TODO: Cambiar por operacion bulk...
         */
         foreach ($request->input('contenedores') as $key => $value) {
             DB::table('containers')
@@ -153,9 +154,8 @@ class RoutesController extends Controller
                 ->update(['activo' => 1, 'id_ruta' => $route->id]);
         }
 
-        //TODO: Almanenar las imagenes y asignarles el id de la ruta recien creada $route->id
-
-        return redirect()->route('routes.index');
+        $pdf = self::storeRouteStartInvoice($route->id);
+        return $pdf->stream();
     }
 
     /**
@@ -166,7 +166,19 @@ class RoutesController extends Controller
      */
     public function show($id)
     {
-        //
+        
+        $route = Route::where('id', $id)->with(['invoice'])->first();
+
+        $file = '61f347090acd0_RT_33_.pdf';
+        $path = public_path('routeInvoices/' . $file);
+
+        $header = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $file . '"'
+        ];
+
+
+        return response()->file($path, $header);
     }
 
     /**
@@ -201,5 +213,46 @@ class RoutesController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public static function storeRouteStartInvoice($id)
+    {
+
+        $route         = Route::findOrFail($id);
+        $containers    = Container::where('id_ruta', $id)->get();
+        $equipment     = Equipment::where('id_ruta', $id)->get();
+        $operator      = Operators::findOrFail($route->id_operador);
+        $unit          = Unit::findOrFail($route->id_unidad);
+
+        //TODO: Probar que la forma de obtener la cantidad funcione de forma correcta.
+        $containersQty = count($containers);
+        $equipmentQty  = count($equipment);
+
+        $equipmentTotal = 0;
+        foreach ($equipment as $value) {
+            $equipmentTotal += $value->precio_unitario;
+        }
+
+        $pdf = PDF::loadView('pdf.routeStart', compact(
+            'route',
+            'containers',
+            'equipment',
+            'operator',
+            'unit',
+            'containersQty',
+            'equipmentQty',
+            'equipmentTotal'
+        ));
+
+        $fileName = uniqid() . '_' . $route->folio . '_' . '.pdf'; // Creamos el nombre del archivo
+        $path = public_path('/routeInvoices/') . $fileName; // Creamos el path del archivo 
+        File::append($path, $pdf->output());
+
+        $invoice = new RouteInvoice();
+        $invoice->doc_path = '/routeInvoices/' . $fileName;
+        $invoice->route_id = $id;
+        $invoice->save();
+
+        return $pdf;
     }
 }

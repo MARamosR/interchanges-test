@@ -46,7 +46,6 @@ class OperatorsController extends Controller
             'lugar_exp'     => 'required',
             'antiguedad'    => 'required',
             'iave'          => 'required',
-            'folio'         => 'required',
             'ex_medico'     => 'required'
         ]);
 
@@ -61,7 +60,12 @@ class OperatorsController extends Controller
         $operator->antiguedad    = $validated['antiguedad'];
         $operator->status = 0; // 1 = Activo (ocupado), 0 disponible para rutas.
         $operator->iave          = $validated['iave'];
-        $operator->folio         = $validated['folio'];
+
+        $previousId = $operator->getPreviousId();
+        if ($previousId === null) {
+            $previousId = 0;
+        }
+        $operator->folio         = 'OPR_' . $previousId;
         $operator->ex_medico     = $validated['ex_medico'];
         $operator->save();
 
@@ -110,7 +114,6 @@ class OperatorsController extends Controller
             'lugar_exp'     => 'required',
             'antiguedad'    => 'required',
             'iave'          => 'required',
-            'folio'         => 'required',
             'ex_medico'     => 'required'
         ]);
 
@@ -124,7 +127,6 @@ class OperatorsController extends Controller
         $operator->lugar_exp     = $validated['lugar_exp'];
         $operator->antiguedad    = $validated['antiguedad'];
         $operator->iave          = $validated['iave'];
-        $operator->folio         = $validated['folio'];
         $operator->ex_medico     = $validated['ex_medico'];
         $operator->save();
 
