@@ -155,7 +155,7 @@ class RoutesController extends Controller
         }
 
         $pdf = self::storeRouteStartInvoice($route->id);
-        return $pdf->stream();
+        return redirect()->route('routes.index');
     }
 
     /**
@@ -166,19 +166,19 @@ class RoutesController extends Controller
      */
     public function show($id)
     {
-        
         $route = Route::where('id', $id)->with(['invoice'])->first();
+        $containers    = Container::where('id_ruta', $id)->with('containerImage')->get();
+        $equipment     = Equipment::where('id_ruta', $id)->with('equipmentImage')->get();
+        $operator      = Operators::findOrFail($route->id_operador);
+        $unit          = Unit::findOrFail($route->id_unidad)->with('images')->get();
 
-        $file = '61f347090acd0_RT_33_.pdf';
-        $path = public_path('routeInvoices/' . $file);
-
-        $header = [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="' . $file . '"'
-        ];
-
-
-        return response()->file($path, $header);
+        return view('routes.show', compact(
+            'route',
+            'containers',
+            'equipment',
+            'operator',
+            'unit'
+        ));
     }
 
     /**
@@ -252,7 +252,18 @@ class RoutesController extends Controller
         $invoice->doc_path = '/routeInvoices/' . $fileName;
         $invoice->route_id = $id;
         $invoice->save();
+    }
 
-        return $pdf;
+    public function showRouteInvoice(Request $request, $fileName)
+    {
+        dd($fileName);
+        $path = public_path('routeInvoices/' . $file);
+
+        $header = [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'inline; filename="' . $file . '"'
+        ];
+
+        return response()->file($path, $header);
     }
 }

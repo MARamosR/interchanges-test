@@ -15,24 +15,23 @@ class ScaleController extends Controller
 {
     public function create(Request $request, $id)
     {        
-        $route = Route::where('id', '=', $id)->first();
-
-        // Traemos todos los contenedores asociados a esa ruta
-        $containers = Container::where('id_ruta', '=', $route->id)->get();
-        
-        // Traemos el operador asociado a la ruta.
+        $route = Route::where('id', $id)->first();
+        $containers = Container::where('id_ruta', $route->id)->with('containerImage')->get();
         $operator = Operators::where('id', '=', $route->id_operador)->first();
-
-        //Traemos la unidad asociada a la ruta.
         $unit = Unit::where('id', '=', $route->id_unidad)->first();
-
         $equipment = Equipment::where('id_ruta', '=', $route->id)->get();
-
-        return view('scales.create', compact('route', 'containers', 'operator', 'unit', 'equipment'));
+    
+        return view('scales.create', compact(
+            'route', 
+            'containers', 
+            'operator', 
+            'unit', 
+            'equipment'
+        ));
     }
 
     public function store() 
     {
-
+        
     }
 }
