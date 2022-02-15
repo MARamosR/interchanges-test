@@ -36,7 +36,7 @@
                     No hay imagenes registradas para este contenedor
                 </div>
                 @endforelse
-
+                
 
                 <div class="card-body">
                     Placa: {{ $container->placa }}

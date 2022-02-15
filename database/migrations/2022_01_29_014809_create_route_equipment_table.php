@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeysToContainersTable extends Migration
+class CreateRouteEquipmentTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class AddForeignKeysToContainersTable extends Migration
      */
     public function up()
     {
-        Schema::table('containers', function (Blueprint $table) {
-            
-            //Llave foranea para relacion N a 1 con el modelo "ruta".
+        Schema::create('route_equipment', function (Blueprint $table) {
+            // N:N with route
             $table->unsignedBigInteger('id_ruta')->nullable();
             $table->foreign('id_ruta')->references('id')->on('routes')->onDelete('set null');
+
+            // N:N with equipment
+            $table->unsignedBigInteger('id_equipo')->nullable();
+            $table->foreign('id_equipo')->references('id')->on('equipment')->onDelete('set null');
+
+            $table->timestamps();
         });
     }
 
@@ -28,8 +33,6 @@ class AddForeignKeysToContainersTable extends Migration
      */
     public function down()
     {
-        Schema::table('containers', function (Blueprint $table) {
-            $table->dropColumn('id_ruta');
-        });
+        Schema::dropIfExists('route_equipment');
     }
 }

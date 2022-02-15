@@ -50,7 +50,7 @@
             </div>
         </div>
 
-        <input type="submit" class="btn btn-success" value="Actualizar">
+        <button id="unitUpdateBtn" type="submit" class="btn btn-success">Guardar cambios</button>
     </form>
 </div>
 @endsection
@@ -60,7 +60,7 @@
         display: none;
     }
 </style>
-
+    
 @section('script')
 <script>
     const addImageBtn = document.getElementById('addUnitImageBtn');
@@ -98,5 +98,36 @@
 
     addImageBtn.addEventListener('click', addImageField);
     removeImageBtn.addEventListener('click', removeImageField);
+</script>
+
+
+<script>
+    const storeUnitBtn = document.getElementById('unitUpdateBtn');
+
+    window.onload = function() {
+        sessionStorage.removeItem('unit-update-message');
+    }
+
+    const handleConfirmation = e => {
+        e.preventDefault();
+
+        TemplateSwal.fire({
+            title: '¿Esta seguro de esto?',
+            text: "Verifique que los datos sean correctos",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sessionStorage.setItem('unit-update-message', 'Unidad actualizada correctamente');
+                e.target.parentNode.submit();
+            }
+        });
+
+        
+    }
+
+    storeUnitBtn.addEventListener('click', handleConfirmation);
 </script>
 @endsection

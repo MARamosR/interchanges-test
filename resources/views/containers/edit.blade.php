@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Modificar contenedor @endslot
+@slot('title') Editar contenedor @endslot
 @endcomponent
 
 <div>
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <input type="submit" class="btn btn-success" value="Modificar">
+        <button type="submit" class="btn btn-success" id="editBtn">Editar</button>
     </form>
 </div>
 @endsection
@@ -94,5 +94,33 @@
 
         addImageBtn.addEventListener('click', addImageField);
         removeImageBtn.addEventListener('click', removeImageField);
+</script>
+
+<script>
+    const editBtn = document.getElementById('editBtn');
+
+    window.onload = function() {
+        sessionStorage.removeItem('containers-edit-message');
+    }
+
+    const submitHandler = e => {
+        e.preventDefault();
+
+        TemplateSwal.fire({
+                title: '¿Esta seguro de esto?',
+                text: "Verifique que los datos sean correctos",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.setItem('containers-edit-message', 'Contenedor editado correctamente');
+                    e.target.parentNode.submit();
+                }
+            });
+    }
+
+    editBtn.addEventListener('click', submitHandler);
 </script>
 @endsection

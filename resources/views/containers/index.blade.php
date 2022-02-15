@@ -27,9 +27,9 @@
                         <th>Serie</th>
                         <th>Marca</th>
                         <th>Placa</th>
-                        <th>Status</th>
                         <th>Tipo de caja</th>
                         <th>Ubicación</th>
+                        <th>Status</th>
                         <th>Folio</th>
                         <th>Acciones</th>
                     </tr>
@@ -41,19 +41,37 @@
                         <td>{{ $container->serie }}</td>
                         <td>{{ $container->marca }}</td>
                         <td>{{ $container->placa }}</td>
-                        <td>{{ $container->status === 1 ? 'En uso' : 'Disponible' }}</td>
                         <td>{{ $container->tipo_caja }}</td>
                         <td>{{ $container->ubicacion }}</td>
+                        <td>
+                            @if ($container->status == 0)
+                            <h5><span class="badge bg-success">Disponible</span></h5>
+                            @else
+                            <h5><span class="badge bg-warning">En uso</span></h5>
+                            @endif
+                            
+                        </td>
                         <td>{{ $container->folio }}</td>
                         <td>
-                            <a href="{{ route('containers.edit', ['container' => $container->id]) }}"
-                                class="btn btn-warning">Modificar</a>
-                            <form action="{{ route('containers.destroy', ['container' => $container->id]) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input class="btn btn-danger mt-2" type="submit" value="Eliminar">
-                            </form>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                  Seleccione una accion
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="{{ route('containers.show', ['container' => $container->id]) }}">Ver contenedor</a></li>
+                                  <li>
+                                    <a href="{{ route('containers.edit', ['container' => $container->id]) }}" class="dropdown-item">Editar</a>
+                                  </li>
+                                  <li>
+                                    <form action="{{ route('containers.destroy', ['container' => $container->id]) }}"
+                                        method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <input class="dropdown-item delete-btn" type="submit" value="Eliminar">
+                                    </form>
+                                  </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -80,16 +98,40 @@
                 icon: 'success',
                 title: sessionStorage.getItem('containers-message'),
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 2000,
             });
+
+            sessionStorage.removeItem('containers-message');
         }
 
-        sessionStorage.removeItem('containers-message');
+        if (sessionStorage.getItem('containers-store-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('containers-store-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('containers-store-message');
+        }
+
+        if (sessionStorage.getItem('containers-edit-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('containers-edit-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('containers-edit-message');
+        }
+
+        
     }
 
     const deleteHandler = (e) => {
         
-        if (e.target.classList.contains('btn-danger')) {
+        if (e.target.classList.contains('delete-btn')) {
 
             // e.target.parentNode es el nodo del formulario
             e.preventDefault();            

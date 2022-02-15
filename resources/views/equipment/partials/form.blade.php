@@ -33,7 +33,7 @@
 
 
 <div class="mb-3">
-    <label for="precio_unitario" class="form-label">Precio unitario del equipo:</label>
+    <label for="precio_unitario" class="form-label">Precio unitario del equipo (MXN):</label>
     <input type="number" name="precio_unitario" step="0.01"
         value="{{ old('precio_unitario', optional($equipment ?? null)->precio_unitario) }}" class="form-control">
     @error('precio_unitario')
@@ -49,13 +49,13 @@
     <select name="id_proveedor" class="form-control">
 
         @if ($provider != null)
-            <option selected value="{{ $provider[0]->id }}">{{ $provider[0]->proveedor }}</option>          
+        <option selected value="{{ $provider[0]->id }}">{{ $provider[0]->proveedor }}</option>
         @else
-            <option value="" selected disabled>Selecciona al proveedor del equipo</option>    
+        <option value="" selected disabled>Selecciona al proveedor del equipo</option>
         @endif
-        
+
         @foreach ($providers as $provider)
-            <option value="{{ $provider->id }}">{{ $provider->proveedor }}</option>
+        <option value="{{ $provider->id }}">{{ $provider->proveedor }}</option>
         @endforeach
     </select>
 
@@ -88,9 +88,8 @@
     }
 </style>
 
-@section('script')
-    <script>
-        const addPhotoBtn = document.getElementById('addEquipmentPhotoBtn');
+<script>
+    const addPhotoBtn = document.getElementById('addEquipmentPhotoBtn');
         const removePhotoBtn = document.getElementById('removeEquipmentPhotoBtn');
         const photosContainer = document.getElementById('equipment-photo-fields');
 
@@ -126,6 +125,4 @@
 
         addPhotoBtn.addEventListener('click', addImageField);
         removePhotoBtn.addEventListener('click', removeImageField);
-    </script>
-@endsection
-
+</script>

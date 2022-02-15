@@ -10,6 +10,7 @@
 @endcomponent
 
 <div class="row">
+
     <div class="col-xl-4 col-sm-6">
         <div class="card">
             <div class="card-body">
@@ -71,6 +72,7 @@
         </div>
     </div>
 
+    
     <div class="col-xl-4 col-sm-6">
         <div class="card">
             <div class="card-body">

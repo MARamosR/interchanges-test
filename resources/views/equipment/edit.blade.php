@@ -45,7 +45,7 @@
 
 
         <div class="mb-3">
-            <label for="precio_unitario" class="form-label">Precio unitario del equipo:</label>
+            <label for="precio_unitario" class="form-label">Precio unitario del equipo (MXN):</label>
             <input type="number" name="precio_unitario" step="0.01"
                 value="{{ old('precio_unitario', optional($equipment ?? null)->precio_unitario) }}"
                 class="form-control">
@@ -117,7 +117,7 @@
             </div>
             @enderror
         </div>
-        <input type="submit" class="btn btn-success" value="Modificar Equipo">
+        <button type="submit" class="btn btn-success" id="edit-equipment-btn">Editar equipo</button>
     </form>
 </div>
 @endsection
@@ -168,5 +168,32 @@
         
                 addPhotoBtn.addEventListener('click', addImageField);
                 removePhotoBtn.addEventListener('click', removeImageField);
+</script>
+
+<script>
+    const submitBtn = document.getElementById('edit-equipment-btn');
+    
+    window.onload = function() {
+        sessionStorage.removeItem('equipment-edit-message');
+    }
+
+    const submitHandler = e => {
+        e.preventDefault();
+        TemplateSwal.fire({
+            title: '¿Esta seguro de esto?',
+            text: "Verifique que los datos sean correctos",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sessionStorage.setItem('equipment-edit-message', 'Equipo editado correctamente');
+                e.target.parentNode.submit();
+            }
+        });    
+    }
+
+    submitBtn.addEventListener('click', submitHandler);
 </script>
 @endsection

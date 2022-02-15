@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <input type="submit" class="btn btn-success" value="Agregar">
+        <button type="submit" class="btn btn-success" id="submitBtn">Agregar</button>
     </form>
 </div>
 @endsection
@@ -70,5 +70,34 @@
 
         addImageBtn.addEventListener('click', addImageField);
         removeImageBtn.addEventListener('click', removeImageField);
+    </script>
+
+    <script>
+        const submitBtn = document.getElementById('submitBtn');
+        
+        window.onload = function() {
+            sessionStorage.removeItem('containers-store-message');
+        }
+
+        const submitHandler = e => {
+            e.preventDefault();
+
+            TemplateSwal.fire({
+                title: '¿Esta seguro de esto?',
+                text: "Verifique que los datos sean correctos",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.setItem('containers-store-message', 'Contenedor agregado');
+                    e.target.parentNode.submit();
+                }
+            });
+        }
+
+        submitBtn.addEventListener('click', submitHandler);
+         
     </script>
 @endsection

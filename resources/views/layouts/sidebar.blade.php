@@ -9,6 +9,13 @@
             <ul class="metismenu list-unstyled" id="side-menu">
                 <li class="menu-title" key="t-menu">@lang('translation.Menu')</li>
 
+                <li>
+                    <a href="{{ route('root') }}" class="waves-effect">
+                        <i class='bx bxs-dashboard'></i>
+                        <span key="t-dashboards">Dashboard</span>
+                    </a>
+                </li>
+
                 {{-- Submenu de rutas --}}
                 @canany(['routes.index', 'routes.create'])
                 <li>
@@ -22,7 +29,7 @@
                         @endcan
                         @can('routes.create')
                         <li><a href={{ route('routes.create') }} key="t-default">Agregar ruta</a></li>    
-                        @endcan
+                        @endcan    
                         {{-- <li><a href="dashboard-saas" key="t-saas">@lang('translation.Saas')</a></li>
                         <li><a href="dashboard-crypto" key="t-crypto">@lang('translation.Crypto')</a></li>
                         <li><a href="dashboard-blog" key="t-blog">@lang('translation.Blog')</a></li> --}}

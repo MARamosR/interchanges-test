@@ -18,7 +18,6 @@
 @endforeach
 
 <script>
-    // TODO: Agregar opción para marcar todos los inputs
     const permissionsList = document.querySelectorAll('#permission-item');
     const btn = document.getElementById('selectAllBtn');
 

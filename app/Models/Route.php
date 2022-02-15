@@ -11,35 +11,37 @@ use App\Models\Scale;
 use App\Models\Equipment;
 use App\Models\User;
 use App\Models\RouteInvoice;
+use App\Models\RouteImage;
+use App\Models\LostEquipment;
 use Illuminate\Support\Facades\DB;
 
 class Route extends Model
 {
     use HasFactory;
 
-    public function container() 
+    public function containers() 
     {
-        $this->hasMany(Container::class);
+        return $this->belongsToMany(Container::class, 'route_containers', 'id_ruta', 'id_contenedor');
     }
 
-    public function equipment() 
+    public function equipments() 
     {
-        $this->hasMany(Equipment::class);
+        return $this->belongsToMany(Equipment::class, 'route_equipment', 'id_ruta', 'id_equipo');
     }
 
-    public function scale() 
+    public function scale()
     {
-        $this->hasMany(Scale::class);
+        return $this->hasMany(Scale::class);
     }
 
     public function unit()
     {
-        $this->hasOne(Unit::class);
+        return $this->belongsTo(Unit::class, 'id_unidad');
     }
 
     public function operator()
     {
-        $this->hasOne(Operators::class);
+        return $this->belongsTo(Operators::class, 'id_operador');
     }
 
     public function user()
@@ -50,6 +52,16 @@ class Route extends Model
     public function invoice() 
     {
         return $this->hasMany(RouteInvoice::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(RouteImage::class);
+    }
+
+    public function lostEquipments()
+    {
+        return $this->hasMany(LostEquipment::class);
     }
 
     public function getPreviousId() 

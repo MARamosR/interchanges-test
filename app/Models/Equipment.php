@@ -24,9 +24,9 @@ class Equipment extends Model
         return $this->belongsTo(Provider::class, 'id_proveedor');
     }
 
-    public function route()
+    public function routes()
     {
-        $this->belongsTo(Route::class);
+        return $this->belongsToMany(Route::class);
     }
 
     public function getPreviousId () 

@@ -58,7 +58,7 @@ class UnitsController extends Controller
         if ($previousId === null) {
             $previousId = 0;
         }
-        $newUnit->folio = 'UNIT_' . $previousId;
+        $newUnit->folio = 'UNIT_' . $previousId + 1;
 
         $newUnit->anio = $validated['anio'];
         $newUnit->save();
@@ -91,7 +91,11 @@ class UnitsController extends Controller
      */
     public function show($id)
     {
-        //
+        $unit = Unit::where('id', $id)->with(['images'])->first();
+        return view('unit.show', [
+            'unit' => $unit, 
+            'unitImages' => $unit->images
+        ]);
     }
 
     /**

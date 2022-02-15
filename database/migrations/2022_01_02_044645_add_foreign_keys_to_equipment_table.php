@@ -18,10 +18,6 @@ class AddForeignKeysToEquipmentTable extends Migration
             //Llave foranea para relacion 1 a 1 con el modelo "Proveedor".
             $table->unsignedBigInteger('id_proveedor')->nullable();
             $table->foreign('id_proveedor')->references('id')->on('providers')->onDelete('set null');
-
-            // Llave foranea para la relacion 1 a N con el modelo "Routes".
-            $table->unsignedBigInteger('id_ruta')->nullable();
-            $table->foreign('id_ruta')->references('id')->on('routes')->onDelete('set null');
         });
     }
 

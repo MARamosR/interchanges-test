@@ -1,23 +1,184 @@
 @extends('layouts.master')
-
 @section('title') @lang('translation.Dashboards') @endsection
-
 @section('content')
-
 @component('components.breadcrumb')
 @slot('li_1') Dashboards @endslot
 @slot('title') Dashboard @endslot
 @endcomponent
 
-<div class="row">
+<div class="row container-fluid">
     <div class="col-xl-4">
-        {{-- Page title --}}
         <h2>@yield('page-title')</h2>
     </div>
 </div>
 
+<div>
+    <div class="row row-cols-2">
+
+        <div class="col">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="d-flex align-items-center ">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="avatar-md">
+                                <span class="avatar-title rounded-circle bg-primary font-size-22">
+                                    <i class='bx bxs-map-alt'></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="card-title">Rutas registradas</h5>
+                            <div class="card-text text-dark">{{ $routesQty }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="d-flex align-items-center ">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="avatar-md">
+                                <span class="avatar-title rounded-circle bg-primary font-size-22">
+                                    <i class="bx bxs-group"></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="card-title">Operadores registrados</h5>
+                            <div class="card-text">{{ $operatorsQty }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="d-flex align-items-center ">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="avatar-md">
+                                <span class="avatar-title rounded-circle bg-primary font-size-22">
+                                    <i class='bx bxs-truck'></i>
+                                </span>
+                            </div>
+                        </div>
+
+
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="card-title">Unidades registradas</h5>
+                            <div class="card-text">{{ $unitsQty }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="d-flex align-items-center ">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="avatar-md">
+                                <span class="avatar-title rounded-circle bg-primary font-size-22">
+                                    <i class='bx bxs-package'></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="card-title">Contenedores registrados</h5>
+                            <div class="card-text">{{ $containersQty }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="d-flex align-items-center ">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="avatar-md">
+                                <span class="avatar-title rounded-circle bg-primary font-size-22">
+                                    <i class='bx bx-link'></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="card-title">Equipo de sujeción registrado</h5>
+                            <div class="card-text">{{ $equipmentQty }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="d-flex align-items-center ">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="avatar-md">
+                                <span class="avatar-title rounded-circle bg-primary font-size-22">
+                                    <i class='bx bxs-user-rectangle'></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="card-title">Proveedores registrados</h5>
+                            <div class="card-text">{{ $providersQty }}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card ">
+                <div class="card-body">
+                    <div class="d-flex align-items-center ">
+                        <div class="flex-shrink-0 me-4">
+                            <div class="avatar-md">
+                                <span class="avatar-title rounded-circle bg-danger font-size-22">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="card-title">Equipo de sujeción extraviado</h5>
+                            <div class="card-text">Total de equipos extraviados: {{ $lostEquipmentQty }}</div>
+                            <div class="card-text">Monto total de equipos perdidos: ${{ $lostEquipmentTotal }} MXN</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
 {{-- <div class="row">
     <div class="col-xl-4">
+
         <div class="card overflow-hidden">
             <div class="bg-primary bg-soft">
                 <div class="row">
@@ -36,7 +197,8 @@
                 <div class="row">
                     <div class="col-sm-4">
                         <div class="avatar-md profile-user-wid mb-4">
-                            <img src="{{ isset(Auth::user()->avatar) ? asset(Auth::user()->avatar) : asset('/assets/images/users/avatar-1.jpg') }}" alt="" class="img-thumbnail rounded-circle">
+                            <img src="{{ isset(Auth::user()->avatar) ? asset(Auth::user()->avatar) : asset('/assets/images/users/avatar-1.jpg') }}"
+                                alt="" class="img-thumbnail rounded-circle">
                         </div>
                         <h5 class="font-size-15 text-truncate">{{ Str::ucfirst(Auth::user()->name) }}</h5>
                         <p class="text-muted mb-0 text-truncate">UI/UX Designer</p>
@@ -56,13 +218,16 @@
                                 </div>
                             </div>
                             <div class="mt-4">
-                                <a href="" class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i class="mdi mdi-arrow-right ms-1"></i></a>
+                                <a href="" class="btn btn-primary waves-effect waves-light btn-sm">View Profile <i
+                                        class="mdi mdi-arrow-right ms-1"></i></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title mb-4">Monthly Earning</h4>
@@ -74,7 +239,8 @@
                             </span> From previous period</p>
 
                         <div class="mt-4">
-                            <a href="" class="btn btn-primary waves-effect waves-light btn-sm">View More <i class="mdi mdi-arrow-right ms-1"></i></a>
+                            <a href="" class="btn btn-primary waves-effect waves-light btn-sm">View More <i
+                                    class="mdi mdi-arrow-right ms-1"></i></a>
                         </div>
                     </div>
                     <div class="col-sm-6">
@@ -246,7 +412,9 @@
                         </div>
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
-                                <h5 class="font-size-14">22 Nov <i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i></h5>
+                                <h5 class="font-size-14">22 Nov <i
+                                        class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                                </h5>
                             </div>
                             <div class="flex-grow-1">
                                 <div>
@@ -261,11 +429,14 @@
                         </div>
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
-                                <h5 class="font-size-14">17 Nov <i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i></h5>
+                                <h5 class="font-size-14">17 Nov <i
+                                        class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                                </h5>
                             </div>
                             <div class="flex-grow-1">
                                 <div>
-                                    Everyone realizes why a new common language would be desirable... <a href="javascript: void(0);">Read more</a>
+                                    Everyone realizes why a new common language would be desirable... <a
+                                        href="javascript: void(0);">Read more</a>
                                 </div>
                             </div>
                         </div>
@@ -276,7 +447,9 @@
                         </div>
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
-                                <h5 class="font-size-14">15 Nov <i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i></h5>
+                                <h5 class="font-size-14">15 Nov <i
+                                        class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                                </h5>
                             </div>
                             <div class="flex-grow-1">
                                 <div>
@@ -291,7 +464,9 @@
                         </div>
                         <div class="d-flex">
                             <div class="flex-shrink-0 me-3">
-                                <h5 class="font-size-14">12 Nov <i class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i></h5>
+                                <h5 class="font-size-14">12 Nov <i
+                                        class="bx bx-right-arrow-alt font-size-16 text-primary align-middle ms-2"></i>
+                                </h5>
                             </div>
                             <div class="flex-grow-1">
                                 <div>
@@ -301,7 +476,9 @@
                         </div>
                     </li>
                 </ul>
-                <div class="text-center mt-4"><a href="javascript: void(0);" class="btn btn-primary waves-effect waves-light btn-sm">View More <i class="mdi mdi-arrow-right ms-1"></i></a></div>
+                <div class="text-center mt-4"><a href="javascript: void(0);"
+                        class="btn btn-primary waves-effect waves-light btn-sm">View More <i
+                            class="mdi mdi-arrow-right ms-1"></i></a></div>
             </div>
         </div>
     </div>
@@ -331,7 +508,8 @@
                                 </td>
                                 <td>
                                     <div class="progress bg-transparent progress-sm">
-                                        <div class="progress-bar bg-primary rounded" role="progressbar" style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-primary rounded" role="progressbar"
+                                            style="width: 94%" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100">
                                         </div>
                                     </div>
                                 </td>
@@ -345,7 +523,8 @@
                                 </td>
                                 <td>
                                     <div class="progress bg-transparent progress-sm">
-                                        <div class="progress-bar bg-success rounded" role="progressbar" style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-success rounded" role="progressbar"
+                                            style="width: 82%" aria-valuenow="82" aria-valuemin="0" aria-valuemax="100">
                                         </div>
                                     </div>
                                 </td>
@@ -359,7 +538,8 @@
                                 </td>
                                 <td>
                                     <div class="progress bg-transparent progress-sm">
-                                        <div class="progress-bar bg-warning rounded" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                                        <div class="progress-bar bg-warning rounded" role="progressbar"
+                                            style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
                                         </div>
                                     </div>
                                 </td>
@@ -421,7 +601,9 @@
                                 </td>
                                 <td>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                        data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
                                         View Details
                                     </button>
                                 </td>
@@ -450,7 +632,9 @@
                                 </td>
                                 <td>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                        data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
                                         View Details
                                     </button>
                                 </td>
@@ -479,7 +663,9 @@
                                 </td>
                                 <td>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                        data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
                                         View Details
                                     </button>
                                 </td>
@@ -507,7 +693,9 @@
                                 </td>
                                 <td>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                        data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
                                         View Details
                                     </button>
                                 </td>
@@ -535,7 +723,9 @@
                                 </td>
                                 <td>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                        data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
                                         View Details
                                     </button>
                                 </td>
@@ -563,7 +753,9 @@
                                 </td>
                                 <td>
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-primary btn-sm btn-rounded waves-effect waves-light" data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
+                                    <button type="button"
+                                        class="btn btn-primary btn-sm btn-rounded waves-effect waves-light"
+                                        data-bs-toggle="modal" data-bs-target=".transaction-detailModal">
                                         View Details
                                     </button>
                                 </td>
@@ -579,7 +771,8 @@
 <!-- end row --> --}}
 
 <!-- Transaction Modal -->
-{{-- <div class="modal fade transaction-detailModal" tabindex="-1" role="dialog" aria-labelledby="transaction-detailModalLabel" aria-hidden="true">
+{{-- <div class="modal fade transaction-detailModal" tabindex="-1" role="dialog"
+    aria-labelledby="transaction-detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -603,7 +796,8 @@
                             <tr>
                                 <th scope="row">
                                     <div>
-                                        <img src="{{ URL::asset('/assets/images/product/img-7.png') }}" alt="" class="avatar-sm">
+                                        <img src="{{ URL::asset('/assets/images/product/img-7.png') }}" alt=""
+                                            class="avatar-sm">
                                     </div>
                                 </th>
                                 <td>
@@ -617,7 +811,8 @@
                             <tr>
                                 <th scope="row">
                                     <div>
-                                        <img src="{{ URL::asset('/assets/images/product/img-4.png') }}" alt="" class="avatar-sm">
+                                        <img src="{{ URL::asset('/assets/images/product/img-4.png') }}" alt=""
+                                            class="avatar-sm">
                                     </div>
                                 </th>
                                 <td>
@@ -686,7 +881,9 @@
                                 update.</p>
 
                             <div class="input-group bg-light rounded">
-                                <input type="email" class="form-control bg-transparent border-0" placeholder="Enter Email address" aria-label="Recipient's username" aria-describedby="button-addon2">
+                                <input type="email" class="form-control bg-transparent border-0"
+                                    placeholder="Enter Email address" aria-label="Recipient's username"
+                                    aria-describedby="button-addon2">
 
                                 <button class="btn btn-primary" type="button" id="button-addon2">
                                     <i class="bx bxs-paper-plane"></i>

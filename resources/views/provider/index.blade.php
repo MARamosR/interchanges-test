@@ -39,14 +39,22 @@
                         <td>{{ $proveedor->ciudad }}</td>
                         <td>{{ $proveedor->telefono }}</td>
                         <td>
-                            <a href="{{ route('providers.edit', ['provider' => $proveedor->id]) }}"
-                                class="btn btn-warning">Modificar</a>
-                            <form action="{{ route('providers.destroy', ['provider' => $proveedor->id]) }}"
-                                method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input class="btn btn-danger mt-2" type="submit" value="Eliminar">
-                            </form>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Seleccione una accion</button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <a href="{{ route('providers.edit', ['provider' => $proveedor->id]) }}" class="dropdown-item">Editar</a>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('providers.destroy', ['provider' => $proveedor->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="dropdown-item delete-btn">Eliminar</button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                     @endforeach
@@ -74,16 +82,41 @@
                 icon: 'success',
                 title: sessionStorage.getItem('providers-message'),
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 2000,
             });
+
+            sessionStorage.removeItem('providers-message');
         }
 
-        sessionStorage.removeItem('providers-message');
+
+        if (sessionStorage.getItem('provider-update-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('provider-update-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('provider-update-message');
+        }
+
+        if (sessionStorage.getItem('provider-store-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('provider-store-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('provider-store-message');
+        }
+
+        
     }
 
     const deleteHandler = (e) => {
         
-        if (e.target.classList.contains('btn-danger')) {
+        if (e.target.classList.contains('delete-btn')) {
 
             // e.target.parentNode es el nodo del formulario
             e.preventDefault();            

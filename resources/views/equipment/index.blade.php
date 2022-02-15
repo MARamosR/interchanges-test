@@ -41,15 +41,31 @@
                         <td>{{ $item->precio_unitario }}</td>
                         <td>{{ $item->folio }}</td>
                         <td>{{ $item->provider->proveedor }}</td>
-                        <td>{{ $item->activo === 1 ? 'En uso' : 'Disponible' }}</td>
+                        <td>
+                            @if ($item->activo == 0)
+                            <h5><span class="badge bg-success">Disponible</span></h5>                            
+                            @endif
+
+                            @if ($item->activo === 1)
+                            <h5><span class="badge bg-warning">En uso</span></h5>    
+                            @endif
+
+                            @if ($item->activo === 2)
+                            <h5><span class="badge bg-danger">Extraviado</span></h5>    
+                            @endif
+                            
+                        </td>
+                        
                         <td>
                             <div class="dropdown">
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                   Seleccione una accion
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">Ver equipo</a></li>
-                                  <li><a href="{{ route('equipment.edit', ['equipment' => $item->id]) }}" class="dropdown-item">Modificar</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('equipment.show', ['equipment' => $item->id]) }}">Ver equipo</a></li>
+                                  <li>
+                                    <a href="{{ route('equipment.edit', ['equipment' => $item->id]) }}" class="dropdown-item">Editar</a>
+                                  </li>
                                   <li>
                                     <form action="{{ route('equipment.destroy', ['equipment' => $item->id]) }}" id="equipmentDeleteForm" method="POST">
                                         @csrf
@@ -59,15 +75,6 @@
                                   </li>
                                 </ul>
                             </div>
-
-
-                            {{-- <a href="{{ route('equipment.edit', ['equipment' => $item->id]) }}"
-                                class="btn btn-warning">Modificar</a>
-                            <form action="{{ route('equipment.destroy', ['equipment' => $item->id]) }}" id="equipmentDeleteForm" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input type="submit" value="Eliminar" class="btn btn-danger mt-2" id="equipmentSubmitDeleteBtn">
-                            </form> --}}
                         </td>
                     </tr>
                     @endforeach
@@ -95,11 +102,35 @@
                 icon: 'success',
                 title: sessionStorage.getItem('equipment-message'),
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 2000,
             });
+
+            sessionStorage.removeItem('equipment-message');
         }
 
-        sessionStorage.removeItem('equipment-message');
+        if (sessionStorage.getItem('equipment-store-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('equipment-store-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('equipment-store-message');
+        }
+
+        if(sessionStorage.getItem('equipment-edit-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('equipment-edit-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('equipment-edit-message');
+        }
+
+        
     }
 
     const deleteHandler = (e) => {

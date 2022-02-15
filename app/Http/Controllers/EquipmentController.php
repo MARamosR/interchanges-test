@@ -67,7 +67,7 @@ class EquipmentController extends Controller
         if ($previousId === null) {
             $previousId = 0;
         }
-        $folio = 'EQP_' . $previousId;
+        $folio = 'EQP_' . $previousId + 1;
 
         $equipment->folio = $folio;
         $equipment->save();
@@ -102,6 +102,13 @@ class EquipmentController extends Controller
      */
     public function show($id)
     {
+        $equipment = Equipment::where('id', $id)->with(['equipmentImage', 'provider'])->first();
+    
+        return view('equipment.show', [
+            'equipment'       => $equipment,
+            'equipmentImages' => $equipment->equipmentImage,
+            'provider'        => $equipment->provider
+        ]);
     }
 
     /**

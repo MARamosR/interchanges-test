@@ -29,7 +29,14 @@
     <div class="route__info">
         <h2>Operador</h2>
         <hr>
-        <p>Nombre: {{ $operator->nombre }} {{ $operator->apellidos }}</p>
+        <table class="table-grid">
+            <tbody>
+                <tr>
+                    <td>Nombre: {{ $operator->nombre }} {{ $operator->apellidos }}</td>
+                    <td>Telefono: {{ $operator->telefono }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
     <div class="route__info">
@@ -60,19 +67,19 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Folio</th>
                     <th>Placa</th>
                     <th>Modelo</th>
                     <th>Marca</th>
-                    <th>Folio</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($containers as $container)
                 <tr>
+                    <td>{{ $container->folio }}</td>
                     <td>{{ $container->placa }}</td>
                     <td>{{ $container->modelo }}</td>
                     <td>{{ $container->marca }}</td>
-                    <td>{{ $container->folio }}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -85,16 +92,16 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Equipo</th>
                     <th>Folio</th>
+                    <th>Equipo</th>
                     <th>Precio Unitario</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($equipment as $eq)
                 <tr>
-                    <td>{{ $eq->nombre }}</td>
                     <td>{{ $eq->folio }}</td>
+                    <td>{{ $eq->nombre }}</td>
                     <td>${{ $eq->precio_unitario }} MXN</td>
                 </tr>
                 @endforeach

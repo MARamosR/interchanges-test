@@ -16,6 +16,7 @@ class CreateRouteInvoicesTable extends Migration
         Schema::create('route_invoices', function (Blueprint $table) {
             $table->id();
             $table->string('doc_path');
+            $table->text('descripcion');
             $table->unsignedBigInteger('route_id')->nullable();
             $table->foreign('route_id')->references('id')->on('routes')->onDelete('set null');
             $table->timestamps();

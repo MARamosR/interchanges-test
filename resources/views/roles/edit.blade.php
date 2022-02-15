@@ -33,7 +33,39 @@
         </div>
         @endforeach
 
-        <input type="submit" value="Editar rol" class="btn btn-success">
+        <button type="submit" class="btn btn-success" id="editRoleBtn">Editar rol</button>
     </form>
 </div>
+@endsection
+
+@section('script')
+<script>
+    const editRoleBtn = document.getElementById('editRoleBtn');
+
+    window.onload = function() {
+        sessionStorage.removeItem('role-edit-message');
+    }
+
+    const handleConfirmation = e => {
+        e.preventDefault();
+
+        TemplateSwal.fire({
+            title: '¿Esta seguro de esto?',
+            text: "Verifique que los datos sean correctos",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirmar',
+            cancelButtonText: 'Cancelar',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                sessionStorage.setItem('role-edit-message', 'Role editado correctamente');
+                e.target.parentNode.submit();
+            }
+        });
+
+        
+    }
+
+    editRoleBtn.addEventListener('click', handleConfirmation);
+</script>
 @endsection

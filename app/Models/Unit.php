@@ -12,9 +12,9 @@ class Unit extends Model
 {
     use HasFactory;
 
-    public function route()
+    public function routes()
     {
-        $this->belongsTo(Route::class);
+        return $this->hasOne(Route::class);
     }
 
     public function images() 

@@ -17,6 +17,7 @@ class CreateOperatorsTable extends Migration
             $table->id();
             $table->text('nombre');
             $table->text('apellidos');
+            $table->string('telefono');
             $table->text('no_licencia');
             $table->text('tipo_licencia');
             $table->date('fecha_exp');

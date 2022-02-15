@@ -13,9 +13,9 @@ class Container extends Model
 {
     use HasFactory;
 
-    public function route()
+    public function routes()
     {
-        return $this->belongsTo(Route::class);
+        return $this->belongsToMany(Route::class);
     }
 
     public function containerImage()

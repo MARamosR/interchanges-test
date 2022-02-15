@@ -20,7 +20,7 @@ class CreateUnitsTable extends Migration
             $table->text('modelo');
             $table->string('folio');
             $table->text('anio');
-            $table->text('status'); // 1 es que esta activo (ocupado), 0 esta inactivo (disponible para las rutas).
+            $table->integer('status'); // 1 es que esta activo (ocupado), 0 esta inactivo (disponible para las rutas).
             $table->timestamps();
         });
     }

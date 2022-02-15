@@ -37,12 +37,11 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>
-                            <a href="{{ route('users.edit', ['user' => $user->id]) }}"
-                                class="btn btn-warning">Editar</a>
+                            <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-warning">Editar <i class="fas fa-edit"></i></a>
                             <form action="{{ route('users.destroy', ['user' => $user->id]) }}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" value="Eliminar" class="btn btn-danger mt-2">
+                                <button type="submit" class="btn btn-danger mt-2">Eliminar <i class="fas fa-times"></i></button>
                             </form>
                         </td>
                     </tr>
@@ -54,7 +53,7 @@
 </div>
 @endsection
 
-@section('script') //Metemos el script de los data-tables
+@section('script')
 <script>
     $(document).ready(function () {
             $('#users').DataTable();
@@ -65,16 +64,31 @@
     const usersList = document.getElementById('users');
 
     window.onload = function() {
+        // deleted user message
         if (sessionStorage.getItem('users-message')) {
             TemplateSwal.fire({
                 icon: 'success',
                 title: sessionStorage.getItem('users-message'),
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 2000,
             });
+
+            sessionStorage.removeItem('users-message');
         }
 
-        sessionStorage.removeItem('users-message');
+        // users added message
+        if (sessionStorage.getItem('user-store-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('user-store-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('user-store-message');
+        }
+
+        
     }
 
     const deleteHandler = (e) => {
@@ -82,7 +96,7 @@
         if (e.target.classList.contains('btn-danger')) {
 
             // e.target.parentNode es el nodo del formulario
-            e.preventDefault();            
+            e.preventDefault();
             
             TemplateSwal.fire({
                 title: '¿Esta seguro de esto?',

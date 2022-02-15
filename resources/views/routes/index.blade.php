@@ -28,7 +28,8 @@
                 <th>Descripcion</th>
                 <th>Encargado</th>
                 <th>Folio</th>
-                <th>status</th>
+                <th>Status</th>
+                <th>Fecha de termino</th>
             </tr>
         </thead>
         <tbody>
@@ -43,6 +44,7 @@
                 <td>{{ $route->user->name }}</td>
                 <td>{{ $route->folio }}</td>
                 <td>{{ $route->status === 1 ? 'Activa' : 'Finalizada' }}</td>
+                <td>{{ $route->fecha_termino }}</td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -50,7 +52,7 @@
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="{{ route('routes.show', ['route' => $route->id]) }}"> Ver ruta</a></li>
-                            <li><a class="dropdown-item" href="{{ route('scales.create', ['route' => $route->id]) }}">Registrar escala</a></li>
+                            <li><a class="dropdown-item" href="{{ route('routes.createScale', ['route' => $route->id]) }}">Registrar escala</a></li>
                         </ul>
                     </div>
                 </td>
@@ -60,4 +62,23 @@
     </table>
 </div>
 
+@endsection
+
+@section('script')
+    <script>
+        window.onload = function() {
+        
+        if (sessionStorage.getItem('route-store-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('route-store-message'),
+                showConfirmButton: false,
+                timer: 2500,
+            });
+
+            sessionStorage.removeItem('route-store-message');
+        }
+        
+    }
+    </script>
 @endsection

@@ -10,7 +10,38 @@
     <form method="POST" action={{ route('operators.store') }}>
         @csrf
         @include('operator.partials.form')
-        <input type="submit" class="btn btn-success" value="Agregar Operador">
+        <button type="submit" class="btn btn-success" id="addOperatorBtn">Agregar Operador</button>
     </form>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        const addBtn = document.getElementById('addOperatorBtn');
+
+        window.onload = function() {
+            sessionStorage.removeItem('operator-add-message');
+        }
+
+        const submitHandler = e => {
+            e.preventDefault();
+
+            TemplateSwal.fire({
+                title: '¿Esta seguro de esto?',
+                text: "Verifique que los datos sean correctos.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.setItem('operator-add-message', 'Operador agregado');
+                    e.target.parentNode.submit();
+                }
+            });
+        }
+
+        addBtn.addEventListener('click', submitHandler);
+        
+    </script>
 @endsection

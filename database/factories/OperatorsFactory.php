@@ -17,6 +17,7 @@ class OperatorsFactory extends Factory
             'nombre' => $this->faker->firstName(),
             'apellidos' => $this->faker->lastName(),
             'no_licencia' => $this->faker->text(),
+            'telefono' => $this->faker->randomNumber(),
             'tipo_licencia' => $this->faker->text(),
             'fecha_exp' => $this->faker->date(),
             'fecha_venc' => $this->faker->date(),

@@ -37,19 +37,35 @@
                         <td>{{ $unit->modelo }}</td>
                         <td>{{ $unit->marca }}</td>
                         <td>{{ $unit->anio }}</td>
-                        <td>{{ $unit->status == 0 ? 'Disponible' : 'En uso'  }}</td>
                         <td>
-                            <a href="{{ route('units.edit', ['unit' => $unit->id]) }}"
-                                class="btn btn-warning">Modificar</a>
-                            <form action="{{ route('units.destroy', ['unit' => $unit->id]) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <input type="submit" class="btn btn-danger mt-2" value="Eliminar">
-                            </form>
+                            @if ($unit->status == 0)
+                            <h5><span class="badge bg-success">Disponible</span></h5>
+                            @else
+                            <h5><span class="badge bg-warning">En uso</span></h5>
+                            @endif
+                            
+                        </td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Seleccione una accion</button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li>
+                                        <a href="{{ route('units.show', ['unit' => $unit->id]) }}" class="dropdown-item">Ver unidad</a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ route('units.edit', ['unit' => $unit->id]) }}" class="dropdown-item">Editar</a>
+                                    </li>
+                                    <li>
+                                        <form action="{{ route('units.destroy', ['unit' => $unit->id]) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <input type="submit" class="dropdown-item delete-btn" value="Eliminar">
+                                        </form>            
+                                    </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
-
-
                     @endforeach
                 </tbody>
             </table>
@@ -58,7 +74,7 @@
 </div>
 @endsection
 
-@section('script') //Metemos el script de los data-tables
+@section('script')
 <script>
     $(document).ready(function () {
             $('#units').DataTable();
@@ -70,13 +86,12 @@
 
     window.onload = function() {
         
-        //TODO: REVISAR PORQUE USAMOS containers-message en una vista de units.
         if (sessionStorage.getItem('units-message')) {
             TemplateSwal.fire({
                 icon: 'success',
                 title: sessionStorage.getItem('units-message'),
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 2000,
             });
 
             sessionStorage.removeItem('units-message');
@@ -91,19 +106,26 @@
 
             sessionStorage.removeItem('unit-store-message');
         }
+        if (sessionStorage.getItem('unit-update-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('unit-update-message'),
+                showConfirmButton: false,
+                timer: 2500,
+            });
 
-        
+            sessionStorage.removeItem('unit-update-message');
+        }
     }
-
     const deleteHandler = (e) => {
         
-        if (e.target.classList.contains('btn-danger')) {
+        if (e.target.classList.contains('delete-btn')) {
             // e.target.parentNode es el nodo del formulario
             e.preventDefault();            
             
             TemplateSwal.fire({
                 title: '¿Esta seguro de esto?',
-                text: "Una vez borrado un registro este no se podra recuperar",
+                text: 'Una vez borrado un registro este no se podra recuperar',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Confirmar',
@@ -119,7 +141,6 @@
     }
 
     unitsList.addEventListener('click', deleteHandler);
-
 
 </script>
 @endsection

@@ -14,7 +14,37 @@
     <form action="{{ route('roles.store') }}" method="POST">
         @csrf
         @include('roles.partials.form')
-        <input type="submit" value="Agregar rol" class="btn btn-success">
+        <input type="submit" value="Agregar rol" class="btn btn-success" id="submit-btn">
     </form>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        const submitBtn = document.getElementById('submit-btn');
+
+        window.onload = function() {
+            sessionStorage.removeItem('role-store-message');
+        }
+
+        const roleSubmitHandler = e => {
+            e.preventDefault();
+            
+            TemplateSwal.fire({
+                title: '¿Esta seguro de esto?',
+                text: "Verifique que los datos sean correctos.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Confirmar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    sessionStorage.setItem('role-store-message', 'Rol agregado');
+                    e.target.parentNode.submit();
+                }
+            });
+        }
+
+        submitBtn.addEventListener('click', roleSubmitHandler);
+    </script>
 @endsection

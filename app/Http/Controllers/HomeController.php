@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+
 
 class HomeController extends Controller
 {
@@ -38,7 +40,31 @@ class HomeController extends Controller
 
     public function root()
     {   
-        return view('index');
+        $routesQty     = DB::table('routes')->count();
+        $unitsQty      = DB::table('units')->count();
+        $equipmentQty  = DB::table('equipment')->count();
+        $containersQty = DB::table('containers')->count();
+        $operatorsQty  = DB::table('operators')->count();
+        $providersQty  = DB::table('providers')->count();
+        $lostEquipment = DB::table('equipment')->where('activo', 2)->get();
+        
+        $lostEquipmentTotal = 0;
+        $lostEquipmentQty = 0;
+        foreach ($lostEquipment as $equipment) {
+            $lostEquipmentTotal += $equipment->precio_unitario;
+            $lostEquipmentQty++;
+        }
+        
+        return view('index', compact(
+            'routesQty',
+            'unitsQty',
+            'equipmentQty',
+            'containersQty',
+            'operatorsQty',
+            'providersQty',
+            'lostEquipmentTotal',
+            'lostEquipmentQty'
+        ));
     }
 
     /*Language Translation*/

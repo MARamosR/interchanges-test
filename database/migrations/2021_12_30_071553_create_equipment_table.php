@@ -19,7 +19,7 @@ class CreateEquipmentTable extends Migration
             $table->text('descripcion');
             $table->text('ubicacion'); //Esto se cambiara en cada escala por la ubicacion de la escala 
             $table->float('precio_unitario');
-            $table->integer('activo'); // 1 = Activo (ocupado), 0 disponible para rutas.
+            $table->integer('activo'); // 1 = Activo (ocupado), 0 disponible para rutas y 2 = EXTRAVIADO    
             $table->text('folio');
             $table->timestamps();
         });

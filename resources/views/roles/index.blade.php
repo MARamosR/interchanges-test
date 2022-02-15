@@ -20,11 +20,11 @@
             <li class="list-group-item d-flex justify-content-between">
                 <p class="fs-5 ">{{ $role->name }}</p>
                 <div>
-                    <a class="btn btn-warning" href="{{ route('roles.edit', ['role' => $role->id]) }}" >Editar</a>
+                    <a class="btn btn-warning" href="{{ route('roles.edit', ['role' => $role->id]) }}" >Editar <i class="fas fa-edit"></i></a>
                     <form action="{{ route('roles.destroy', ['role' => $role->id]) }}" method="POST" >
                         @csrf
                         @method('DELETE')
-                        <input type="submit" value="Eliminar" class="btn btn-danger mt-2">
+                        <button type="submit" class="btn btn-danger mt-2">Eliminar <i class="fas fa-times"></i></button>
                     </form>
                 </div>
                 
@@ -39,16 +39,42 @@
     const rolesList = document.getElementById('roles');
 
     window.onload = function() {
+        // role deleted message
         if (sessionStorage.getItem('roles-message')) {
             TemplateSwal.fire({
                 icon: 'success',
                 title: sessionStorage.getItem('roles-message'),
                 showConfirmButton: false,
-                timer: 2500,
+                timer: 2000,
             });
+
+            sessionStorage.removeItem('roles-message');
         }
 
-        sessionStorage.removeItem('roles-message');
+        // role added message
+        if (sessionStorage.getItem('role-store-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('role-store-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('role-store-message');
+        }
+
+        if (sessionStorage.getItem('role-edit-message')) {
+            TemplateSwal.fire({
+                icon: 'success',
+                title: sessionStorage.getItem('role-edit-message'),
+                showConfirmButton: false,
+                timer: 2000,
+            });
+
+            sessionStorage.removeItem('role-edit-message');
+        }
+
+        
     }
 
     const deleteHandler = (e) => {

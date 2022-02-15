@@ -39,19 +39,21 @@ class OperatorsController extends Controller
         $validated = $request->validate([
             'nombre'        => 'required',
             'apellidos'     => 'required',
+            'telefono'      => 'required',
             'no_licencia'   => 'required',
             'tipo_licencia' => 'required',
-            'fecha_exp'     => 'required',
-            'fecha_venc'    => 'required',
+            'fecha_exp'     => 'required|date',
+            'fecha_venc'    => 'required|date|after:fecha_exp',
             'lugar_exp'     => 'required',
             'antiguedad'    => 'required',
             'iave'          => 'required',
-            'ex_medico'     => 'required'
+            'ex_medico'     => 'required|date'
         ]);
 
         $operator = new Operators();
         $operator->nombre        = $validated['nombre'];
         $operator->apellidos     = $validated['apellidos'];
+        $operator->telefono      = $validated['telefono'];
         $operator->no_licencia   = $validated['no_licencia'];
         $operator->tipo_licencia = $validated['tipo_licencia'];
         $operator->fecha_exp     = $validated['fecha_exp'];
@@ -65,7 +67,7 @@ class OperatorsController extends Controller
         if ($previousId === null) {
             $previousId = 0;
         }
-        $operator->folio         = 'OPR_' . $previousId;
+        $operator->folio         = 'OPR_' . $previousId + 1;
         $operator->ex_medico     = $validated['ex_medico'];
         $operator->save();
 
@@ -80,7 +82,7 @@ class OperatorsController extends Controller
      */
     public function show($id)
     {
-        //
+        
     }
 
     /**
@@ -107,6 +109,7 @@ class OperatorsController extends Controller
         $validated = $request->validate([
             'nombre'        => 'required',
             'apellidos'     => 'required',
+            'telefono'      => 'required',
             'no_licencia'   => 'required',
             'tipo_licencia' => 'required',
             'fecha_exp'     => 'required',
@@ -120,6 +123,7 @@ class OperatorsController extends Controller
         $operator = Operators::findOrFail($id);
         $operator->nombre        = $validated['nombre'];
         $operator->apellidos     = $validated['apellidos'];
+        $operator->telefono     = $validated['telefono'];
         $operator->no_licencia   = $validated['no_licencia'];
         $operator->tipo_licencia = $validated['tipo_licencia'];
         $operator->fecha_exp     = $validated['fecha_exp'];

@@ -20,6 +20,7 @@ class CreateRoutesTable extends Migration
             $table->date('fecha_salida');
             $table->text('destino');
             $table->date('fecha_destino');
+            $table->date('fecha_termino')->nullable();
             $table->text('descripcion');
             $table->integer('status');
             $table->timestamps();

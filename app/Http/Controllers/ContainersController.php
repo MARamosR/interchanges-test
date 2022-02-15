@@ -71,7 +71,7 @@ class ContainersController extends Controller
         if ($previousId === null) {
             $previousId = 0;
         }
-        $container->folio = 'CNTR_' . $previousId;
+        $container->folio = 'CNTR_' . $previousId + 1;
         $container->save();
 
         if ($request->file('images') !== null) {
@@ -102,7 +102,9 @@ class ContainersController extends Controller
      */
     public function show($id)
     {
-        //
+        $container = Container::where('id', $id)->with(['containerImage'])->first();
+        $containerImages = $container->containerImage;
+        return view('containers.show', compact('container', 'containerImages'));
     }
 
     /**

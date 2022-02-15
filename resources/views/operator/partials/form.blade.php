@@ -22,6 +22,17 @@
     </div>
 
     <div class="mb-3">
+        <label for="telefono" class="form-label">Telefono:</label>
+        <input type="tel" name="telefono" class="form-control"
+            value="{{ old('telefono', optional($operator ?? null)->telefono) }}">
+        @error('telefono')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+        @enderror
+    </div>
+
+    <div class="mb-3">
         <label for="no_licencia" class="form-label">Numero de licencia:</label>
         <input type="text" name="no_licencia" class="form-control"
             value="{{ old('no_licencia', optional($operator ?? null)->no_licencia) }}">
@@ -37,11 +48,11 @@
         {{-- <input type="text" name="tipo_licencia" class="form-control" value="{{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) }}"> --}}
         <select name="tipo_licencia" class="form-control">
             <option value="" selected disabled>Seleccione el tipo de licencia de este operador</option>
-            <option value="A" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'A' ? 'selected' : '' }}>A</option>
-            <option value="B" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'B' ? 'selected' : '' }}>B</option>
-            <option value="C" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'C' ? 'selected' : '' }}>C</option>
-            <option value="D" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'D' ? 'selected' : '' }}>D</option>
-            <option value="E" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'E' ? 'selected' : '' }}>E</option>
+            <option value="A" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'A' ? 'selected' : '' }}>A (Vehiculos particulares)</option>
+            <option value="B" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'B' ? 'selected' : '' }}>B (Transporte de carga)</option>
+            <option value="C" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'C' ? 'selected' : '' }}>C (Transporte de carga de dos o mas ejes)</option>
+            <option value="D" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'D' ? 'selected' : '' }}>D (Transporte de pasajeros)</option>
+            <option value="E" {{ old('tipo_licencia', optional($operator ?? null)->tipo_licencia) === 'E' ? 'selected' : '' }}>E (Transporte de carga general y especializada)</option>
         </select>
         @error('tipo_licencia')
         <div class="text-danger">

@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <input type="submit" class="btn btn-success" value="Agregar" id="storeUnitBtn">
+        <button type="submit" class="btn btn-success" id="storeUnitBtn">Agregar unidad</button>
     </form>
 </div>
 @endsection
@@ -76,6 +76,10 @@
 
     <script>
         const storeUnitBtn = document.getElementById('storeUnitBtn');
+
+        window.onload = function() {
+            sessionStorage.removeItem('unit-store-message');
+        }
 
         const handleConfirmation = e => {
             e.preventDefault();
