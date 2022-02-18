@@ -12,6 +12,14 @@
     </div>
 </div>
 
+<div class="mb-4  d-flex flex-row-reverse">
+    <a class="btn btn-primary ml-2 mr-2" href="{{ route('routes.createScale', ['route' => $route->id]) }}">
+        <i class='bx bx-plus'></i>
+        Registrar una escala
+    </a>
+</div>
+
+
 <div id="backdrop" class="backdrop">
     <div id="imagesModal" class="images__modal">
     </div>
@@ -81,6 +89,18 @@
 
                 <h6 class="text-dark">Numero de contacto:</h6>
                 <p class="card-text">{{ $operator->telefono }}</p>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title mb-4">Unidad</h4>
+                <h6 class="text-dark">Placa:</h6>
+                <p class="card-text">{{ $unit->placa }}</p>
+
+                <h6 class="text-dark">Folio:</h6>
+                <p class="card-text">{{ $unit->folio }}</p>
             </div>
         </div>
     </div>
@@ -160,7 +180,6 @@
             </div>
         </div>
     </div>
-</div>
 </div>
 @endsection
 

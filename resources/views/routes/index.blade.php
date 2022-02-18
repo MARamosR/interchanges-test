@@ -30,6 +30,7 @@
                 <th>Folio</th>
                 <th>Status</th>
                 <th>Fecha de termino</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -43,8 +44,22 @@
                 <td>{{ $route->descripcion }}</td>
                 <td>{{ $route->user->name }}</td>
                 <td>{{ $route->folio }}</td>
-                <td>{{ $route->status === 1 ? 'Activa' : 'Finalizada' }}</td>
-                <td>{{ $route->fecha_termino }}</td>
+                <td>
+                    @if ($route->status === 1)
+                    <h5><span class="badge bg-warning p-1">Activa</span></h5>
+                    @endif
+
+                    @if ($route->status === 0)
+                    <h5><span class="badge bg-success p-1">Finalizada</span></h5>
+                    @endif
+                </td>
+                <td>
+                    @if ($route->fecha_termino)
+                        {{ $route->feche_termino }}
+                    @else
+                    <h5><span class="badge bg-secondary p-1">Esta ruta aun no finaliza</span></h5>
+                    @endif
+                </td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">

@@ -81,9 +81,9 @@ Route::middleware('auth')->group(function () {
         Route::put('/{route}', [RoutesController::class, 'update'])->middleware('can:routes.update')->name('routes.update');
         Route::delete('/{route}', [RoutesController::class, 'destroy'])->middleware('can:routes.destroy')->name('routes.destroy');
         Route::get('/{route}/edit', [RoutesController::class, 'edit'])->middleware('can:routes.edit')->name('routes.edit');
-        Route::get('/{invoice}/invoice', [RoutesController::class, 'showInvoice'])->name('routes.showInvoice');
-        Route::get('/{route}/scale', [RoutesController::class, 'createScale'])->name('routes.createScale');
-        Route::post('/{route}/scale', [RoutesController::class, 'storeScale'])->name('routes.storeScale');
+        Route::get('/{invoice}/invoice', [RoutesController::class, 'showInvoice'])->middleware('can:routes.showInvoice')->name('routes.showInvoice'); 
+        Route::get('/{route}/scale', [RoutesController::class, 'createScale'])->middleware('can:routes.createScale')->name('routes.createScale'); 
+        Route::post('/{route}/scale', [RoutesController::class, 'storeScale'])->middleware('can:routes.storeScale')->name('routes.storeScale'); 
     });
 
     Route::prefix('equipment')->group(function() {
@@ -106,15 +106,14 @@ Route::middleware('auth')->group(function () {
         Route::get('/{user}/edit', [UsersController::class, 'edit'])->middleware('can:users.edit')->name('users.edit');
     });
 
-    // TODO: Agregar los middlewares de los permisos
     Route::prefix('roles')->group(function () {
-        Route::get('/', [RolesController::class, 'index'])->name('roles.index');
-        Route::get('/permissions', [RolesController::class, 'permissionsList'])->name('roles.permissionsList');
-        Route::get('/create', [RolesController::class, 'create'])->name('roles.create');
-        Route::post('/store', [RolesController::class, 'store'])->name('roles.store');
-        Route::get('/{role}/edit', [RolesController::class, 'edit'])->name('roles.edit');
-        Route::put('/{role}', [RolesController::class, 'update'])->name('roles.update');
-        Route::delete('/{role}/delete', [RolesController::class, 'destroy'])->name('roles.destroy');
+        Route::get('/', [RolesController::class, 'index'])->middleware('can:roles.index')->name('roles.index');
+        Route::get('/permissions', [RolesController::class, 'permissionsList'])->middleware('can:roles.permissionsList')->name('roles.permissionsList');
+        Route::get('/create', [RolesController::class, 'create'])->middleware('can:roles.create')->name('roles.create');
+        Route::post('/store', [RolesController::class, 'store'])->middleware('can:roles.store')->name('roles.store');
+        Route::get('/{role}/edit', [RolesController::class, 'edit'])->middleware('can:roles.edit')->name('roles.edit');
+        Route::put('/{role}', [RolesController::class, 'update'])->middleware('can:roles.update')->name('roles.update');
+        Route::delete('/{role}/delete', [RolesController::class, 'destroy'])->middleware('can:roles.destroy')->name('roles.destroy');
     });
 });
 

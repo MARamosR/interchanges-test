@@ -26,7 +26,7 @@
                         <th scope="col">ID</th>
                         <th>Nombre</th>
                         <th>Email</th>
-                        <th>Acciones</th>
+                        <th></th>
                     </tr>
                 </thead>
 

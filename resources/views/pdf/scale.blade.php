@@ -94,13 +94,13 @@
             </thead>
             
             <tbody>
-                {{-- @foreach ($equipment as $eq)
+                @foreach ($equipment as $eqp)
                 <tr>
-                    <td>{{ $eq->folio }}</td>
-                    <td>{{ $eq->nombre }}</td>
-                    <td>${{ $eq->precio_unitario }} MXN</td>
+                    <td>{{ $eqp->folio }}</td>
+                    <td>{{ $eqp->nombre }}</td>
+                    <td>${{ $eqp->precio_unitario }} MXN</td>
                 </tr>
-                @endforeach --}}
+                @endforeach
             </tbody>
         </table>
 
@@ -140,6 +140,27 @@
     @if ($scaleEquipmentQty > 0)
     <div class="route__equipment">
         <h2>Equipo de sujeción que queda en la ubicacion de la escala:</h2>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Folio</th>
+                    <th>Equipo</th>
+                    <th>Nueva ubicación</th>
+                    <th>Precio Unitario</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($scaleEquipmentArray as $item)
+                <tr>
+                    <td>{{ $item->folio }}</td>
+                    <td>{{ $item->nombre }}</td>
+                    <td>{{ $item->ubicacion }}</td>
+                    <td>${{ $item->precio_unitario }} MXN</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div> 
     @endif
     

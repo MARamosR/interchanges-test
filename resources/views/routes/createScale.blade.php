@@ -15,12 +15,19 @@
     <div class="card">
         <div class="card-body">
             <p class="card-text">Imagenes de la ruta:</p>
+            @if (count($images) > 0)
             <div class="overflow-x-auto d-flex flex-row overflow-y-hidden" style="max-width: 100%; overflow-x: auto"
                 id="route-images-container">
                 @foreach ($images as $image)
                 <img src="{{ $image->path }}" alt="{{ $image->id }}" class="route__image">
                 @endforeach
+            </div>    
+            @else
+            <div class="bg-light p-3 my-3 rounded-3 text-dark fw-bold">
+                No se registraron imagenes para esta ruta. 
             </div>
+            @endif
+            
         </div>
     </div>
 
@@ -32,22 +39,38 @@
             <label for="fecha" class="form-label">Fecha:</label>
             <input type="date" name="fecha" class="form-control">
         </div>
+        @error('fecha')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+        @enderror
 
         <div class="mb-3">
             <label for="ubicacion" class="form-label">Ubicación:</label>
             <input type="text" name="ubicacion" class="form-control">
             <p class="form-text">Lugar en donde se esta haciendo la escala</p>
         </div>
+        @error('ubicacion')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+        @enderror
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción:</label>
             <textarea class="form-control" name="descripcion"></textarea>
         </div>
+        @error('descripcion')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+        @enderror
 
         <div class="card mb-3">
             <div class="card-body">
                 <label class="form-label ">Marque los equipos de sujeción extraviados:</label>
                 <br>
+                @if (count($equipment) > 0)
                 <ul class="list-group">
                     @foreach ($equipment as $item)
                     <li class="list-group-item d-flex align-items-center justify-content-between">
@@ -58,9 +81,12 @@
                         <a href={{ route('equipment.show', ['equipment'=> $item->id]) }} class="btn">Ver equipo</a>
                     </li>
                     @endforeach
-                </ul>
-
-
+                </ul>    
+                @else
+                <div class="bg-light p-3 my-3 rounded-3 text-dark fw-bold">
+                    Esta ruta ya no esta usando equipos de sujeción 
+                </div> 
+                @endif               
             </div>
         </div>
 
@@ -68,6 +94,8 @@
             <div class="card-body">
                 <label class="form-label ">Marque los equipos de sujeción que se quedarán en la ubicación de esta escala:</label>
                 <br>
+                
+                @if (count($equipment) > 0)
                 <ul class="list-group">
                     @foreach ($equipment as $item)
                     <li class="list-group-item d-flex align-items-center justify-content-between">
@@ -79,10 +107,13 @@
                         <a href={{ route('equipment.show', ['equipment'=> $item->id]) }} class="btn">Ver equipo</a>
                     </li>
                     @endforeach
-
-
-
                 </ul>
+                @else
+                <div class="bg-light p-3 my-3 rounded-3 text-dark fw-bold">
+                    Esta ruta ya no esta usando equipos de sujeción 
+                </div>    
+                @endif
+                
 
             </div>
         </div>

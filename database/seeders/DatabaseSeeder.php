@@ -3,12 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use App\Models\Container;
 use App\Models\Operators;
+use App\Models\Equipment;
 use App\Models\Provider;
 use App\Models\Unit;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,5 +22,6 @@ class DatabaseSeeder extends Seeder
     {
         Operators::factory()->count(50)->create();
         Provider::factory()->count(50)->create();
+        Equipment::factory()->count(50)->create();
     }
 }

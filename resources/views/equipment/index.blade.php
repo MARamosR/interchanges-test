@@ -24,11 +24,12 @@
                         <th scope="row">ID</th>
                         <th>Nombre del equipo</th>
                         <th>Descripción</th>
+                        <th>Ubicación</th>
                         <th>Precio</th>
                         <th>Folio</th>
                         <th>Proveedor</th>
                         <th>Status</th>
-                        <th>Acciones</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -38,6 +39,7 @@
                         <th scope="row">{{ $item->id }}</th>
                         <td>{{ $item->nombre }}</td>
                         <td>{{ $item->descripcion }}</td>
+                        <td>{{ $item->ubicacion }}</td>
                         <td>{{ $item->precio_unitario }}</td>
                         <td>{{ $item->folio }}</td>
                         <td>{{ $item->provider->proveedor }}</td>

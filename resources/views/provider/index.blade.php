@@ -27,7 +27,7 @@
                         <th>Dirección</th>
                         <th>Ciudad</th>
                         <th>Telefono</th>
-                        <th>Acciones</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

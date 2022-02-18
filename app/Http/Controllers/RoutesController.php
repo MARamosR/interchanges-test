@@ -279,6 +279,7 @@ class RoutesController extends Controller
      */
     public function createScale($id)
     {
+        //FIXME: Se estan borrando los equipos de sujeción sin razón.
         $route = Route::where('id', $id)->with(['images', 'equipments' , 'containers', 'operator', 'unit'])->first();
         $availableEquipment = DB::table('route_equipment')
                                 ->where('id_ruta', $id)
@@ -303,7 +304,8 @@ class RoutesController extends Controller
      * store a new scale into the database
      */
     public function storeScale(Request $request, $id)
-    {       
+    {   //FIXME: NO FUNCIONA CUANDO SOLO SE PIERDE UN EQUIPO, AUNQUE SE MARQUE SOLO UNO COMO EXTRAVIADO SE MARCAN LOS DOS
+        
         $validated = $request->validate([
             'fecha'       => 'required|date',
             'ubicacion'   => 'required',
@@ -318,43 +320,53 @@ class RoutesController extends Controller
         $scale->id_encargado   = auth()->user()->id;
         $scale->save();
 
+        $lostEquipmentArray = []; 
         if ($request->input('lostEquipment') !== null) {
-            DB::transaction(function () use ($request, $id) {
-                foreach ($request->input('lostEquipment') as $equipmentId) {
-
-                    $equipment = Equipment::findOrFail($equipmentId);
-                    $equipment->activo = 2;
-                    $equipment->save();
-
+            $lostEquipmentArray = $request->input('lostEquipment');
+        }
+        
+        if (count($lostEquipmentArray) > 0) {
+            DB::transaction(function () use ($lostEquipmentArray, $id) {
+                foreach ($lostEquipmentArray as $equipmentId) {
+                    
+                    $lostEquipmentItem = Equipment::findOrFail($equipmentId);
+                    $lostEquipmentItem->activo = 2;
+                    $lostEquipmentItem->save();
+    
                     LostEquipment::create([
                         'id_route'     => $id,
-                        'id_equipment' => $equipment->id
+                        'id_equipment' => $lostEquipmentItem->id
                     ]);
-
                 }
             });
         }
+        
 
+        $scaleEquipmentArray = []; 
         if ($request->input('scaleEquipment') !== null) {
-            DB::transaction(function () use ($request, $validated) {
-                foreach ($request->input('scaleEquipment') as $equipmentId) {
+            $scaleEquipmentArray = $request->input('scaleEquipment');
+        }
 
-                    $equipment = Equipment::findOrFail($equipmentId);
-                    $equipment->activo = 0;
-                    $equipment->ubicacion = $validated['ubicacion'];
-                    $equipment->save();
+        if (count($scaleEquipmentArray) > 0) {
+            DB::transaction(function () use ($scaleEquipmentArray, $validated) {
+                foreach ($scaleEquipmentArray as $equipmentId) { 
+                    
+                    $scaleEquipmentItem = Equipment::findOrFail($equipmentId);
+                    $scaleEquipmentItem->activo = 0;
+                    $scaleEquipmentItem->ubicacion = $validated['ubicacion'];
+                    $scaleEquipmentItem->save();
                 }
             });
         }
 
-        self::storeScaleInvoice($id, $request->input('lostEquipment'), $request->input('scaleEquipment'), $scale);
+        self::storeScaleInvoice($id, $lostEquipmentArray, $scaleEquipmentArray, $scale);
         return redirect()->route('routes.index');
     }
 
-    public static function storeScaleInvoice($id, $lostEquipment, $scaleEquipment, $scale)
+    public static function storeScaleInvoice($id, $lostEquipment, $scaleEquipment, $scale) 
     {
         $route = Route::where('id', $id)->with(['equipments' , 'containers', 'operator', 'unit'])->first();
-        dd($route->equipments);
+
         $containers = $route->containers;
         $equipment = $route->equipments;
         $operator = $route->operator;
@@ -372,6 +384,16 @@ class RoutesController extends Controller
             $scaleEquipmentQty = count($scaleEquipment);
         }
         
+        $scaleEquipmentArray = [];
+        if ($scaleEquipment !== null) {
+            foreach ($scaleEquipment as $equipmentId) {
+                $equipmentItem = Equipment::findOrFail($equipmentId);
+                array_push($scaleEquipmentArray, $equipmentItem);
+            }
+        }
+
+        
+        //FIXME: No se registran correctamente los arreglos equipment
         $equipmentTotal = 0;
         foreach ($equipment as $value) {
             $equipmentTotal += $value->precio_unitario;
@@ -381,12 +403,11 @@ class RoutesController extends Controller
         $lostEquipmentTotal = 0;
         if ($lostEquipment !== null) {
             foreach ($lostEquipment as $equipmentId) {
-                $equipment = Equipment::findOrFail($id);
-                $lostEquipmentTotal += $equipment->precio_unitario;
-                array_push($lostEquipmentArray, $equipment);
+                $equipmentItem = Equipment::findOrFail($equipmentId); //CREO QUE CAMBIANDO EL $id por $equipmentId se arregla el rejodido problema...
+                $lostEquipmentTotal += $equipmentItem->precio_unitario;
+                array_push($lostEquipmentArray, $equipmentItem);
             }
         }
-
 
         $pdf = PDF::loadView('pdf.scale', compact(
             'route',
@@ -401,7 +422,7 @@ class RoutesController extends Controller
             'lostEquipmentQty',
             'lostEquipmentTotal',
             'scale',
-            'scaleEquipment',
+            'scaleEquipmentArray',
             'scaleEquipmentQty'
         ));
 

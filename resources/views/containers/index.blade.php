@@ -31,7 +31,7 @@
                         <th>Ubicación</th>
                         <th>Status</th>
                         <th>Folio</th>
-                        <th>Acciones</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>

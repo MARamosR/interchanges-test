@@ -55,21 +55,25 @@
                 </div>
 
                 <div class="mb-3">
+                    <h5 class="text-truncate">Proveedor: {{ $provider->proveedor }}</h5>
+                </div>
+
+                <div class="mb-3">
                     <h5 class="text-truncate">Precio unitario: {{ $equipment->precio_unitario }}</h5>
                 </div>
 
                 <div class="mb-3">
                     <h5 class="text-truncate">Status: 
                         @if ($equipment->activo === 0)
-                        <span class="badge bg-success">Disponible</span>    
+                        <span class="badge bg-success p-1">Disponible</span>    
                         @endif
 
                         @if ($equipment->activo === 1)
-                        <span class="badge bg-warning">En uso</span>
+                        <span class="badge bg-warning p-1">En uso</span>
                         @endif
 
                         @if ($equipment->activo === 2)
-                        <span class="badge bg-danger">Extraviado</span>
+                        <span class="badge bg-danger p-1">Extraviado</span>
                         @endif
                     </h5>
                 </div>

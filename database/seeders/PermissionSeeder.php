@@ -97,6 +97,12 @@ class PermissionSeeder extends Seeder
         $permission55 = Permission::create(['name' => 'roles.destroy', 'description' => 'Eliminar un rol']);
         $permission56 = Permission::create(['name' => 'roles.edit', 'description' => 'Actualizar un rol']);
 
+        $permission57 = Permission::create(['name' => 'routes.showInvoice', 'description' => 'Ver recibo de una ruta']);
+        $permission58 = Permission::create(['name' => 'routes.createScale', 'description' => 'Ver el formulario para registrar una escala, necesario para poder aregar una escala']);
+        $permission59 = Permission::create(['name' => 'routes.storeScale', 'description' => 'Registrar una escala']);
+
+
+
         //Creamos el rol master
         $role = Role::create(['name' => 'master']);
         $role->syncPermissions([
@@ -155,7 +161,10 @@ class PermissionSeeder extends Seeder
             $permission53,
             $permission54,
             $permission55,
-            $permission56
+            $permission56,
+            $permission57,
+            $permission58,
+            $permission59
         ]);
 
         //Agregamos el rol master al usuario master

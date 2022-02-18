@@ -29,7 +29,12 @@ class Equipment extends Model
         return $this->belongsToMany(Route::class);
     }
 
-    public function getPreviousId () 
+    public function getPreviousId() 
+    {
+        return DB::table('equipment')->max('id');
+    }
+
+    public static function getPreviousIdFactory() 
     {
         return DB::table('equipment')->max('id');
     }

@@ -84,11 +84,11 @@
                     
                     <h5 class="text-truncate">Status: 
                         @if ($container->status === 0)
-                        <span class="badge bg-success">Disponible</span> 
+                        <span class="badge bg-success p-1">Disponible</span> 
                         @endif
 
                         @if ($container->status === 1)
-                        <span class="badge bg-warning">En uso</span>
+                        <span class="badge bg-warning p-1">En uso</span>
                         @endif
                     </h5>
                 </div>

@@ -30,7 +30,7 @@
                         <th>IAVE</th>
                         <th>Folio</th>
                         <th>Status</th>
-                        <th>Acciones</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,9 +46,9 @@
                         <td>{{ $operator->folio }}</td>
                         <td>
                             @if ($operator->status == 1)
-                                <h5><span class="badge bg-warning">Activo</span></h5>
+                                <h5><span class="badge bg-warning p-1">Activo</span></h5>
                             @else
-                                <h5><span class="badge bg-success">Disponible</span></h5>
+                                <h5><span class="badge bg-success p-1">Disponible</span></h5>
                             @endif
                         </td>
 
@@ -68,13 +68,6 @@
                                     </li>
                                 </ul>                            
                             </div>
-
-
-
-
-                            
-
-                            
                         </td>
                     </tr>
                     @endforeach

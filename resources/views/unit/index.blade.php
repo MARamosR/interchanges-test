@@ -26,7 +26,7 @@
                         <th>Marca</th>
                         <th>Año</th>
                         <th>Status</th>
-                        <th>Acciones</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -39,9 +39,9 @@
                         <td>{{ $unit->anio }}</td>
                         <td>
                             @if ($unit->status == 0)
-                            <h5><span class="badge bg-success">Disponible</span></h5>
+                            <h5><span class="badge bg-success p-1">Disponible</span></h5>
                             @else
-                            <h5><span class="badge bg-warning">En uso</span></h5>
+                            <h5><span class="badge bg-warning p-1">En uso</span></h5>
                             @endif
                             
                         </td>
