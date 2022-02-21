@@ -62,12 +62,13 @@
             <option value={{ $unit->id }}>{{ $unit->placa }}</option>
             @endforeach
         </select>
+        @error('unidad')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+        @enderror
     </div>
-    @error('unidad')
-    <div class="text-danger">
-        {{ $message }}
-    </div>
-    @enderror
+
 
     <div class="mb-3">
         <label for="operador" class="form-label">Operador:</label>
@@ -77,12 +78,13 @@
             <option value={{ $operator->id }}>{{ $operator->nombre }} {{ $operator->apellidos }}</option>
             @endforeach
         </select>
+        @error('operador')
+        <div class="text-danger">
+            {{ $message }}
+        </div>
+        @enderror
     </div>
-    @error('operador')
-    <div class="text-danger">
-        {{ $message }}
-    </div>
-    @enderror
+
 
 </div>
 
@@ -169,10 +171,11 @@
             //Creamos el listado de opciones para el select
             equipmentList.forEach(equipment => {
                 newField.innerHTML += `                
-                    <option value=${equipment.id}>${equipment.nombre}</option>
+                    <option value=${equipment.id}>${equipment.nombre} - ${equipment.folio}</option>
                 `;
                 
             });
+            newField.innerHTML += `<option value="" selected disabled >Seleccione un equipo de sujeción</option>`;
             
             equipmentFields.appendChild(newField);
         }
@@ -217,8 +220,6 @@
     const addContainerFieldHandler = (e) => {
         e.preventDefault();
 
-        
-        //TODO: VALIDAR EL CASO EN DONDE NO EXISTAN CONTENEDORES PARA AÑADIR A LA RUTA.
         if (containersList.length > 0) {
             const newField = document.createElement('select');
             newField.classList = 'form-select mb-3 field';
@@ -229,6 +230,8 @@
                     <option value=${container.id}>${container.placa}</option>
                 `;
             });
+
+            newField.innerHTML += `<option value="" selected disabled>Seleccione un contenedor</option>`
 
             containerFields.appendChild(newField);
         }

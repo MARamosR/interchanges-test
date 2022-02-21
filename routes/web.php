@@ -82,8 +82,9 @@ Route::middleware('auth')->group(function () {
         Route::delete('/{route}', [RoutesController::class, 'destroy'])->middleware('can:routes.destroy')->name('routes.destroy');
         Route::get('/{route}/edit', [RoutesController::class, 'edit'])->middleware('can:routes.edit')->name('routes.edit');
         Route::get('/{invoice}/invoice', [RoutesController::class, 'showInvoice'])->middleware('can:routes.showInvoice')->name('routes.showInvoice'); 
-        Route::get('/{route}/scale', [RoutesController::class, 'createScale'])->middleware('can:routes.createScale')->name('routes.createScale'); 
-        Route::post('/{route}/scale', [RoutesController::class, 'storeScale'])->middleware('can:routes.storeScale')->name('routes.storeScale'); 
+        Route::get('/{route}/scale/{endRoute?}', [RoutesController::class, 'createScale'])->middleware('can:routes.createScale')->name('routes.createScale'); 
+        Route::post('/{route}/scale/', [RoutesController::class, 'storeScale'])->middleware('can:routes.storeScale')->name('routes.storeScale');
+        Route::post('/{route}/endRoute', [RoutesController::class, 'endRoute'])->middleware('can:routes.endRoute')->name('routes.endRoute'); 
     });
 
     Route::prefix('equipment')->group(function() {

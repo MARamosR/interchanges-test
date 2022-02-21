@@ -18,6 +18,7 @@
 
     <div class="card">
         <div class="card-body">
+            <div class="table-responsive">
             <table class="table" id="equipment">
                 <thead>
                     <tr>
@@ -82,6 +83,7 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
         </div>
     </div>
 </div>

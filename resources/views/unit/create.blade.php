@@ -7,7 +7,7 @@
 @endcomponent
 
 {{-- Creamos un arreglo con los años disponibles --}}
-<?php $years = range(1900, strftime("%Y", time())); ?>
+<?php $years = range(strftime("%Y", time()), 1900 ); ?>
 <div>
     <form method="POST" action={{ route('units.store') }} enctype="multipart/form-data">
         @csrf

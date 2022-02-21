@@ -12,10 +12,14 @@
     </div>
 </div>
 
-<div class="mb-4  d-flex flex-row-reverse">
-    <a class="btn btn-primary ml-2 mr-2" href="{{ route('routes.createScale', ['route' => $route->id]) }}">
+<div class="mb-4 d-flex flex-row-reverse">
+    <a class="btn btn-primary ml-2 mx-2" href="{{ route('routes.createScale', ['route' => $route->id]) }}">
         <i class='bx bx-plus'></i>
         Registrar una escala
+    </a>
+
+    <a class="btn btn-success ml-2 mx-2" href="{{ route('routes.createScale', ['route' => $route->id, 'endRoute' => true]) }}">
+        Finalizar la ruta
     </a>
 </div>
 

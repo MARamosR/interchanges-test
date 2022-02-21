@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreRouteRequest;
 use App\Models\LostEquipment;
 use App\Models\RouteInvoice;
 use App\Models\RouteImage;
@@ -57,19 +58,9 @@ class RoutesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRouteRequest $request)
     {
-        $validated = $request->validate([
-            'salida'        => 'required|min:3',
-            'fecha_salida'  => 'required|date',
-            'destino'       => 'required|min:3',
-            'fecha_destino' => 'required|date|after_or_equal:fecha_salida',
-            'descripcion'   => 'required',
-            'unidad'        => 'required',
-            'operador'      => 'required',
-            'contenedores'  => ['required', new ArrayUnique],
-            'equipment'     => ['required', new ArrayUnique]
-        ]);
+        $validated = $request->validated();
 
         $route = new Route();
         $previousId = $route->getPreviousId();
@@ -135,7 +126,7 @@ class RoutesController extends Controller
         DB::table('units')->where('id', $validated['unidad'])->update(['status' => 1]);
 
         self::storeRouteStartInvoice($route->id);
-        return redirect()->route('routes.index');
+        return redirect()->route('routes.show', ['route' => $route->id]);
     }
 
     /**
@@ -277,9 +268,8 @@ class RoutesController extends Controller
     /**
      * Call the view to store a new scale
      */
-    public function createScale($id)
+    public function createScale($id, $endRoute = null)
     {
-        //FIXME: Se estan borrando los equipos de sujeción sin razón.
         $route = Route::where('id', $id)->with(['images', 'equipments' , 'containers', 'operator', 'unit'])->first();
         $availableEquipment = DB::table('route_equipment')
                                 ->where('id_ruta', $id)
@@ -288,6 +278,17 @@ class RoutesController extends Controller
                                 ->where('equipment.activo', '<>', 2)
                                 ->select('equipment.nombre', 'equipment.id')
                                 ->get();
+
+        if ($endRoute) { // Vista para cuando terminamos una ruta...
+            return view('routes.endRoute', [
+                'route'      => $route,
+                'containers' => $route->containers,
+                'equipment'  => $availableEquipment,
+                'operator'   => $route->operator,
+                'unit'       => $route->unit,
+                'images'     => $route->images
+            ]);
+        }
 
         return view('routes.createScale', [
             'route'      => $route,
@@ -304,29 +305,32 @@ class RoutesController extends Controller
      * store a new scale into the database
      */
     public function storeScale(Request $request, $id)
-    {   //FIXME: NO FUNCIONA CUANDO SOLO SE PIERDE UN EQUIPO, AUNQUE SE MARQUE SOLO UNO COMO EXTRAVIADO SE MARCAN LOS DOS
-        
+    {   
         $validated = $request->validate([
             'fecha'       => 'required|date',
             'ubicacion'   => 'required',
             'descripcion' => 'required',
         ]);
 
+        $route = Route::where('id', $id)->with(['operator'])->first();
+
         $scale              = new Scale();
         $scale->fecha       = $validated['fecha'];
         $scale->ubicacion   = $validated['ubicacion'];
         $scale->descripcion = $validated['descripcion'];
-        $scale->id_ruta     = $id;
+        $scale->id_ruta     = $route->id;
         $scale->id_encargado   = auth()->user()->id;
         $scale->save();
+
+
 
         $lostEquipmentArray = []; 
         if ($request->input('lostEquipment') !== null) {
             $lostEquipmentArray = $request->input('lostEquipment');
         }
-        
+
         if (count($lostEquipmentArray) > 0) {
-            DB::transaction(function () use ($lostEquipmentArray, $id) {
+            DB::transaction(function () use ($lostEquipmentArray, $route, $validated) {
                 foreach ($lostEquipmentArray as $equipmentId) {
                     
                     $lostEquipmentItem = Equipment::findOrFail($equipmentId);
@@ -334,8 +338,11 @@ class RoutesController extends Controller
                     $lostEquipmentItem->save();
     
                     LostEquipment::create([
-                        'id_route'     => $id,
-                        'id_equipment' => $lostEquipmentItem->id
+                        'id_route'     => $route->id,
+                        'id_equipment' => $lostEquipmentItem->id,
+                        'pagado'       => false,
+                        'ubicacion'    => $validated['ubicacion'],
+                        'id_operator'  => $route->operator->id
                     ]);
                 }
             });
@@ -392,8 +399,6 @@ class RoutesController extends Controller
             }
         }
 
-        
-        //FIXME: No se registran correctamente los arreglos equipment
         $equipmentTotal = 0;
         foreach ($equipment as $value) {
             $equipmentTotal += $value->precio_unitario;
@@ -403,7 +408,7 @@ class RoutesController extends Controller
         $lostEquipmentTotal = 0;
         if ($lostEquipment !== null) {
             foreach ($lostEquipment as $equipmentId) {
-                $equipmentItem = Equipment::findOrFail($equipmentId); //CREO QUE CAMBIANDO EL $id por $equipmentId se arregla el rejodido problema...
+                $equipmentItem = Equipment::findOrFail($equipmentId);
                 $lostEquipmentTotal += $equipmentItem->precio_unitario;
                 array_push($lostEquipmentArray, $equipmentItem);
             }

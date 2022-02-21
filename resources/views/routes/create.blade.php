@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Agregar ruta @endslot
+@slot('title') @lang('routesCreate.add_route') @endslot
 @endcomponent
 
 <div>
@@ -14,15 +14,17 @@
             {{ session('message') }}
         </div>
         @endif
-        
         @include('routes.partials.form')
-        <input type="submit" class="btn btn-success" value="Agregar Ruta" id="storeRouteBtn">
+        <input type="submit" class="btn btn-success" value="@lang('routesCreate.route_create_add_route_btn')" id="storeRouteBtn">
     </form>
 </div>
 @endsection
 
 <script>
     window.onload = function() {
+
+        sessionStorage.removeItem('route-store-message');
+
         const storeRouteBtn = document.getElementById('storeRouteBtn');
 
         const handleConfirmation = e => {

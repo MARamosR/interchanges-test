@@ -139,7 +139,7 @@
 
     @if ($scaleEquipmentQty > 0)
     <div class="route__equipment">
-        <h2>Equipo de sujeción que queda en la ubicacion de la escala:</h2>
+        <h2>Equipo de sujeción que queda en la ubicacion de la escala ({{ $scaleEquipmentQty }}):</h2>
 
         <table class="table">
             <thead>

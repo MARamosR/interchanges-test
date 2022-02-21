@@ -16,7 +16,7 @@
         </a>
     </div>
     @endcan
-
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -68,6 +68,7 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                             <li><a class="dropdown-item" href="{{ route('routes.show', ['route' => $route->id]) }}"> Ver ruta</a></li>
                             <li><a class="dropdown-item" href="{{ route('routes.createScale', ['route' => $route->id]) }}">Registrar escala</a></li>
+                            <li><a class="dropdown-item" href="{{ route('routes.createScale', ['route' => $route->id, 'endRoute' => true]) }}">Finalizar la ruta</a></li>
                         </ul>
                     </div>
                 </td>
@@ -75,6 +76,7 @@
             @endforeach
         </tbody>
     </table>
+</div>
 </div>
 
 @endsection

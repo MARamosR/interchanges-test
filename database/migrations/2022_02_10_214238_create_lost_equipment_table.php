@@ -18,6 +18,10 @@ class CreateLostEquipmentTable extends Migration
             $table->unsignedBigInteger('id_route')->nullable();
             $table->foreign('id_route')->references('id')->on('routes')->onDelete('cascade');
             $table->unsignedBigInteger('id_equipment')->nullable();
+            $table->boolean('pagado');
+            $table->string('ubicacion');
+            $table->unsignedBigInteger('id_operator')->nullable();
+            $table->foreign('id_operator')->references('id')->on('operators')->onDelete('cascade');
             $table->timestamps();
         });
     }
