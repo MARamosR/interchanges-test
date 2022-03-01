@@ -170,6 +170,18 @@
                     </ul>
                 </li>
                 @endcanany
+
+                @can('logs.index')
+                <li>
+                    <a href="javascript: void(0);" class="waves-effect has-arrow">
+                        <i class='bx bxs-notepad'></i>
+                        <span key="t-dashboards">Bitacora del sistema</span>
+                    </a>
+                    <ul>
+                        <li><a href="{{ route('logs.index') }}">Ver bitacora</a></li>
+                    </ul>
+                </li>
+                @endcan
                 {{-- <li>
                     <a href="javascript: void(0);" class="waves-effect">
                         <i class="bx bx-home-circle"></i><span class="badge rounded-pill bg-info float-end">04</span>

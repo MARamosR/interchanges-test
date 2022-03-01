@@ -8,14 +8,14 @@
     <link rel="stylesheet" href="{{ public_path('/assets/css/pdfs.css') }}" type="text/css">
     {{--
     <link href="{{ public_path('/assets/css/bootstrap.css') }}" rel="stylesheet" type="text/css" /> --}}
-    <title>Registro de escala - {{ $route->folio }}</title>
+    <title>Ruta finalizada - {{ $route->folio }}</title>
 </head>
 
 <body>
     <header class="clearfix">
         <h1>Devifegrac Solutions</h1>
         <p>Sistema de trazabilidad de equipo</p>
-        <p>Registro de escala en ruta: {{ $route->folio }}</p>
+        <p>Registro de finalización de la ruta: {{ $route->folio }}</p>
         <p class="date">Fecha de registro: {{ date('d/m/Y') }}</p>
     </header>
 
@@ -27,7 +27,7 @@
     </div>
 
     <div class="route__info">
-        <h2>Operador asignado a esta ruta</h2>
+        <h2>Operador asignado a esta ruta:</h2>
         <hr>
         <table class="table-grid">
             <tbody>
@@ -40,7 +40,7 @@
     </div>
 
     <div class="route__info">
-        <h2>Unidad asignada a esta ruta</h2>
+        <h2>Unidad asignada a esta ruta:</h2>
         <hr>
         <table class="table-grid">
             <tbody>
@@ -121,7 +121,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($lostEquipmentArray as $lostEq)
+                @foreach ($lostEquipmentArr as $lostEq)
                 <tr>
                     <td>{{ $lostEq->folio }}</td>
                     <td>{{ $lostEq->nombre }}</td>
@@ -135,33 +135,6 @@
             <p>Total: ${{ $lostEquipmentTotal }} MXN</p> 
         </div>        
     </div>    
-    @endif
-
-    @if ($scaleEquipmentQty > 0)
-    <div class="route__equipment">
-        <h2>Equipo de sujeción que queda en la ubicacion de la escala ({{ $scaleEquipmentQty }}):</h2>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Folio</th>
-                    <th>Equipo</th>
-                    <th>Nueva ubicación</th>
-                    <th>Precio Unitario</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($scaleEquipmentArray as $item)
-                <tr>
-                    <td>{{ $item->folio }}</td>
-                    <td>{{ $item->nombre }}</td>
-                    <td>{{ $item->ubicacion }}</td>
-                    <td>${{ $item->precio_unitario }} MXN</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div> 
     @endif
     
 </body>

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use App\Models\Unit;
 use App\Models\UnitImage;
+use App\Models\SystemLog;
 
 
 class UnitsController extends Controller
@@ -40,12 +41,19 @@ class UnitsController extends Controller
      */
     public function store(Request $request)
     {
-        //Validación de los datos de entrada.
         $validated = $request->validate([
             'placa'  => 'required|max:255',
             'marca'  => 'required',
             'modelo' => 'required',
             'anio'   => 'required'
+        ]);
+
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Registro de unidad',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
         ]);
 
         $newUnit = new Unit();
@@ -127,6 +135,14 @@ class UnitsController extends Controller
             'anio'   => 'required'
         ]);
 
+        $log = collect($request->all())->except(['_token']);
+
+        SystemLog::create([
+            'action' => 'Actualización de unidad',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         // Borramos las imagenes seleccionadas
         if ($request->input('deleteImageIds') !== null) {
             DB::transaction(function () use ($request) {
@@ -176,6 +192,14 @@ class UnitsController extends Controller
     public function destroy($id)
     {
         $unit = Unit::findOrFail($id);
+
+        $log = collect($unit);
+
+        SystemLog::create([
+            'action' => 'Eliminación de unidad',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
 
         DB::transaction(function() use($id) {
             $unitImages = DB::table('unit_images')->where('unit_id', $id)->get();

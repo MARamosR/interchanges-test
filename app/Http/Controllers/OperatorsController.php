@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Equipment;
+use App\Models\LostEquipment;
 use Illuminate\Http\Request;
 use App\Models\Operators;
+use App\Models\SystemLog;
 
 class OperatorsController extends Controller
 {
@@ -50,6 +53,14 @@ class OperatorsController extends Controller
             'ex_medico'     => 'required|date'
         ]);
 
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Registro de operador',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         $operator = new Operators();
         $operator->nombre        = $validated['nombre'];
         $operator->apellidos     = $validated['apellidos'];
@@ -82,7 +93,14 @@ class OperatorsController extends Controller
      */
     public function show($id)
     {
+        $operator = Operators::where('id', $id)->with(['lostEquipments'])->first(); // TODO: ver si funciona
+
         
+
+        return view('operator.show', [
+            'operator' => $operator,
+            'lostEquipments' => $operator->lostEquipments
+        ]);
     }
 
     /**
@@ -120,6 +138,14 @@ class OperatorsController extends Controller
             'ex_medico'     => 'required'
         ]);
 
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Actualización de operador',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         $operator = Operators::findOrFail($id);
         $operator->nombre        = $validated['nombre'];
         $operator->apellidos     = $validated['apellidos'];
@@ -145,9 +171,37 @@ class OperatorsController extends Controller
      */
     public function destroy($id)
     {
-        $operator = Operators::findOrFail($id);        
+        $operator = Operators::findOrFail($id);
+        
+        $log = collect($operator);
+        
+        SystemLog::create([
+            'action' => 'Eliminación de operador',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+        
         $operator->delete();
 
         return redirect()->route('operators.index');
+    }
+
+    public function equipmentPay($operatorId, $equipmentId)
+    {
+        $lostEquipment = LostEquipment::findOrFail($equipmentId);
+        $lostEquipment->pagado = true;
+
+        $equipment = Equipment::where('id', $lostEquipment->id_equipment)->first();
+
+        SystemLog::create([
+            'action' => 'Pago de equipo',
+            'data'   => json_encode($equipment),
+            'user'   => auth()->user()->name
+        ]);
+
+        $lostEquipment->save();
+
+        return redirect()->route('operators.show', ['operator' => $operatorId]);
+        
     }
 }

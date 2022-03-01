@@ -20,7 +20,7 @@
     </header>
 
     <div class="route__info">
-        <h2>Encargado de la ruta:</h2>
+        <h2>Encargado del registro:</h2>
         <hr>
         <p>Nombre: {{ auth()->user()->name }}</p>
         <p>Correo de contacto: {{ auth()->user()->email }}</p>

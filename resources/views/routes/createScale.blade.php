@@ -11,6 +11,13 @@
     <div id="imagesModal" class="images__modal">
     </div>
 </div>
+
+@if (session('EquipmentError'))
+    <div class="alert alert-danger">
+        {{ session('EquipmentError') }}
+    </div>
+@endif
+
 <div>
     <div class="card">
         <div class="card-body">
@@ -37,7 +44,7 @@
 
         <div class="mb-3">
             <label for="fecha" class="form-label">Fecha:</label>
-            <input type="date" name="fecha" class="form-control">
+            <input type="date" name="fecha" class="form-control" value="{{ old('fecha') }}">
         </div>
         @error('fecha')
         <div class="text-danger">
@@ -47,7 +54,7 @@
 
         <div class="mb-3">
             <label for="ubicacion" class="form-label">Ubicación:</label>
-            <input type="text" name="ubicacion" class="form-control">
+            <input type="text" name="ubicacion" class="form-control" value="{{ old('ubicacion') }}">
             <p class="form-text">Lugar en donde se esta haciendo la escala</p>
         </div>
         @error('ubicacion')
@@ -58,7 +65,12 @@
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción:</label>
-            <textarea class="form-control" name="descripcion"></textarea>
+            
+            @if (old('descripcion'))
+            <textarea class="form-control" name="descripcion">{{ trim(old('descripcion')) }}</textarea>    
+            @else
+            <textarea class="form-control" name="descripcion"></textarea>    
+            @endif
         </div>
         @error('descripcion')
         <div class="text-danger">
@@ -214,7 +226,10 @@
     const lostEquipmentArr = document.getElementById('lostEquipment');
     const scaleEquipmentArr = document.getElementById('scaleEquipment');
 
-    //TODO: Validar que los valores del arreglo lostEquipment no sean los mismos que scaleEquipment
+    window.onload = function() {
+        sessionStorage.removeItem('scale-store-message')
+    }
+
     const submitHandler = e => {
         e.preventDefault();
 

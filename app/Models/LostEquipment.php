@@ -11,7 +11,7 @@ class LostEquipment extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_route', 'id_equipment', 'ubicacion', 'pagado', 'id_operator'];
+    protected $fillable = ['id_route', 'id_equipment', 'ubicacion', 'pagado', 'operators_id', 'nombre', 'folio'];
 
     public function route()
     {
@@ -20,6 +20,6 @@ class LostEquipment extends Model
 
     public function operator() 
     {
-        return $this->belongsTo(Operators::class, 'id_operator');
+        return $this->belongsTo(Operators::class, 'operators_id');
     }
 }

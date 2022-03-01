@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRouteRequest;
 use App\Models\LostEquipment;
 use App\Models\RouteInvoice;
 use App\Models\RouteImage;
+use App\Models\SystemLog;
 use App\Models\Operators;
 use App\Models\Container;
 use App\Models\Equipment;
@@ -16,8 +18,6 @@ use App\Models\Route;
 use App\Models\Scale;
 use App\Models\Unit;
 use PDF;
-
-use App\Rules\ArrayUnique;
 
 class RoutesController extends Controller
 {
@@ -61,6 +61,14 @@ class RoutesController extends Controller
     public function store(StoreRouteRequest $request)
     {
         $validated = $request->validated();
+
+        $log = collect($request->all())->except(['_token']);
+
+        SystemLog::create([
+            'action' => 'Registro de ruta',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
 
         $route = new Route();
         $previousId = $route->getPreviousId();
@@ -181,9 +189,34 @@ class RoutesController extends Controller
      */
     public function destroy($id)
     {
-        //Eliminamos todo lo relacionado con la ruta.
+
+        $availableEquipment = DB::table('route_equipment')
+                                ->where('id_ruta', $id)
+                                ->join('equipment', 'route_equipment.id_equipo', '=', 'equipment.id')
+                                ->where('equipment.activo', '<>', 0)
+                                ->where('equipment.activo', '<>', 2)
+                                ->select('equipment.nombre', 'equipment.id')
+                                ->get();
+
+        if (count($availableEquipment) > 0) {
+            DB::transaction(function() use($availableEquipment) {
+                
+                foreach ($availableEquipment as $availableEquipmentItem) {
+                    DB::table('equipment')->where('id', $availableEquipmentItem->id)->update(['activo' => 0]);
+                }
+            });
+        }
+
         $route = Route::findOrFail($id);
         
+        $log = collect($route);
+
+        SystemLog::create([
+            'action' => 'Eliminación de ruta',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         DB::transaction(function() use($id) {
             $routeImages = DB::table('route_images')->where('route_id', $id)->get();
 
@@ -203,13 +236,11 @@ class RoutesController extends Controller
         });
         
         $route->delete();
-
+        
+        
         //Eliminamos todo lo relacionado con las escalas de la ruta.
-        $scales = Scale::where('id_ruta', $id)->get();
-        
-        
+        $scales = Scale::where('id_ruta', $id)->delete();
         return redirect()->route('routes.index');
-
     }
 
     public static function storeRouteStartInvoice($id)
@@ -300,6 +331,53 @@ class RoutesController extends Controller
         ]);
     }
 
+    public function endRoute(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'fecha'       => 'required|date',
+            'ubicacion'   => 'required',
+            'descripcion' => 'required',
+        ]);
+
+        $log = collect($request->all())->except(['_token']);
+
+        SystemLog::create([
+            'action' => 'Registro de finalización de ruta',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
+        $route = Route::where('id', $id)->with(['operator', 'containers', 'unit'])->first();
+
+        $route->status = 0; // 0 = Ruta finalizada
+        $route->fecha_termino = $validated['fecha']; 
+        $route->save();
+
+        
+        foreach ($route->containers as $container) {
+            DB::table('containers')
+                    ->where('id', $container->id)
+                    ->update(['status' => 0]);    
+        } 
+        
+        DB::table('operators')->where('id', $route->operator->id)->update(['status' => 0]);
+        DB::table('units')->where('id', $route->unit->id)->update(['status' => 0]);
+
+        $endEquipmentArr = $request->input('endEquipment'); //TODO: Ver si funciona.
+
+        if ($endEquipmentArr !== null) {
+            foreach ($endEquipmentArr as $equipmentId) {
+                $equipment = Equipment::findOrFail($equipmentId);
+                $equipment->activo = 0;
+                $equipment->ubicacion = $validated['ubicacion'];
+                $equipment->save();
+            }
+        }
+
+        self::storeEndRouteInvoice($id, $endEquipmentArr, $validated['fecha'], $validated['ubicacion'], $validated['descripcion']);    
+        return redirect()->route('routes.index');
+
+    }
 
     /**
      * store a new scale into the database
@@ -312,6 +390,14 @@ class RoutesController extends Controller
             'descripcion' => 'required',
         ]);
 
+        $log = collect($request->all())->except(['_token']);
+
+        SystemLog::create([
+            'action' => 'Registro de escala',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         $route = Route::where('id', $id)->with(['operator'])->first();
 
         $scale              = new Scale();
@@ -322,6 +408,14 @@ class RoutesController extends Controller
         $scale->id_encargado   = auth()->user()->id;
         $scale->save();
 
+        // Validar que no se marque como perdido y en escala al mismo equipo de sujecion
+        if ($request->input('lostEquipment') !== null && $request->input('scaleEquipment') !== null) {
+            foreach ($request->input('lostEquipment') as $lostEquipmentItem) {
+                if (in_array($lostEquipmentItem, $request->input('scaleEquipment'))) {
+                    return redirect()->back()->withInput()->with('EquipmentError', Lang::get('storeScale.duplicated_equipment_error'));
+                }
+            }
+        }
 
 
         $lostEquipmentArray = []; 
@@ -340,9 +434,11 @@ class RoutesController extends Controller
                     LostEquipment::create([
                         'id_route'     => $route->id,
                         'id_equipment' => $lostEquipmentItem->id,
+                        'nombre'       => $lostEquipmentItem->nombre,
+                        'folio'        => $lostEquipmentItem->folio,
                         'pagado'       => false,
                         'ubicacion'    => $validated['ubicacion'],
-                        'id_operator'  => $route->operator->id
+                        'operators_id' => $route->operator->id
                     ]);
                 }
             });
@@ -440,5 +536,70 @@ class RoutesController extends Controller
         $invoice->doc_path = '/routeInvoices/' . $fileName;
         $invoice->route_id = $id;
         $invoice->save();
+    }
+
+    public static function storeEndRouteInvoice($id, $equipment, $fechaTermino, $ubication, $description) 
+    {
+        $route = Route::where('id', $id)->with(['equipments' , 'containers', 'operator', 'unit'])->first();
+        
+
+        $equipmentQty = count($route->equipments);
+        $equipmentTotal = 0;
+        if ($equipmentQty > 0) {
+            foreach ($route->equipments as $route_eq) {
+                $equipmentTotal += $route_eq->precio_unitario;
+            }
+        }
+
+        $lostEquipmentQty = 0;
+        $lostEquipmentArr = $route->equipments->filter(function($equipment) {
+            if ($equipment->activo === 2) {
+                return $equipment;
+            }
+        });
+
+        $lostEquipmentQty = count($lostEquipmentArr);
+
+        $lostEquipmentTotal = 0;
+        if ($lostEquipmentQty > 0) {
+            foreach ($lostEquipmentArr as $lostEquipmentItem) {
+                $lostEquipmentTotal += $lostEquipmentItem->precio_unitario;
+            }
+        }
+
+        $containersQty = 0;
+        if ($route->containers !== null) {
+            $containersQty = count($route->containers);
+        }
+
+        // Route "Summary" pdf.
+        $pdf = PDF::loadView('pdf.endRoute', [ 
+            'route'              => $route,
+            'operator'           => $route->operator,
+            'unit'               => $route->unit,
+            'containers'         => $route->containers,
+            'containersQty'      => $containersQty,
+            'endEquipment'       => $equipment,
+            'equipment'          => $route->equipments,
+            'equipmentTotal'     => $equipmentTotal,
+            'fechaTermino'       => $fechaTermino,
+            'ubicacion'          => $ubication,
+            'descripcion'        => $description,
+            'lostEquipmentArr'   => $lostEquipmentArr,
+            'lostEquipmentQty'   => $lostEquipmentQty,
+            'lostEquipmentTotal' => $lostEquipmentTotal,
+            'equipmentQty'       => $equipmentQty
+        ]);
+
+        $fileName = uniqid() . '_' . $route->folio . '_' . '.pdf'; // Creamos el nombre del archivo
+        $path = public_path('/routeInvoices/') . $fileName; // Creamos el path del archivo 
+        File::append($path, $pdf->output());
+
+        $invoice = new RouteInvoice();
+        $invoice->descripcion = 'Ruta finalizada ' . $ubication;
+        $invoice->doc_path = '/routeInvoices/' . $fileName;
+        $invoice->route_id = $id;
+        $invoice->save();
+    
     }
 }

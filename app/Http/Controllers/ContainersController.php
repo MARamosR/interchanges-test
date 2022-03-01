@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\File;
 use App\Http\Requests\PostContainer;
 use App\Models\Container;
 use App\Models\ContainerImage;
+use App\Models\SystemLog;
 
 class ContainersController extends Controller
 {
@@ -41,6 +42,14 @@ class ContainersController extends Controller
     public function store(PostContainer $request)
     {
         $validated = $request->validated();
+
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Registro de contenedor',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
 
         $container =  new Container();
         $container->serie          = $validated['serie'];
@@ -131,6 +140,14 @@ class ContainersController extends Controller
     {
         $validated = $request->validated();
 
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Registro de contenedor',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         if ($request->input('deleteImageIds') !== null) {
 
             DB::transaction(function () use ($request) {
@@ -193,6 +210,14 @@ class ContainersController extends Controller
     public function destroy($id)
     {
         $container = Container::findOrFail($id);
+
+        $log = collect($container);
+        
+        SystemLog::create([
+            'action' => 'Registro de contenedor',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
 
         DB::transaction(function () use ($id) {
             $containerImages = DB::table('container_images')->where('container_id', $id)->get();

@@ -77,6 +77,18 @@
                         @endif
                     </h5>
                 </div>
+
+                @if ($paymentStatus !== null)
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Estatus del pago por extravio:
+                            @if ($paymentStatus == true)
+                        <span class="badge bg-success p-1">Pagado</span>
+                        @else
+                        <span class="badge bg-warning p-1">Pago pendiente</span>
+                        @endif
+                        </h5>
+                    </div>
+                @endif
             </div>
         </div>
     </div>

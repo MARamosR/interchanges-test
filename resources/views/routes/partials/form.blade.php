@@ -33,7 +33,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="fecha_destino" class="form-label">Fecha de llegada:</label>
+        <label for="fecha_destino" class="form-label">Fecha de llegada estimada:</label>
         <input type="date" name="fecha_destino" class="form-control"
             value="{{ old('fecha_destino', optional($route ?? null)->fecha_destino) }}">
         @error('fecha_destino')

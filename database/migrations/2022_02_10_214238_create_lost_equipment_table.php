@@ -16,12 +16,14 @@ class CreateLostEquipmentTable extends Migration
         Schema::create('lost_equipment', function (Blueprint $table) {
             $table->id();   
             $table->unsignedBigInteger('id_route')->nullable();
-            $table->foreign('id_route')->references('id')->on('routes')->onDelete('cascade');
+            $table->foreign('id_route')->references('id')->on('routes')->onDelete('set null');
             $table->unsignedBigInteger('id_equipment')->nullable();
             $table->boolean('pagado');
             $table->string('ubicacion');
-            $table->unsignedBigInteger('id_operator')->nullable();
-            $table->foreign('id_operator')->references('id')->on('operators')->onDelete('cascade');
+            $table->string('nombre');
+            $table->string('folio');
+            $table->unsignedBigInteger('operators_id')->nullable();
+            $table->foreign('operators_id')->references('id')->on('operators')->onDelete('set null');
             $table->timestamps();
         });
     }

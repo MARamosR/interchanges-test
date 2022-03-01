@@ -101,7 +101,10 @@ class PermissionSeeder extends Seeder
         $permission58 = Permission::create(['name' => 'routes.createScale', 'description' => 'Ver el formulario para registrar una escala, necesario para poder aregar una escala']);
         $permission59 = Permission::create(['name' => 'routes.storeScale', 'description' => 'Registrar una escala']);
         $permission60 = Permission::create(['name' => 'routes.endRoute', 'description' => 'Registrar la finalización de una ruta']);
+        
+        $permission61 = Permission::create(['name' => 'operators.equipmentPay', 'description' => 'Realizar el pago de equipo de sujeción por operador']);
 
+        $permission62 = Permission::create(['name' => 'logs.index', 'description' => 'Ver la bitacora del sistema']);
 
 
         //Creamos el rol master
@@ -166,7 +169,9 @@ class PermissionSeeder extends Seeder
             $permission57,
             $permission58,
             $permission59,
-            $permission60
+            $permission60,
+            $permission61,
+            $permission62
         ]);
 
         //Agregamos el rol master al usuario master

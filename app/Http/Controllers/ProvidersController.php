@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Provider;
+use App\Models\SystemLog;
 
 class ProvidersController extends Controller
 {
@@ -41,6 +42,14 @@ class ProvidersController extends Controller
             'direccion' => 'required|min:6',
             'ciudad'    => 'required|min:3',
             'telefono'  => 'required',
+        ]);
+
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Registro de proveedor',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
         ]);
 
         $newProvider = new Provider();
@@ -92,6 +101,14 @@ class ProvidersController extends Controller
             'telefono'  => 'required',
         ]);
 
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Actualización de proveedor',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         $provider = Provider::findOrFail($id);
         $provider->proveedor = $validated['proveedor'];
         $provider->direccion = $validated['direccion'];
@@ -111,6 +128,15 @@ class ProvidersController extends Controller
     public function destroy($id)
     {
         $provider = Provider::findOrFail($id);
+
+        $log = collect($provider);
+        
+        SystemLog::create([
+            'action' => 'Eliminación de proveedor',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         $provider->delete();
 
         return redirect()->route('providers.index')->with("message", "Registro Eliminado");

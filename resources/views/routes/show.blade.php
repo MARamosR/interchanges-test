@@ -13,6 +13,8 @@
 </div>
 
 <div class="mb-4 d-flex flex-row-reverse">
+    
+    @if ($route->status === 1)
     <a class="btn btn-primary ml-2 mx-2" href="{{ route('routes.createScale', ['route' => $route->id]) }}">
         <i class='bx bx-plus'></i>
         Registrar una escala
@@ -20,7 +22,8 @@
 
     <a class="btn btn-success ml-2 mx-2" href="{{ route('routes.createScale', ['route' => $route->id, 'endRoute' => true]) }}">
         Finalizar la ruta
-    </a>
+    </a>    
+    @endif
 </div>
 
 
@@ -38,12 +41,19 @@
                         <h5 class="text-truncate font-size-15">Folio: {{ $route->folio }}</h5>
                     </div>
                 </div>
+
+                @if (count($images) > 0)
                 <div class="overflow-x-auto d-flex flex-row overflow-y-hidden" style="max-width: 100%; overflow-x: auto"
                     id="route-images-container">
                     @foreach ($images as $image)
                     <img src="{{ $image->path }}" alt="{{ $image->id }}" class="route__image">
                     @endforeach
+                </div>    
+                @else
+                <div class="bg-light p-3 my-3 rounded-3 text-dark fw-bold">
+                    Este registro no contiene imagenes
                 </div>
+                @endif
 
                 <h5 class="font-size-15 mt-4">Descripción de la ruta:</h5>
 
@@ -202,11 +212,11 @@
         position: absolute;
         right: 0;
         left: 0;
-        top: 20;
+        top: 30;
         margin: 0 auto;
         background-color: #cecece;
-        width: 700px;
-        height: 600px;
+        width: 90%;
+        height: 800px;
         z-index: 9999;
         border-radius: 8px;
         box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.4);
@@ -215,6 +225,13 @@
         background-size: 90%;
         background-repeat: no-repeat;
         animation: fade-in 300ms ease forwards;
+    }
+
+    @media screen and (min-width: 768px) {
+        .images__modal {
+            width: 90%;
+            height: 700px;
+        }
     }
 
     @keyframes fade-in {

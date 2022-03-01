@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Equipment;
 use App\Models\EquipmentImage;
+use App\Models\LostEquipment;
+use App\Models\SystemLog;
 use Illuminate\Support\Facades\File;
 
 class EquipmentController extends Controller
@@ -47,6 +49,14 @@ class EquipmentController extends Controller
             'ubicacion'       => 'required',
             'precio_unitario' => 'required',
             'id_proveedor'    => 'required'
+        ]);
+
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Registro de equipo de sujeción',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
         ]);
 
         $equipment = new Equipment();
@@ -103,11 +113,13 @@ class EquipmentController extends Controller
     public function show($id)
     {
         $equipment = Equipment::where('id', $id)->with(['equipmentImage', 'provider'])->first();
-    
+        $paymentStatus = DB::table('lost_equipment')->where('id_equipment', '=', $id)->select('pagado')->first(); 
+
         return view('equipment.show', [
             'equipment'       => $equipment,
             'equipmentImages' => $equipment->equipmentImage,
-            'provider'        => $equipment->provider
+            'provider'        => $equipment->provider,
+            'paymentStatus'   => $paymentStatus->pagado
         ]);
     }
 
@@ -147,6 +159,14 @@ class EquipmentController extends Controller
             'ubicacion'       => 'required',
             'precio_unitario' => 'required',
             'id_proveedor'    => 'required'
+        ]);
+
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Actualizacion de equipo de sujeción',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
         ]);
 
         if ($request->input('deleteImageIds') !== null) {
@@ -199,6 +219,14 @@ class EquipmentController extends Controller
     public function destroy($id)
     {
         $equipment = Equipment::findOrFail($id);
+
+        $log = collect($equipment);
+        
+        SystemLog::create([
+            'action' => 'Eliminación de equipo de sujeción',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
 
         DB::transaction(function () use ($id) {
             $equipmentImages = DB::table('equipment_images')->where(['equipment_id' => $id])->get();

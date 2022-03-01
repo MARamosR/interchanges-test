@@ -31,7 +31,7 @@
         </div>
     </div>
 
-    <form action="{{ route('routes.storeScale', ['route' => $route->id]) }}" method="POST"
+    <form action="{{ route('routes.endRoute', ['route' => $route->id]) }}" method="POST"
         enctype="multipart/form-data">
         @csrf
 
@@ -48,7 +48,7 @@
         <div class="mb-3">
             <label for="ubicacion" class="form-label">Ubicación:</label>
             <input type="text" name="ubicacion" class="form-control">
-            <p class="form-text">Lugar en donde se esta haciendo la escala</p>
+            <p class="form-text">Lugar en donde se esta finalizando la ruta</p>
         </div>
         @error('ubicacion')
         <div class="text-danger">
@@ -58,6 +58,7 @@
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción:</label>
+
             <textarea class="form-control" name="descripcion"></textarea>
         </div>
         @error('descripcion')
@@ -77,7 +78,7 @@
                     <li class="list-group-item d-flex align-items-center justify-content-between">
                         
                         <div>
-                            <input type="checkbox" class="form-check-input" name="endEquipment[]" id="scaleEquipment"
+                            <input type="hidden" class="form-check-input" name="endEquipment[]" id="scaleEquipment"
                                 value="{{ $item->id }}">
                             <label class="form-check-label">{{ $item->nombre }}</label>
                         </div>
@@ -95,7 +96,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success" id="submitBtn">Registrar escala</button>
+        <button type="submit" class="btn btn-success" id="submitBtn">Finalizar ruta</button>
     </form>
 </div>
 @endsection
@@ -197,20 +198,23 @@
     const lostEquipmentArr = document.getElementById('lostEquipment');
     const scaleEquipmentArr = document.getElementById('scaleEquipment');
 
-    //TODO: Validar que los valores del arreglo lostEquipment no sean los mismos que scaleEquipment
+    window.onload = function() {
+        sessionStorage.removeItem('end-route-message');
+    }
+
     const submitHandler = e => {
         e.preventDefault();
 
         TemplateSwal.fire({
                 title: '¿Esta seguro de esto?',
-                text: "Verifique que los datos sean correctos, una vez creada una escala esta ya no se podra modificar.",
+                text: "Una vez marcada como finalizada una ruta los cambios no se podran revertir.",
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Confirmar',
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    sessionStorage.setItem('scale-store-message', 'Escala agregada');
+                    sessionStorage.setItem('end-route-message', 'Ruta finalizada');
                     e.target.parentNode.submit();
                 }
             });

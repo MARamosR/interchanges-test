@@ -61,7 +61,11 @@
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li>
                                             <a href="{{ route('operators.edit', ['operator' => $operator->id]) }}"
-                                                class="dropdown-item">Editar</a>
+                                                class="dropdown-item">Editar operador</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('operators.show', ['operator' => $operator->id]) }}"
+                                                class="dropdown-item">Ver operador</a>
                                         </li>
                                         <li>
                                             <form method="POST"
@@ -69,7 +73,7 @@
                                                 class="mt-2">
                                                 @csrf
                                                 @method('DELETE')
-                                                <input type="submit" value="Eliminar" class="dropdown-item btn-delete">
+                                                <input type="submit" value="Eliminar operador" class="dropdown-item btn-delete">
                                             </form>
                                         </li>
                                     </ul>

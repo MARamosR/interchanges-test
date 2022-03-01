@@ -12,6 +12,7 @@ use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ScaleController;
+use App\Http\Controllers\SystemLog;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function () {
         Route::put('/{operator}', [OperatorsController::class, 'update'])->middleware('can:operators.update')->name('operators.update');
         Route::delete('/{operator}', [OperatorsController::class, 'destroy'])->middleware('can:operators.destroy')->name('operators.destroy');
         Route::get('/{operator}/edit', [OperatorsController::class, 'edit'])->middleware('can:operators.edit')->name('operators.edit');
+        Route::post('/{operator}/{equipment}/payment', [OperatorsController::class, 'equipmentPay'])->middleware('can:operators.equipmentPay')->name('operators.equipmentPay');
     });
 
     Route::prefix('units')->group(function() {
@@ -115,6 +117,10 @@ Route::middleware('auth')->group(function () {
         Route::get('/{role}/edit', [RolesController::class, 'edit'])->middleware('can:roles.edit')->name('roles.edit');
         Route::put('/{role}', [RolesController::class, 'update'])->middleware('can:roles.update')->name('roles.update');
         Route::delete('/{role}/delete', [RolesController::class, 'destroy'])->middleware('can:roles.destroy')->name('roles.destroy');
+    });
+
+    Route::prefix('logs')->group(function() {
+        Route::get('/', [SystemLog::class, 'index'])->middleware('can:logs.index')->name('logs.index');
     });
 });
 
