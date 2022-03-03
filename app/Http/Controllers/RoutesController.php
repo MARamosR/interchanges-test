@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreRouteRequest;
+use App\Http\Requests\StoreScaleRequest;
 use App\Models\LostEquipment;
 use App\Models\RouteInvoice;
 use App\Models\RouteImage;
@@ -49,7 +49,12 @@ class RoutesController extends Controller
         $containers = Container::where('status', 0)->get();
         $equipment = Equipment::where('activo', 0)->get();
 
-        return view('routes.create', compact('units', 'operators', 'containers', 'equipment'));
+        return view('routes.create', compact(
+            'units', 
+            'operators', 
+            'containers', 
+            'equipment'
+        ));
     }
 
     /** 
@@ -331,13 +336,9 @@ class RoutesController extends Controller
         ]);
     }
 
-    public function endRoute(Request $request, $id)
+    public function endRoute(StoreScaleRequest $request, $id)
     {
-        $validated = $request->validate([
-            'fecha'       => 'required|date',
-            'ubicacion'   => 'required',
-            'descripcion' => 'required',
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
 
@@ -363,7 +364,7 @@ class RoutesController extends Controller
         DB::table('operators')->where('id', $route->operator->id)->update(['status' => 0]);
         DB::table('units')->where('id', $route->unit->id)->update(['status' => 0]);
 
-        $endEquipmentArr = $request->input('endEquipment'); //TODO: Ver si funciona.
+        $endEquipmentArr = $request->input('endEquipment');
 
         if ($endEquipmentArr !== null) {
             foreach ($endEquipmentArr as $equipmentId) {
@@ -382,13 +383,9 @@ class RoutesController extends Controller
     /**
      * store a new scale into the database
      */
-    public function storeScale(Request $request, $id)
+    public function storeScale(StoreScaleRequest $request, $id) //TODO: VER SI  FUNCIONA
     {   
-        $validated = $request->validate([
-            'fecha'       => 'required|date',
-            'ubicacion'   => 'required',
-            'descripcion' => 'required',
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
 
@@ -412,7 +409,7 @@ class RoutesController extends Controller
         if ($request->input('lostEquipment') !== null && $request->input('scaleEquipment') !== null) {
             foreach ($request->input('lostEquipment') as $lostEquipmentItem) {
                 if (in_array($lostEquipmentItem, $request->input('scaleEquipment'))) {
-                    return redirect()->back()->withInput()->with('EquipmentError', Lang::get('storeScale.duplicated_equipment_error'));
+                    return redirect()->back()->withInput()->with('EquipmentError', 'El mismo equipo de sujeción no puede quedarse en la escala y estar extraviado al mismo tiempo.');
                 }
             }
         }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreProviderRequest;
 use App\Models\Provider;
 use App\Models\SystemLog;
 
@@ -35,14 +36,9 @@ class ProvidersController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreProviderRequest $request)
     {
-        $validated = $request->validate([
-            'proveedor' => 'required|min:6',
-            'direccion' => 'required|min:6',
-            'ciudad'    => 'required|min:3',
-            'telefono'  => 'required',
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
         
@@ -92,14 +88,9 @@ class ProvidersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreProviderRequest $request, $id)
     {
-        $validated = $request->validate([
-            'proveedor' => 'required|min:6',
-            'direccion' => 'required|min:6',
-            'ciudad'    => 'required|min:3',
-            'telefono'  => 'required',
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
         

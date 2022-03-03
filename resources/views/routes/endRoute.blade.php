@@ -21,62 +21,64 @@
                 @foreach ($images as $image)
                 <img src="{{ $image->path }}" alt="{{ $image->id }}" class="route__image">
                 @endforeach
-            </div>    
+            </div>
             @else
             <div class="bg-light p-3 my-3 rounded-3 text-dark fw-bold">
-                No se registraron imagenes para esta ruta. 
+                No se registraron imagenes para esta ruta.
             </div>
             @endif
-            
+
         </div>
     </div>
 
-    <form action="{{ route('routes.endRoute', ['route' => $route->id]) }}" method="POST"
-        enctype="multipart/form-data">
+    <form action="{{ route('routes.endRoute', ['route' => $route->id]) }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="mb-3">
             <label for="fecha" class="form-label">Fecha:</label>
             <input type="date" name="fecha" class="form-control">
+            @error('fecha')
+            <div class="text-danger">
+                {{ $message }}
+            </div>
+            @enderror
         </div>
-        @error('fecha')
-        <div class="text-danger">
-            {{ $message }}
-        </div>
-        @enderror
+
 
         <div class="mb-3">
             <label for="ubicacion" class="form-label">Ubicación:</label>
             <input type="text" name="ubicacion" class="form-control">
             <p class="form-text">Lugar en donde se esta finalizando la ruta</p>
+            @error('ubicacion')
+            <div class="text-danger">
+                {{ $message }}
+            </div>
+            @enderror
         </div>
-        @error('ubicacion')
-        <div class="text-danger">
-            {{ $message }}
-        </div>
-        @enderror
+
 
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción:</label>
 
             <textarea class="form-control" name="descripcion"></textarea>
+            @error('descripcion')
+            <div class="text-danger">
+                {{ $message }}
+            </div>
+            @enderror
         </div>
-        @error('descripcion')
-        <div class="text-danger">
-            {{ $message }}
-        </div>
-        @enderror
+
 
         <div class="card mb-3">
             <div class="card-body">
                 <label class="form-label">Equipos de sujeción disponibles al momento de finalizar la ruta:</label>
                 <br>
-                
+
                 @if (count($equipment) > 0)
                 <ul class="list-group">
                     @foreach ($equipment as $item)
                     <li class="list-group-item d-flex align-items-center justify-content-between">
-                        
+
                         <div>
                             <input type="hidden" class="form-check-input" name="endEquipment[]" id="scaleEquipment"
                                 value="{{ $item->id }}">
@@ -88,10 +90,10 @@
                 </ul>
                 @else
                 <div class="bg-light p-3 my-3 rounded-3 text-dark fw-bold">
-                    Esta ruta ya no esta usando equipos de sujeción 
-                </div>    
+                    Esta ruta ya no esta usando equipos de sujeción
+                </div>
                 @endif
-                
+
 
             </div>
         </div>

@@ -15,7 +15,7 @@
         </div>
         @endif
         @include('routes.partials.form')
-        <input type="submit" class="btn btn-success" value="@lang('routesCreate.route_create_add_route_btn')" id="storeRouteBtn">
+        <input type="submit" class="btn btn-success" value="Agregar ruta" id="storeRouteBtn">
     </form>
 </div>
 @endsection
@@ -29,17 +29,17 @@
 
         const handleConfirmation = e => {
             e.preventDefault();
-
+        
             TemplateSwal.fire({
-                title: '¿Esta seguro de esto?',
-                text: "Verifique que los datos sean correctos, una vez registrada una ruta sus datos ya no podran ser alterados hasta el termino de la misma.",
+                title: '¿Esta seguro?',
+                text: 'Verifique que los datos sean correctos, una vez registrada una ruta esta ya no se podra modificar hasta la finalización de la misma.',
                 icon: 'warning',
                 showCancelButton: true,
                 confirmButtonText: 'Confirmar',
                 cancelButtonText: 'Cancelar',
             }).then((result) => {
                 if (result.isConfirmed) {
-                    sessionStorage.setItem('route-store-message', 'Ruta agregada');
+                    sessionStorage.setItem('route-store-message', 'Ruta agregada correctamente');
                     e.target.parentNode.submit();
                 }
             });

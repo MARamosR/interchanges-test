@@ -22,7 +22,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="destino" class="form-label">Lugar de destino:</label>
+        <label for="destino" class="form-label">Lugar de destino</label>
         <input type="text" name="destino" class="form-control"
             value="{{ old('destino', optional($unit ?? null)->destino) }}">
         @error('destino')
@@ -33,7 +33,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="fecha_destino" class="form-label">Fecha de llegada estimada:</label>
+        <label for="fecha_destino" class="form-label">Fecha de llegada estimada</label>
         <input type="date" name="fecha_destino" class="form-control"
             value="{{ old('fecha_destino', optional($route ?? null)->fecha_destino) }}">
         @error('fecha_destino')
@@ -44,7 +44,7 @@
     </div>
 
     <div class="mb-3">
-        <label for="descripcion" class="form-label">Descripcion:</label>
+        <label for="descripcion" class="form-label">Descripción</label>
         <input type="text" name="descripcion" class="form-control"
             value="{{ old('descripcion', optional($route ?? null)->descripcion) }}">
         @error('descripcion')
@@ -55,9 +55,9 @@
     </div>
 
     <div class="mb-3">
-        <label for="unidad" class="form-label">Unidad:</label>
+        <label for="unidad" class="form-label">Unidad</label>
         <select name="unidad" class="form-select">
-            <option value="" selected disabled>Seleccione la placa de la unidad de esta ruta</option>
+            <option value="" selected disabled>Selecciona una unidad por placa</option>
             @foreach ($units as $unit)
             <option value={{ $unit->id }}>{{ $unit->placa }}</option>
             @endforeach
@@ -73,7 +73,7 @@
     <div class="mb-3">
         <label for="operador" class="form-label">Operador:</label>
         <select name="operador" class="form-select">
-            <option value="" selected disabled>Seleccione el operador de esta ruta</option>
+            <option value="" selected disabled>Seleccione un operador</option>
             @foreach ($operators as $operator)
             <option value={{ $operator->id }}>{{ $operator->nombre }} {{ $operator->apellidos }}</option>
             @endforeach
@@ -91,7 +91,7 @@
 {{-- Contenedores --}}
 <div class="card p-2">
     <div class="mb-3">
-        <label class="form-label">Placas de los contenedores que se usarán en esta ruta:</label>
+        <label class="form-label">Contenedores disponibles:</label>
         <div id='container-fields'>
 
         </div>
@@ -108,7 +108,7 @@
 {{-- Equipo de sujeción --}}
 <div class="card p-2">
     <div class="mb-3">
-        <label class="form-label">Equipo de sujeción que se usará en esta ruta:</label>
+        <label class="form-label">Equipo de sujeción disponible:</label>
         <div id='equipment-fields'>
 
         </div>
@@ -126,7 +126,7 @@
 {{-- Imagenes de la ruta --}}
 <div class="card p-2">
     <div class="mb-3">
-        <label class="form-label">Imagenes iniciales de la ruta:</label>
+        <label class="form-label">Imagenes iniciales de la ruta</label>
         <div id='image-fields'>
 
         </div>
@@ -153,7 +153,7 @@
     if (equipmentList.length < 1) {
         const message = document.createElement('div');
         message.classList = 'bg-light p-3 my-3 rounded-3 text-dark fw-bold';
-        message.textContent = 'No hay equipo de sujeción disponible';
+        message.textContent = 'No hay equipos de sujeción disponibles.';
         equipmentFields.appendChild(message);
 
         addEquipmentBtn.disabled = true;
@@ -175,7 +175,8 @@
                 `;
                 
             });
-            newField.innerHTML += `<option value="" selected disabled >Seleccione un equipo de sujeción</option>`;
+            const textContent = 'Seleccione un equipo de sujeción'
+            newField.innerHTML += `<option value="" selected disabled >${textContent}</option>`;
             
             equipmentFields.appendChild(newField);
         }
@@ -211,7 +212,7 @@
     if (containersList.length < 1) {
         const message = document.createElement('div');
         message.classList = 'bg-light p-3 my-3 rounded-3 text-dark fw-bold';
-        message.textContent = 'No hay contenedores disponibles';
+        message.textContent = 'No hay contenedores disponibles.';
         containerFields.appendChild(message);
 
         addContainerBtn.disabled = true;
@@ -231,7 +232,8 @@
                 `;
             });
 
-            newField.innerHTML += `<option value="" selected disabled>Seleccione un contenedor</option>`
+            const textContent = 'Seleccione un contenedor';
+            newField.innerHTML += `<option value="" selected disabled>${textContent}</option>`
 
             containerFields.appendChild(newField);
         }

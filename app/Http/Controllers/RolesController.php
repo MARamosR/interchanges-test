@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
+use App\Http\Requests\StoreRoleRequest;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
+use App\Models\SystemLog;
 
 class RolesController extends Controller
 {
@@ -39,11 +41,16 @@ class RolesController extends Controller
     /**
      * Almacenar un rol en la bd
      */
-    public function store(Request $request)
+    public function store(StoreRoleRequest $request)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'permissions' => 'required'
+        $validated = $request->validated();
+
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Registro de rol',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
         ]);
 
         $role = Role::create([
@@ -81,13 +88,17 @@ class RolesController extends Controller
     /**
      * Actualizar un rol en la bd
      */
-    public function update(Request $request, $id) 
+    public function update(StoreRoleRequest $request, $id) 
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'permissions' => 'required'
-        ]);
+        $validated = $request->validated();
 
+        $log = collect($request->all())->except(['_token']);
+        
+        SystemLog::create([
+            'action' => 'Actualización de rol',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
 
         $role = Role::findOrFail($id);
         $role->name = $validated['name'];
@@ -101,6 +112,15 @@ class RolesController extends Controller
     public function destroy($id) 
     {
         $role = Role::findById($id);
+
+        $log = collect($role);
+        
+        SystemLog::create([
+            'action' => 'Eliminación de rol',
+            'data'   => json_encode($log),
+            'user'   => auth()->user()->name
+        ]);
+
         $role->delete();
         return redirect()->route('roles.index')->with('message', "Rol $role->name eliminado correctamente");
     }

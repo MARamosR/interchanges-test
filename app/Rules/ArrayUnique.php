@@ -50,6 +50,6 @@ class ArrayUnique implements Rule
      */
     public function message()
     {
-        return 'The :attribute values need to be unique';
+        return 'Los valores de :attribute no se deben de repetir.';
     }
 }

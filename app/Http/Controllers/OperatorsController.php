@@ -7,6 +7,7 @@ use App\Models\LostEquipment;
 use Illuminate\Http\Request;
 use App\Models\Operators;
 use App\Models\SystemLog;
+use App\Http\Requests\StoreOperatorRequest;
 
 class OperatorsController extends Controller
 {
@@ -37,21 +38,9 @@ class OperatorsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreOperatorRequest $request)
     {
-        $validated = $request->validate([
-            'nombre'        => 'required',
-            'apellidos'     => 'required',
-            'telefono'      => 'required',
-            'no_licencia'   => 'required',
-            'tipo_licencia' => 'required',
-            'fecha_exp'     => 'required|date',
-            'fecha_venc'    => 'required|date|after:fecha_exp',
-            'lugar_exp'     => 'required',
-            'antiguedad'    => 'required',
-            'iave'          => 'required',
-            'ex_medico'     => 'required|date'
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
         
@@ -122,21 +111,9 @@ class OperatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreOperatorRequest $request, $id)
     {
-        $validated = $request->validate([
-            'nombre'        => 'required',
-            'apellidos'     => 'required',
-            'telefono'      => 'required',
-            'no_licencia'   => 'required',
-            'tipo_licencia' => 'required',
-            'fecha_exp'     => 'required',
-            'fecha_venc'    => 'required',
-            'lugar_exp'     => 'required',
-            'antiguedad'    => 'required',
-            'iave'          => 'required',
-            'ex_medico'     => 'required'
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
         

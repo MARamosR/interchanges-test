@@ -41,6 +41,7 @@ class HomeController extends Controller
 
     public function root()
     {   
+
         $routesQty     = DB::table('routes')->count();
         $unitsQty      = DB::table('units')->count();
         $equipmentQty  = DB::table('equipment')->count();
@@ -61,14 +62,17 @@ class HomeController extends Controller
         //     $lostEquipmentTotal += $equipment->precio_unitario;
         // }
 
-        $lostEquipmentTotal = 0;
-        $lostEquipmentQty = 0;
+        
         $lostEquipment = DB::table('equipment')->where('activo', '=', 2)->get();
-        foreach ($lostEquipment as $lostEquipmentItem) {
-            $lostEquipmentTotal += $lostEquipmentItem->precio_unitario;
-        }
+        $lostEquipmentQty = $lostEquipment->count();
+        $lostEquipmentTotal = $lostEquipment->sum('precio_unitario');
+        
 
-        $lostEquipmentQty = count($lostEquipment);
+        // foreach ($lostEquipment as $lostEquipmentItem) {
+        //     $lostEquipmentTotal += $lostEquipmentItem->precio_unitario;
+        // }
+
+        // $lostEquipmentQty = count($lostEquipment);
 
         
         return view('index', compact(

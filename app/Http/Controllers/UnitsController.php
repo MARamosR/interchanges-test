@@ -5,10 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
-use App\Models\Unit;
+use App\Http\Requests\StoreUnitRequest;
 use App\Models\UnitImage;
 use App\Models\SystemLog;
-
+use App\Models\Unit;
 
 class UnitsController extends Controller
 {
@@ -39,14 +39,9 @@ class UnitsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUnitRequest $request)
     {
-        $validated = $request->validate([
-            'placa'  => 'required|max:255',
-            'marca'  => 'required',
-            'modelo' => 'required',
-            'anio'   => 'required'
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
         
@@ -126,14 +121,9 @@ class UnitsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreUnitRequest $request, $id)
     {
-        $validated = $request->validate([
-            'placa'  => 'required|max:255',
-            'marca'  => 'required',
-            'modelo' => 'required',
-            'anio'   => 'required'
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
 

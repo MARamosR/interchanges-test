@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Equipment;
 use App\Models\EquipmentImage;
 use App\Models\LostEquipment;
+use App\Http\Requests\StoreEquipmentRequest;
 use App\Models\SystemLog;
 use Illuminate\Support\Facades\File;
 
@@ -41,15 +42,9 @@ class EquipmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreEquipmentRequest $request)
     {
-        $validated = $request->validate([
-            'nombre'          => 'required',
-            'descripcion'     => 'required',
-            'ubicacion'       => 'required',
-            'precio_unitario' => 'required',
-            'id_proveedor'    => 'required'
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
         
@@ -151,15 +146,9 @@ class EquipmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreEquipmentRequest $request, $id)
     {
-        $validated = $request->validate([
-            'nombre'          => 'required',
-            'descripcion'     => 'required',
-            'ubicacion'       => 'required',
-            'precio_unitario' => 'required',
-            'id_proveedor'    => 'required'
-        ]);
+        $validated = $request->validated();
 
         $log = collect($request->all())->except(['_token']);
         
