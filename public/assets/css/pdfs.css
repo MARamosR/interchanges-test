@@ -1,0 +1,67 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 62.5%;
+}
+
+body {
+    font-size: 1.6rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 2rem;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+
+header {
+    width: 100%;
+}
+
+header .date {
+    float: right;
+}
+
+.route__info {
+    margin: 20px 0;
+}
+
+.route__info p {
+    margin: 10px 0;
+}
+
+.table-grid {
+    table-layout: fixed;
+    width: 100%;
+}
+
+.table-grid td {
+    padding: 5px 0;
+}
+
+.table {
+    margin-top: 10px;
+    width: 100%;
+    border-collapse: collapse;
+}
+.table th, .table td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.route__equipment {
+    margin-top: 20px;
+}
+
+.route__equipment__total {
+    width: 100%;
+    text-align: right;
+    
+}
