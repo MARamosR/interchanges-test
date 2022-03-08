@@ -13,7 +13,6 @@
 </div>
 
 <div>
-    {{-- <div class="row row-cols-2"> --}}
     <div class="row">
 
         <div class="col-md-6">
