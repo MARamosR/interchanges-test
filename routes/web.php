@@ -28,12 +28,7 @@ use App\Http\Controllers\SystemLog;
 |
 */
 
-<<<<<<< HEAD
 //Agrega automaticamente las rutas de autenticación a nuestro proyecto.
-=======
-
-//Agrega las rutas de autenticación a nuestro proyecto.
->>>>>>> develop
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'root'])->name('root');

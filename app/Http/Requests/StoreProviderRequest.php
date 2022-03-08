@@ -27,7 +27,7 @@ class StoreProviderRequest extends FormRequest
             'proveedor' => 'required|min:6',
             'direccion' => 'required|min:6',
             'ciudad'    => 'required|min:3',
-            'telefono'  => 'required',
+            'telefono'  => 'required|integer',
         ];
     }
 
@@ -40,7 +40,8 @@ class StoreProviderRequest extends FormRequest
             'direccion.min'      => 'El campo "Dirección" debe tener por lo menos 6 caracteres.',
             'ciudad.required'    => 'El campo "Ciudad" es obligatorio.',
             'ciudad.min'         => 'El campo "Ciudad" debe tener por lo menos 3 caracteres.',
-            'telefono.required'  => 'El campo "Telefono" es obligatorio.',
+            'telefono.required'  => 'El campo "Teléfono" es obligatorio.',
+            'telefono.integer'   => 'El campo "Teléfono" debe contener únicamente números.'
         ];
     }
 }
