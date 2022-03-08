@@ -16,7 +16,7 @@
     <div class="row row-cols-2">
 
         <div class="col">
-            <div class="card ">
+            <div class="card">
                 <div class="card-body">
                     <div class="d-flex align-items-center ">
                         <div class="flex-shrink-0 me-4">
