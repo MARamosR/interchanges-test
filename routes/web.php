@@ -14,6 +14,9 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ScaleController;
 use App\Http\Controllers\SystemLog;
 
+// https://dashboard.heroku.com/apps/devifegrac-intercambios/settings
+// http://devifegrac-intercambios.herokuapp.com/login
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
