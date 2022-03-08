@@ -28,7 +28,6 @@ use App\Http\Controllers\SystemLog;
 |
 */
 
-
 //Agrega automaticamente las rutas de autenticación a nuestro proyecto.
 Auth::routes();
 
