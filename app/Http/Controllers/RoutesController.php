@@ -242,7 +242,6 @@ class RoutesController extends Controller
         
         $route->delete();
         
-        
         //Eliminamos todo lo relacionado con las escalas de la ruta.
         $scales = Scale::where('id_ruta', $id)->delete();
         return redirect()->route('routes.index');
