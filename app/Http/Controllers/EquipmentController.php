@@ -108,13 +108,13 @@ class EquipmentController extends Controller
     public function show($id)
     {
         $equipment = Equipment::where('id', $id)->with(['equipmentImage', 'provider'])->first();
-        $paymentStatus = DB::table('lost_equipment')->where('id_equipment', '=', $id)->select('pagado')->first(); 
+        $paymentStatus = DB::table('lost_equipment')->where('id_equipment', '=', $id)->first();
 
         return view('equipment.show', [
             'equipment'       => $equipment,
             'equipmentImages' => $equipment->equipmentImage,
             'provider'        => $equipment->provider,
-            'paymentStatus'   => $paymentStatus->pagado
+            'paymentStatus'   => $paymentStatus !== null ? $paymentStatus->pagado : null  
         ]);
     }
 

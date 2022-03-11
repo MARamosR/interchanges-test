@@ -74,7 +74,7 @@ class RoutesController extends Controller
             'data'   => json_encode($log),
             'user'   => auth()->user()->name
         ]);
-
+        
         $route = new Route();
         $previousId = $route->getPreviousId();
         if ($previousId == null) {
