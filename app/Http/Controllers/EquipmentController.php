@@ -109,7 +109,7 @@ class EquipmentController extends Controller
     {
         $equipment = Equipment::where('id', $id)->with(['equipmentImage', 'provider'])->first();
         $paymentStatus = DB::table('lost_equipment')->where('id_equipment', '=', $id)->first();
-
+            
         return view('equipment.show', [
             'equipment'       => $equipment,
             'equipmentImages' => $equipment->equipmentImage,

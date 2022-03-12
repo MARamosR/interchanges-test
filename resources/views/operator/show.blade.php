@@ -24,59 +24,80 @@
     <div class="card">
         <div class="card-body">
             <h5 class="text-truncate mb-3">Detalles:</h5>
-            <div class="row row-cols-2">
+            <div class="row">
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Nombre: {{ $operator->nombre }} {{ $operator->apellidos }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Nombre: {{ $operator->nombre }} {{ $operator->apellidos }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Telefono: {{ $operator->telefono }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Telefono: {{ $operator->telefono }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Numero de licencia: {{ $operator->no_licencia }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Numero de licencia: {{ $operator->no_licencia }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Tipo licencia: {{ $operator->tipo_licencia }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Tipo licencia: {{ $operator->tipo_licencia }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Fecha de expedición de la licencia: {{ $operator->fecha_exp }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Fecha de expedición de la licencia: {{ $operator->fecha_exp }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Lugar de expedición de la licencia: {{ $operator->lugar_exp }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Lugar de expedición de la licencia: {{ $operator->lugar_exp }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Fecha de vencimiento de la licencia: {{ $operator->fecha_venc }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Fecha de vencimiento de la licencia: {{ $operator->fecha_venc }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Antiguedad del operador: {{ $operator->antiguedad }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Antiguedad del operador: {{ $operator->antiguedad }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">IAVE del operador: {{ $operator->iave }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">IAVE del operador: {{ $operator->iave }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Fecha del ultimo examen medico: {{ $operator->ex_medico }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Fecha del ultimo examen medico: {{ $operator->ex_medico }}</h5>
+                    </div>
                 </div>
 
-
-                <div class="mb-3">
-                    <h5 class="text-truncate">Status:
-                        @if ($operator->status === 0)
-                        <span class="badge bg-success p-1">Disponible</span>
-                        @endif
-
-                        @if ($operator->status === 1)
-                        <span class="badge bg-warning p-1">En ruta</span>
-                        @endif
-                    </h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Status:
+                            @if ($operator->status === 0)
+                            <span class="badge bg-success p-1">Disponible</span>
+                            @endif
+    
+                            @if ($operator->status === 1)
+                            <span class="badge bg-warning p-1">En ruta</span>
+                            @endif
+                        </h5>
+                    </div>
                 </div>
             </div>
         </div>

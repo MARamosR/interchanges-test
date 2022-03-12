@@ -22,7 +22,8 @@
             </div>
 
             @if (count($unitImages) > 0)
-            <div class="overflow-x-auto d-flex flex-row overflow-y-hidden" style="max-width: 100%; overflow-x: auto" id="unit-images-container">
+            <div class="overflow-x-auto d-flex flex-row overflow-y-hidden" style="max-width: 100%; overflow-x: auto"
+                id="unit-images-container">
                 @foreach ($unitImages as $image)
                 <img src="{{ $image->image_path }}" alt="{{ $image->id }}" class="unit__image">
                 @endforeach
@@ -40,34 +41,46 @@
     <div class="card">
         <div class="card-body">
             <h5 class="text-truncate mb-3">Detalles:</h5>
-            <div class="row row-cols-2">
-                
-                <div class="mb-3">
-                    <h5 class="text-truncate">Placa: {{ $unit->placa }}</h5>
+            <div class="row">
+
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Placa: {{ $unit->placa }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Marca: {{ $unit->marca }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Marca: {{ $unit->marca }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Modelo: {{ $unit->modelo }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Modelo: {{ $unit->modelo }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Año: {{ $unit->anio }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Año: {{ $unit->anio }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Status: 
-                        @if ($unit->status === 0)
-                        <span class="badge bg-success p-1">Disponible</span> 
-                        @endif
 
-                        @if ($unit->status === 1)
-                        <span class="badge bg-warning p-1">En uso</span>
-                        @endif
-                    </h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Status:
+                            @if ($unit->status === 0)
+                            <span class="badge bg-success p-1">Disponible</span>
+                            @endif
+
+                            @if ($unit->status === 1)
+                            <span class="badge bg-warning p-1">En uso</span>
+                            @endif
+                        </h5>
+                    </div>
                 </div>
             </div>
         </div>

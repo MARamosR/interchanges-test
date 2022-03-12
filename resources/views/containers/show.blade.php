@@ -38,63 +38,87 @@
     <div class="card">
         <div class="card-body">
             <h5 class="text-truncate mb-3">Detalles:</h5>
-            <div class="row row-cols-2">
+            <div class="row">
 
+                <div class="col-md-6">
                 <div class="mb-3">
                     <h5 class="text-truncate">Serie: {{ $container->serie }}</h5>
                 </div>
+            </div>
                 
+                <div class="col-md-6">
                 <div class="mb-3">
                     <h5 class="text-truncate">Marca: {{ $container->marca }}</h5>
                 </div>
+            </div>
 
+                <div class="col-md-6">
                 <div class="mb-3">
                     <h5 class="text-truncate">Modelo: {{ $container->modelo }}</h5>
                 </div>
+            </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Placa: {{ $container->placa }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Placa: {{ $container->placa }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Ubicación: {{ $container->ubicacion }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Ubicación: {{ $container->ubicacion }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Canastilla: {{ $container->canastilla }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Canastilla: {{ $container->canastilla }}</h5>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Propietario: {{ $container->propietario }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Propietario: {{ $container->propietario }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Ancho (mts): {{ $container->ancho }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Ancho (mts): {{ $container->ancho }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Largo (mts): {{ $container->largo }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Largo (mts): {{ $container->largo }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Alto (mts): {{ $container->alto }}</h5>
+                    </div>
                 </div>
-
-                <div class="mb-3">
-                    <h5 class="text-truncate">Alto (mts): {{ $container->alto }}</h5>
-                </div>
-
-                <div class="mb-3">
+                
+                <div class="col-md-6">
+                    <div class="mb-3">
                     
-                    <h5 class="text-truncate">Status: 
-                        @if ($container->status === 0)
-                        <span class="badge bg-success p-1">Disponible</span> 
-                        @endif
-
-                        @if ($container->status === 1)
-                        <span class="badge bg-warning p-1">En uso</span>
-                        @endif
-                    </h5>
+                        <h5 class="text-truncate">Status: 
+                            @if ($container->status === 0)
+                            <span class="badge bg-success p-1">Disponible</span> 
+                            @endif
+    
+                            @if ($container->status === 1)
+                            <span class="badge bg-warning p-1">En uso</span>
+                            @endif
+                        </h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Tipo de caja: {{ $container->tipo_caja }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Tipo de caja: {{ $container->tipo_caja }}</h5>
+                    </div>
                 </div>                
             </div>
         </div>

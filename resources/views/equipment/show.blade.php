@@ -22,7 +22,8 @@
             </div>
 
             @if (count($equipmentImages) > 0)
-            <div class="overflow-x-auto d-flex flex-row overflow-y-hidden" style="max-width: 100%; overflow-x: auto" id="equipment-images-container">
+            <div class="overflow-x-auto d-flex flex-row overflow-y-hidden" style="max-width: 100%; overflow-x: auto"
+                id="equipment-images-container">
                 @foreach ($equipmentImages as $image)
                 <img src="{{ $image->image_path }}" alt="{{ $image->id }}" class="equipment__image">
                 @endforeach
@@ -40,55 +41,70 @@
     <div class="card">
         <div class="card-body">
             <h5 class="text-truncate mb-3">Detalles:</h5>
-            <div class="row row-cols-2">
-                
-                <div class="mb-3">
-                    <h5 class="text-truncate">Nombre del equipo: {{ $equipment->nombre }}</h5>
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Nombre del equipo: {{ $equipment->nombre }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Descripción: {{ $equipment->descripcion }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Descripción: {{ $equipment->descripcion }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Ubicación: {{ $equipment->ubicacion }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Ubicación: {{ $equipment->ubicacion }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Proveedor: {{ $provider->proveedor }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Proveedor: {{ $provider->proveedor }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Precio unitario: {{ $equipment->precio_unitario }}</h5>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Precio unitario: {{ $equipment->precio_unitario }}</h5>
+                    </div>
                 </div>
 
-                <div class="mb-3">
-                    <h5 class="text-truncate">Status: 
-                        @if ($equipment->activo === 0)
-                        <span class="badge bg-success p-1">Disponible</span>    
-                        @endif
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <h5 class="text-truncate">Status:
+                            @if ($equipment->activo === 0)
+                            <span class="badge bg-success p-1">Disponible</span>
+                            @endif
 
-                        @if ($equipment->activo === 1)
-                        <span class="badge bg-warning p-1">En uso</span>
-                        @endif
+                            @if ($equipment->activo === 1)
+                            <span class="badge bg-warning p-1">En uso</span>
+                            @endif
 
-                        @if ($equipment->activo === 2)
-                        <span class="badge bg-danger p-1">Extraviado</span>
-                        @endif
-                    </h5>
+                            @if ($equipment->activo === 2)
+                            <span class="badge bg-danger p-1">Extraviado</span>
+                            @endif
+                        </h5>
+                    </div>
                 </div>
 
-                @if ($paymentStatus !== null)
+
+                <div class="col-md-6">
+                    @if ($paymentStatus !== null)
                     <div class="mb-3">
                         <h5 class="text-truncate">Estatus del pago por extravio:
                             @if ($paymentStatus == true)
-                        <span class="badge bg-success p-1">Pagado</span>
-                        @else
-                        <span class="badge bg-warning p-1">Pago pendiente</span>
-                        @endif
+                            <span class="badge bg-success p-1">Pagado</span>
+                            @else
+                            <span class="badge bg-warning p-1">Pago pendiente</span>
+                            @endif
                         </h5>
                     </div>
-                @endif
+                    @endif
+                </div>
             </div>
         </div>
     </div>
