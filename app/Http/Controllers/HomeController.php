@@ -32,8 +32,9 @@ class HomeController extends Controller
     {
         // $request->path() = 'index';
         if (view()->exists($request->path())) {
-
             return view($request->path());
+        } else {
+            return redirect()->route('root');
         }
 
         // FIXME: Parece que esto arregla el redireccionamiento
@@ -41,7 +42,8 @@ class HomeController extends Controller
             return redirect()->route('root');
         }
 
-        return abort(404);
+        // return abort(404);
+        return redirect()->route('root');
     }
 
     public function root()
