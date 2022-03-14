@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\LostEquipment;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -31,11 +30,17 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        // $request->path() = 'index'
+        // $request->path() = 'index';
         if (view()->exists($request->path())) {
 
             return view($request->path());
         }
+
+        // FIXME: Parece que esto arregla el redireccionamiento
+        if ($request->path() === 'index') {
+            return redirect()->route('root');
+        }
+
         return abort(404);
     }
 
@@ -75,7 +80,7 @@ class HomeController extends Controller
         // $lostEquipmentQty = count($lostEquipment);
 
         
-        return view('index', compact(
+        return view('dashboard', compact(
             'routesQty',
             'unitsQty',
             'equipmentQty',

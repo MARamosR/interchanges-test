@@ -31,7 +31,7 @@ return [
     |
     */
 
-    'lifetime' => env('SESSION_LIFETIME', 120),
+    'lifetime' => env('SESSION_LIFETIME', 120), //La sesión expira despues de 120 minutos
 
     'expire_on_close' => true, // La sesión expira cuando cerramos el navegador
 

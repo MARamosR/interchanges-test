@@ -168,7 +168,7 @@ class ContainersController extends Controller
         $container->comentario     = $validated['comentario'];
         $container->placa_mx       = $validated['placa_mx'];
         $container->placa_ant      = $validated['placa_ant'];
-        $container->ubicacion         = $validated['ubicacion'];
+        $container->ubicacion      = $validated['ubicacion'];
         $container->riel_logistico = $validated['riel_logistico'];
         $container->canastilla     = $validated['canastilla'];
         $container->tipo_placa     = $validated['tipo_placa'];
