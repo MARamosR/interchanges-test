@@ -72,10 +72,10 @@ Auth::routes();
 
 // Route::get('/', [HomeController::class, 'root'])->name('root');
 
+Route::get('/', [HomeController::class, 'root'])->name('root');
+
 //Rutas protegidas.
 Route::middleware('auth')->group(function () {   
-
-    Route::get('/admin', [HomeController::class, 'root'])->name('root');
 
     Route::prefix('operators')->group(function() {
         Route::get('/', [OperatorsController::class, 'index'])->middleware('can:operators.index')->name('operators.index');
@@ -174,7 +174,6 @@ Route::post('/update-password/{id}', [HomeController::class, 'updatePassword'])-
 
 
 Route::get('{any}', [HomeController::class, 'index'])->name('index');
-
 
 //Language Translation
 Route::get('index/{locale}', [HomeController::class, 'lang']);
