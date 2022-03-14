@@ -72,10 +72,10 @@ Auth::routes();
 
 // Route::get('/', [HomeController::class, 'root'])->name('root');
 
-Route::get('/', [HomeController::class, 'root'])->name('root');
-
 //Rutas protegidas.
 Route::middleware('auth')->group(function () {   
+
+    Route::get('/dashboard', [HomeController::class, 'root'])->name('root');
 
     Route::prefix('operators')->group(function() {
         Route::get('/', [OperatorsController::class, 'index'])->middleware('can:operators.index')->name('operators.index');
