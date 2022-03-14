@@ -42,10 +42,12 @@ RewriteRule ^(.*)$ public/$1 [L]
 //Agrega automaticamente las rutas de autenticación a nuestro proyecto.
 Auth::routes();
 
-//Rutas protegidas.
-Route::middleware('auth')->group(function () {
+// Route::get('/', [HomeController::class, 'root'])->name('root');
 
-    Route::get('/', [HomeController::class, 'root'])->name('root');
+//Rutas protegidas.
+Route::middleware('auth')->group(function () {   
+
+    Route::get('/admin', [HomeController::class, 'root'])->name('root');
 
     Route::prefix('operators')->group(function() {
         Route::get('/', [OperatorsController::class, 'index'])->middleware('can:operators.index')->name('operators.index');

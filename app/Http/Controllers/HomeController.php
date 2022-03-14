@@ -37,7 +37,7 @@ class HomeController extends Controller
         }
 
         // FIXME: Parece que esto arregla el redireccionamiento
-        if ($request->path() === 'index') {
+        if ($request->path() === 'index' || $request->path() === '/' || $request->path() === '') {
             return redirect()->route('root');
         }
 
