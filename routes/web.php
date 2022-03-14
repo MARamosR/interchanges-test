@@ -13,6 +13,7 @@ use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\ScaleController;
 use App\Http\Controllers\SystemLog;
+use App\Http\Controllers\DashboardController;
 
 // https://dashboard.heroku.com/apps/devifegrac-intercambios/settings
 // http://devifegrac-intercambios.herokuapp.com/login
@@ -74,6 +75,8 @@ Route::get('/', [HomeController::class, 'root'])->name('root');
 
 //Rutas protegidas.
 Route::middleware('auth')->group(function () {   
+
+    Route::get('/dashboard', DashboardController::class)->name('dash'); //Single action controller
 
     Route::prefix('operators')->group(function() {
         Route::get('/', [OperatorsController::class, 'index'])->middleware('can:operators.index')->name('operators.index');

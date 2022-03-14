@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
     // FIXME: Cambiado por redireccionamiento
     // public const HOME = '/index';
     //public const HOME = '/';
-    public const HOME = '/admin';
+    public const HOME = '/';
 
     /**
      * The controller namespace for the application.
