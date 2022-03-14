@@ -28,13 +28,24 @@ use App\Http\Controllers\SystemLog;
 |
 */
 
+/*
+    htacces root anterior
+
+    <IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^public
+RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+*/
+
+
 //Agrega automaticamente las rutas de autenticación a nuestro proyecto.
 Auth::routes();
 
-Route::get('/', [HomeController::class, 'root'])->name('root');
-
 //Rutas protegidas.
 Route::middleware('auth')->group(function () {
+
+    Route::get('/', [HomeController::class, 'root'])->name('root');
 
     Route::prefix('operators')->group(function() {
         Route::get('/', [OperatorsController::class, 'index'])->middleware('can:operators.index')->name('operators.index');

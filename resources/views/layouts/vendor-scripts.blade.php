@@ -15,7 +15,7 @@
 {{-- <script src="https://unpkg.com/vue@next"></script> --}}
 
 {{-- Vue.js CDN de producción --}}
-<script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script>
+{{-- <script src="https://unpkg.com/vue@3.1.1/dist/vue.global.prod.js"></script> --}}
 
 {{-- Sweet Alert js --}}
 <script src="{{ URL::asset('/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
@@ -31,7 +31,6 @@
     },
         buttonsStyling: false
     });
-
 </script>
 
 
