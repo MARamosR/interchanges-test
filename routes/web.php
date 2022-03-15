@@ -11,7 +11,6 @@ use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\UsersController;
-use App\Http\Controllers\ScaleController;
 use App\Http\Controllers\SystemLog;
 use App\Http\Controllers\DashboardController;
 

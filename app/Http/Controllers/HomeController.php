@@ -48,51 +48,6 @@ class HomeController extends Controller
 
     public function root()
     {   
-
-        // $routesQty     = DB::table('routes')->count();
-        // $unitsQty      = DB::table('units')->count();
-        // $equipmentQty  = DB::table('equipment')->count();
-        // $containersQty = DB::table('containers')->count();
-        // $operatorsQty  = DB::table('operators')->count();
-        // $providersQty  = DB::table('providers')->count();
-        
-        // // Esto es para que conforme se van pagando equipos, se vaya descontando
-        // // $lostEquipment = DB::table('lost_equipment')
-        // //     ->where('pagado', false)
-        // //     ->join('equipment', 'lost_equipment.id_equipment', 'equipment.id')
-        // //     ->select('equipment.precio_unitario')
-        // //     ->get();       
-        
-        // // $lostEquipmentQty = count($lostEquipment);
-        // // $lostEquipmentTotal = 0;
-        // // foreach ($lostEquipment as $equipment) {
-        // //     $lostEquipmentTotal += $equipment->precio_unitario;
-        // // }
-
-        
-        // $lostEquipment = DB::table('equipment')->where('activo', '=', 2)->get();
-        // $lostEquipmentQty = $lostEquipment->count();
-        // $lostEquipmentTotal = $lostEquipment->sum('precio_unitario');
-        
-
-        // // foreach ($lostEquipment as $lostEquipmentItem) {
-        // //     $lostEquipmentTotal += $lostEquipmentItem->precio_unitario;
-        // // }
-
-        // // $lostEquipmentQty = count($lostEquipment);
-
-        
-        // return view('dashboard', compact(
-        //     'routesQty',
-        //     'unitsQty',
-        //     'equipmentQty',
-        //     'containersQty',
-        //     'operatorsQty',
-        //     'providersQty',
-        //     'lostEquipmentTotal',
-        //     'lostEquipmentQty'
-        // ));
-
         return redirect()->route('dash');
     }
 
