@@ -10,7 +10,7 @@
     <form action="{{ route('users.store') }}" method="POST">
         @csrf
         @include('users.partials.form')
-        <button type="submit" class="btn btn-success" id="userSubmitBtn">Agregar usuario <i class='bx bxs-save'></i></button>
+        <button type="submit" class="btn btn-success" id="userSubmitBtn">Agregar usuario</i></button>
     </form>
 </div>
 @endsection

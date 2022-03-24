@@ -30,7 +30,8 @@ class UnitsController extends Controller
      */
     public function create()
     {
-        return view('unit.create');
+        $unitYear = null;
+        return view('unit.create', compact('unitYear'));
     }
 
     /**
@@ -95,8 +96,9 @@ class UnitsController extends Controller
     public function show($id)
     {
         $unit = Unit::where('id', $id)->with(['images'])->first();
+        
         return view('unit.show', [
-            'unit' => $unit, 
+            'unit'       => $unit, 
             'unitImages' => $unit->images
         ]);
     }
@@ -111,7 +113,10 @@ class UnitsController extends Controller
     {
         $unit = Unit::findOrFail($id);
         $unitImages = DB::table('unit_images')->where('unit_id', $id)->get();
-        return view('unit.edit', compact('unit', 'unitImages'));
+
+        $unitYear = $unit->anio;
+
+        return view('unit.edit', compact('unit', 'unitImages', 'unitYear'));
     }
 
     /**

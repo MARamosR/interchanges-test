@@ -27,7 +27,6 @@ class UsersController extends Controller
      */
     public function create()
     {
-        // TODO: Llamar a los roles disponibles
         $roles = Role::select('id', 'name')->get();
         return view('users.create', compact('roles'));
     }
@@ -49,15 +48,8 @@ class UsersController extends Controller
             'role' => 'required'
         ]);
 
-
         $user = new User();
         $user->name = $validated['name'];
-        /*
-            FIXME:
-            Esto daba error, no se creaba el hash de la contraseña 
-            y al momento de hacer login la plantilla automaticamente
-            hashea lo que este en el input password
-        */
         $user->password = Hash::make($validated['password']);
         $user->email = $validated['email'];
         $user->save();

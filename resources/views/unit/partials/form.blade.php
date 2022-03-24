@@ -31,15 +31,11 @@
 <div class="mb-3">
     <label for="anio" class="form-label">Año:</label>
     <select class="form-control" name="anio">
-        <option selected @if (old('anio')===null) disabled @endif value={{ old('anio', optional($unit ?? null)->anio) }}>
-            {{ old('anio', optional($unit ?? null)->anio) }}
-        </option>
-        <?php foreach($years as $year) : ?>
-        <option value="<?php echo $year; ?>">
-            <?php echo $year; ?>
-        </option>
-        <?php endforeach; ?>
+        @foreach ($years as $year)
+            <option value="{{ $year }}" {{ $unitYear == $year ? 'selected' : null }}>{{ $year }}</option>
+        @endforeach
     </select>
+
     @error('anio')
     <div class="text-danger">
         {{ $message }}

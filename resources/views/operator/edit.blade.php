@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Modificar operador @endslot
+@slot('title') Editar operador @endslot
 @endcomponent
 <div>
     <form method="POST" action={{ route('operators.update', ['operator' => $operator->id]) }}>

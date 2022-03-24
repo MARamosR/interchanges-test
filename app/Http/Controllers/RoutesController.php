@@ -194,7 +194,28 @@ class RoutesController extends Controller
      */
     public function destroy($id)
     {
+        $route = Route::findOrFail($id); // FIXME: Usar "Eager-loading" 
 
+        //Operador
+        $assignedOperator = DB::table('operators')->where('id', $route->operator->id)->update(['status' => 0]);
+
+        // Unidad
+        $assignedUnit = DB::table('units')->where('id', $route->unit->id)->update(['status' => 0]);
+
+        // Contenedores
+        $usedContainers = DB::table('route_containers')
+                            ->where('id_ruta', $id)
+                            ->join('containers', 'route_containers.id_contenedor', '=', 'containers.id')
+                            ->select('containers.id')
+                            ->get();
+        
+        DB::transaction(function() use($usedContainers) {
+            foreach ($usedContainers as $container) {
+                DB::table('containers')->where('id', $container->id)->update(['status' => 0]);
+            }
+        });
+        
+        //Equipo de sujeción
         $availableEquipment = DB::table('route_equipment')
                                 ->where('id_ruta', $id)
                                 ->join('equipment', 'route_equipment.id_equipo', '=', 'equipment.id')
@@ -207,12 +228,12 @@ class RoutesController extends Controller
             DB::transaction(function() use($availableEquipment) {
                 
                 foreach ($availableEquipment as $availableEquipmentItem) {
+
+                    // Cambiamos el estado de los equipos de sujeción
                     DB::table('equipment')->where('id', $availableEquipmentItem->id)->update(['activo' => 0]);
                 }
             });
         }
-
-        $route = Route::findOrFail($id);
         
         $log = collect($route);
 
@@ -222,6 +243,7 @@ class RoutesController extends Controller
             'user'   => auth()->user()->name
         ]);
 
+        // Eliminamos las imagenes de la ruta.
         DB::transaction(function() use($id) {
             $routeImages = DB::table('route_images')->where('route_id', $id)->get();
 
@@ -231,6 +253,7 @@ class RoutesController extends Controller
             }
         });
 
+        // Eliminamos los pdf de la ruta
         DB::transaction(function () use($id) {
             $routeInvoices = DB::table('route_invoices')->where('route_id', $id)->get();
 
@@ -244,6 +267,7 @@ class RoutesController extends Controller
         
         //Eliminamos todo lo relacionado con las escalas de la ruta.
         $scales = Scale::where('id_ruta', $id)->delete();
+
         return redirect()->route('routes.index');
     }
 
@@ -382,7 +406,7 @@ class RoutesController extends Controller
     /**
      * store a new scale into the database
      */
-    public function storeScale(StoreScaleRequest $request, $id) //TODO: VER SI  FUNCIONA
+    public function storeScale(StoreScaleRequest $request, $id)
     {   
         $validated = $request->validated();
 

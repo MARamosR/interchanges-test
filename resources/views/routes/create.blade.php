@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') @lang('routesCreate.add_route') @endslot
+@slot('title') Agregar ruta @endslot
 @endcomponent
 
 <div>

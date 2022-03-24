@@ -14,9 +14,6 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SystemLog;
 use App\Http\Controllers\DashboardController;
 
-// https://dashboard.heroku.com/apps/devifegrac-intercambios/settings
-// http://devifegrac-intercambios.herokuapp.com/login
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -73,7 +70,7 @@ Auth::routes();
 Route::get('/', [HomeController::class, 'root'])->name('root');
 
 //Rutas protegidas.
-Route::middleware('auth')->group(function () {   
+Route::middleware('auth')->group(function () {
 
     Route::get('/dashboard', DashboardController::class)->name('dash'); //Single action controller
 

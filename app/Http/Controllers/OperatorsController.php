@@ -82,9 +82,7 @@ class OperatorsController extends Controller
      */
     public function show($id)
     {
-        $operator = Operators::where('id', $id)->with(['lostEquipments'])->first(); // TODO: ver si funciona
-
-        
+        $operator = Operators::where('id', $id)->with(['lostEquipments'])->first();
 
         return view('operator.show', [
             'operator' => $operator,

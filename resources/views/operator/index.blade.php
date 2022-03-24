@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Operadores @endslot
+@slot('title') Ver Operadores @endslot
 @endcomponent
 
 <div>
@@ -60,12 +60,12 @@
                                         aria-expanded="false">Seleccione una accion</button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li>
-                                            <a href="{{ route('operators.edit', ['operator' => $operator->id]) }}"
-                                                class="dropdown-item">Editar operador</a>
+                                            <a href="{{ route('operators.show', ['operator' => $operator->id]) }}"
+                                                class="dropdown-item">Ver</a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('operators.show', ['operator' => $operator->id]) }}"
-                                                class="dropdown-item">Ver operador</a>
+                                            <a href="{{ route('operators.edit', ['operator' => $operator->id]) }}"
+                                                class="dropdown-item">Editar</a>
                                         </li>
                                         <li>
                                             <form method="POST"
@@ -73,7 +73,7 @@
                                                 class="mt-2">
                                                 @csrf
                                                 @method('DELETE')
-                                                <input type="submit" value="Eliminar operador" class="dropdown-item btn-delete">
+                                                <input type="submit" value="Eliminar" class="dropdown-item btn-delete">
                                             </form>
                                         </li>
                                     </ul>

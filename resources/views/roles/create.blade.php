@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Crear rol @endslot
+@slot('title') Agregar rol @endslot
 @endcomponent
 <div>
     @if (session('roleMessage'))

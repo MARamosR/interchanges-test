@@ -107,9 +107,14 @@ class EquipmentController extends Controller
      */
     public function show($id)
     {
+        /* Manejar caso donde el equipo de sujeción haya sido eliminado */
         $equipment = Equipment::where('id', $id)->with(['equipmentImage', 'provider'])->first();
         $paymentStatus = DB::table('lost_equipment')->where('id_equipment', '=', $id)->first();
             
+        if (!$equipment) {
+            return view('equipment.deleted');
+        }
+        
         return view('equipment.show', [
             'equipment'       => $equipment,
             'equipmentImages' => $equipment->equipmentImage,

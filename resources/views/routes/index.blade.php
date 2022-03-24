@@ -70,7 +70,7 @@
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                         <li><a class="dropdown-item"
-                                                href="{{ route('routes.show', ['route' => $route->id]) }}"> Ver ruta</a>
+                                                href="{{ route('routes.show', ['route' => $route->id]) }}"> Ver</a>
                                         </li>
                                         @if ($route->status === 1)
 
@@ -80,14 +80,13 @@
                                         @endif
                                         @if ($route->status === 1)
                                         <li><a class="dropdown-item"
-                                                href="{{ route('routes.createScale', ['route' => $route->id, 'endRoute' => true]) }}">Finalizar
-                                                la ruta</a></li>
+                                                href="{{ route('routes.createScale', ['route' => $route->id, 'endRoute' => true]) }}">Finalizar</a></li>
                                         @endif
                                         <form action="{{ route('routes.destroy', ['route' => $route->id]) }}"
                                             method="POST">
                                             @csrf
                                             @method('DELETE')
-                                            <input type="submit" class="dropdown-item delete-btn" value="Eliminar ruta">
+                                            <input type="submit" class="dropdown-item delete-btn" value="Eliminar">
                                         </form>
                                     </ul>
                                 </div>

@@ -29,16 +29,6 @@
 </div>
 
 <div class="mb-3">
-    <label for="avatar">Foto:</label>
-    <input type="file" class="form-control" name="avatar">
-    @error('avatar')
-    <div class="text-danger">
-        {{ $message }}
-    </div>
-    @enderror
-</div>
-
-<div class="mb-3">
     <label for="role">Rol:</label>
     <select name="role" class="form-control">
         <option value="" selected disabled>Selecciona un rol para este usuario</option>

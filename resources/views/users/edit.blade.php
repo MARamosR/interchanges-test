@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Modificar usuario @endslot
+@slot('title') Editar usuario @endslot
 @endcomponent
 
 <div>
@@ -50,16 +50,6 @@
         </div> --}}
 
         <div class="mb-3">
-            <label for="avatar">Foto:</label>
-            <input type="file" class="form-control" name="avatar">
-            @error('avatar')
-            <div class="text-danger">
-                {{ $message }}
-            </div>
-            @enderror
-        </div>
-
-        <div class="mb-3">
             <label for="role">Rol:</label>
             <select name="role" class="form-control">
                 <option value="" selected disabled>Selecciona un rol para este usuario</option>
@@ -73,7 +63,7 @@
             </div>
             @enderror
         </div>
-        <input type="submit" class="btn btn-success" value="Modificar">
+        <input type="submit" class="btn btn-success" value="Guardar cambios">
     </form>
 </div>
 @endsection

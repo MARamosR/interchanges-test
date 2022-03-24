@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn btn-success" id="editBtn">Editar</button>
+        <button type="submit" class="btn btn-success" id="editBtn">Guardar cambios</button>
     </form>
 </div>
 @endsection

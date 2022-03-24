@@ -33,7 +33,7 @@
         </div>
         @endforeach
 
-        <button type="submit" class="btn btn-success" id="editRoleBtn">Editar rol</button>
+        <button type="submit" class="btn btn-success" id="editRoleBtn">Guardar cambios</button>
     </form>
 </div>
 @endsection

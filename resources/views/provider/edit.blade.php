@@ -11,7 +11,7 @@
         @csrf
         @method('PUT')
         @include('provider.partials.form')
-        <button type="submit" class="btn btn-success" id="editProviderBtn">Actualizar proveedor</button>
+        <button type="submit" class="btn btn-success" id="editProviderBtn">Guardar cambios</button>
     </form>
 </div>
 @endsection

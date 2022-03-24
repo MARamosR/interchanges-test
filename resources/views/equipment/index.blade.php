@@ -65,7 +65,7 @@
                                   Seleccione una accion
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="{{ route('equipment.show', ['equipment' => $item->id]) }}">Ver equipo</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('equipment.show', ['equipment' => $item->id]) }}">Ver</a></li>
                                   <li>
                                     <a href="{{ route('equipment.edit', ['equipment' => $item->id]) }}" class="dropdown-item">Editar</a>
                                   </li>

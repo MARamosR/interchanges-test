@@ -51,7 +51,7 @@
                                 <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Seleccione una accion</button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                     <li>
-                                        <a href="{{ route('units.show', ['unit' => $unit->id]) }}" class="dropdown-item">Ver unidad</a>
+                                        <a href="{{ route('units.show', ['unit' => $unit->id]) }}" class="dropdown-item">Ver</a>
                                     </li>
                                     <li>
                                         <a href="{{ route('units.edit', ['unit' => $unit->id]) }}" class="dropdown-item">Editar</a>

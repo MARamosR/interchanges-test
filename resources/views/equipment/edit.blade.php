@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Modificar equipo de sujeción @endslot
+@slot('title') Editar equipo de sujeción @endslot
 @endcomponent
 
 <div>
@@ -117,7 +117,7 @@
             </div>
             @enderror
         </div>
-        <button type="submit" class="btn btn-success" id="edit-equipment-btn">Editar equipo</button>
+        <button type="submit" class="btn btn-success" id="edit-equipment-btn">Guardar cambios</button>
     </form>
 </div>
 @endsection

@@ -3,7 +3,7 @@
 @section('content')
 @component('components.breadcrumb')
 @slot('li_1') Empresa @endslot
-@slot('title') Ver contenedor @endslot
+@slot('title') Ver contenedores @endslot
 @endcomponent
 
 <div>
@@ -58,7 +58,7 @@
                                   Seleccione una accion
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="{{ route('containers.show', ['container' => $container->id]) }}">Ver contenedor</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('containers.show', ['container' => $container->id]) }}">Ver</a></li>
                                   <li>
                                     <a href="{{ route('containers.edit', ['container' => $container->id]) }}" class="dropdown-item">Editar</a>
                                   </li>
