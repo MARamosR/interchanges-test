@@ -84,6 +84,10 @@ class OperatorsController extends Controller
     {
         $operator = Operators::where('id', $id)->with(['lostEquipments'])->first();
 
+        if (!$operator) {
+            return view('operator.deleted');
+        }
+
         return view('operator.show', [
             'operator' => $operator,
             'lostEquipments' => $operator->lostEquipments

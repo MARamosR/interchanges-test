@@ -34,8 +34,8 @@ class StoreProviderRequest extends FormRequest
     public function messages()
     {
         return [
-            'proveedor.required' => 'El campo "Proveedor" es obligatorio.',
-            'proveedor.min'      => 'El campo "Proveedor" debe tener por lo menos 6 caracteres.',
+            'proveedor.required' => 'El campo "Nombre del proveedor" es obligatorio.',
+            'proveedor.min'      => 'El campo "Nombre del proveedor" debe tener por lo menos 6 caracteres.',
             'direccion.required' => 'El campo "Dirección" es obligatorio.',
             'direccion.min'      => 'El campo "Dirección" debe tener por lo menos 6 caracteres.',
             'ciudad.required'    => 'El campo "Ciudad" es obligatorio.',

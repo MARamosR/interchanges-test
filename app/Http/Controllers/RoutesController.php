@@ -194,13 +194,13 @@ class RoutesController extends Controller
      */
     public function destroy($id)
     {
-        $route = Route::findOrFail($id); // FIXME: Usar "Eager-loading" 
+        $route = Route::findOrFail($id);
 
         //Operador
-        $assignedOperator = DB::table('operators')->where('id', $route->operator->id)->update(['status' => 0]);
+        DB::table('operators')->where('id', $route->operator->id)->update(['status' => 0]);
 
         // Unidad
-        $assignedUnit = DB::table('units')->where('id', $route->unit->id)->update(['status' => 0]);
+        DB::table('units')->where('id', $route->unit->id)->update(['status' => 0]);
 
         // Contenedores
         $usedContainers = DB::table('route_containers')

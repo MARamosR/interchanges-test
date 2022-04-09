@@ -47,7 +47,7 @@
 
         <div class="mb-3">
             <label for="ubicacion" class="form-label">Ubicación:</label>
-            <input type="text" name="ubicacion" class="form-control">
+            <input type="text" name="ubicacion" class="form-control" value="{{ old('ubicacion') }}">
             <p class="form-text">Lugar en donde se esta finalizando la ruta</p>
             @error('ubicacion')
             <div class="text-danger">
@@ -60,7 +60,7 @@
         <div class="mb-3">
             <label for="descripcion" class="form-label">Descripción:</label>
 
-            <textarea class="form-control" name="descripcion"></textarea>
+            <textarea class="form-control" name="descripcion">{{ old('descripcion') }}</textarea>
             @error('descripcion')
             <div class="text-danger">
                 {{ $message }}

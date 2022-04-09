@@ -13,7 +13,7 @@
 
 <body>
     <header class="clearfix">
-        <h1>Devifegrac Solutions</h1>
+        <h1>SAISE-T</h1>
         <p>Sistema de trazabilidad de equipo</p>
         <p>Registro de finalización de la ruta: {{ $route->folio }}</p>
         <p class="date">Fecha de registro: {{ date('d/m/Y') }}</p>

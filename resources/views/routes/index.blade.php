@@ -25,7 +25,7 @@
                             <th scope="row">ID</th>
                             <th>Lugar de salida</th>
                             <th>Fecha de salida</th>
-                            <th>Destino</th>
+                            <th>Lugar de destino</th>
                             <th>Fecha de llegada</th>
                             <th>Descripcion</th>
                             <th>Encargado</th>

@@ -112,6 +112,11 @@ class ContainersController extends Controller
     public function show($id)
     {
         $container = Container::where('id', $id)->with(['containerImage'])->first();
+        
+        if (!$container) {
+            return view('containers.deleted');
+        }
+
         $containerImages = $container->containerImage;
         return view('containers.show', compact('container', 'containerImages'));
     }

@@ -97,6 +97,10 @@ class UnitsController extends Controller
     {
         $unit = Unit::where('id', $id)->with(['images'])->first();
         
+        if (!$unit) {
+            return view('unit.deleted');
+        }
+
         return view('unit.show', [
             'unit'       => $unit, 
             'unitImages' => $unit->images
